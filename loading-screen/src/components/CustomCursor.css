@@ -1,0 +1,54 @@
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  background-color: white;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  will-change: transform;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Transform handles both position and centering */
+}
+
+.custom-cursor.hovering {
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+.custom-cursor.has-text {
+  width: 80px;
+  height: 80px;
+  background-color: rgba(109, 40, 217, 0.9);
+  border: none;
+}
+
+.cursor-text {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: white;
+  white-space: nowrap;
+}
+
+/* Dark cursor for light sections */
+.custom-cursor.cursor-dark {
+  background-color: #111;
+}
+
+.custom-cursor.cursor-dark.hovering {
+  background-color: transparent;
+  border-color: rgba(0, 0, 0, 0.4);
+}
+
+.custom-cursor.cursor-dark.has-text {
+  background-color: rgba(109, 40, 217, 0.9);
+}

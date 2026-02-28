@@ -1,0 +1,101 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  z-index: 100;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.nav-pill {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  padding: 8px 20px;
+  color: white;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: none;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-pill:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-pill-active {
+  background: #6d28d9;
+  border-color: #6d28d9;
+  color: white;
+}
+
+.nav-pill-active:hover {
+  background: #7c3aed;
+  border-color: #7c3aed;
+}
+
+.nav-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: color 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  cursor: none;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-dots {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+  letter-spacing: 4px;
+  transition: color 0.3s ease;
+}
+
+/* Light theme for white sections */
+.navbar-light {
+  color: #111;
+}
+
+.navbar-light .nav-pill {
+  background: #e8e8e8;
+  border-color: #e8e8e8;
+  color: #111;
+}
+
+.navbar-light .nav-pill:hover {
+  background: #d8d8d8;
+  border-color: #d8d8d8;
+}
+
+.navbar-light .nav-pill-active {
+  background: #6d28d9;
+  border-color: #6d28d9;
+  color: white;
+}
+
+.navbar-light .nav-pill-active:hover {
+  background: #7c3aed;
+  border-color: #7c3aed;
+}
+
+.navbar-light .nav-dots {
+  color: rgba(0, 0, 0, 0.4);
+}

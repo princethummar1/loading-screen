@@ -1,0 +1,721 @@
+/* ==================== SERVICE DETAIL PAGE ==================== */
+.service-detail-page {
+  /* No background - allows fixed footer to show through spacer */
+}
+
+/* ==================== SCROLL PROGRESS BAR ==================== */
+.sdp-scroll-progress {
+  position: fixed;
+  top: 65px;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: #6d28d9;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* ==================== SECTION DIVIDERS ==================== */
+.sdp-section-divider {
+  width: 100%;
+  height: 1px;
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+.sdp-section-divider--dark {
+  background: #1a1a1a;
+}
+
+.sdp-section-divider--light {
+  background: #e8e8e8;
+}
+
+/* ==================== PART 1: HERO HEADER ==================== */
+.sdp-hero {
+  position: relative;
+  min-height: 100vh;
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.sdp-hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse at 30% 20%, rgba(109, 40, 217, 0.08) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 80%, rgba(109, 40, 217, 0.05) 0%, transparent 40%);
+  will-change: transform;
+  pointer-events: none;
+}
+
+.sdp-hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 5vw 4vw;
+}
+
+.sdp-hero-heading {
+  font-size: clamp(4rem, 11vw, 9rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+  margin: 0 0 32px;
+  overflow: hidden;
+}
+
+.sdp-hero-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+.sdp-hero-char-space {
+  width: 0.3em;
+  display: inline-block;
+}
+
+.sdp-hero-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  transform-origin: left;
+  margin-bottom: 32px;
+}
+
+.sdp-hero-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 60px;
+}
+
+.sdp-hero-description {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.75;
+  max-width: 480px;
+  margin: 0;
+  flex: 0 0 45%;
+}
+
+.sdp-hero-link {
+  font-size: 1rem;
+  color: #ffffff;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  transition: border-color 0.3s ease;
+  white-space: nowrap;
+  cursor: none;
+  flex: 0 0 55%;
+  justify-content: flex-end;
+}
+
+.sdp-hero-link:hover {
+  border-color: #6d28d9;
+}
+
+.sdp-hero-arrow {
+  transition: transform 0.3s ease;
+}
+
+.sdp-hero-link:hover .sdp-hero-arrow {
+  transform: translateX(4px);
+}
+
+/* ==================== PART 2: STATEMENT SECTION ==================== */
+.sdp-statement {
+  background: #0a0a0a;
+  padding: 5vw 5vw;
+  display: flex;
+  gap: 2.5vw;
+}
+
+.sdp-statement-left {
+  width: 55%;
+}
+
+.sdp-statement-right {
+  width: 45%;
+}
+
+.sdp-statement-breadcrumb {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+
+.sdp-statement-text {
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+  font-weight: 300;
+  line-height: 1.75;
+  margin: 0;
+}
+
+.sdp-statement-line {
+  display: block;
+  opacity: 0;
+  transform: translateX(-40px);
+}
+
+.sdp-word {
+  color: #ffffff;
+  transition: opacity 0.1s ease;
+}
+
+.sdp-statement-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+}
+
+.sdp-statement-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Two-tone curtain overlays */
+.sdp-statement-curtain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #0a0a0a;
+  transform-origin: top;
+}
+
+.sdp-statement-curtain-purple {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #6d28d9;
+  transform-origin: top;
+  z-index: 2;
+}
+
+/* ==================== PART 3: VISION SECTION ==================== */
+.sdp-vision {
+  background: #ffffff;
+  padding: 5vw 5vw;
+}
+
+.sdp-vision-title {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 700;
+  color: #0a0a0a;
+  margin: 0 0 32px;
+  filter: blur(20px);
+  opacity: 0;
+  transform: scale(0.94);
+}
+
+.sdp-vision-divider {
+  width: 100%;
+  height: 1px;
+  background: #e0e0e0;
+  margin-bottom: 60px;
+  transform-origin: left;
+}
+
+.sdp-vision-quote {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 300;
+  color: #0a0a0a;
+  line-height: 1.6;
+  max-width: 900px;
+  margin: 0 auto 60px;
+  text-align: center;
+}
+
+.sdp-vision-grid {
+  display: grid;
+  grid-template-columns: 25% 37.5% 37.5%;
+  gap: 2.5vw;
+}
+
+.sdp-vision-image-col {
+  position: relative;
+}
+
+.sdp-vision-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  border-radius: 12px;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.sdp-vision-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sdp-vision-image-curtain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #ffffff;
+  transform-origin: top;
+}
+
+.sdp-vision-para-col {
+  display: flex;
+  align-items: flex-start;
+}
+
+.sdp-vision-para {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.8;
+  margin: 0;
+  clip-path: inset(0 0 100% 0);
+}
+
+/* ==================== PART 4: OUR APPROACH ACCORDION ==================== */
+.sdp-approach {
+  background: #ffffff;
+  padding: 5vw 5vw;
+  display: flex;
+  gap: 5vw;
+}
+
+.sdp-approach-left {
+  width: 30%;
+  position: sticky;
+  top: 120px;
+  height: fit-content;
+  transition: opacity 0.4s ease;
+}
+
+.sdp-approach-title {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 700;
+  color: #0a0a0a;
+  line-height: 1.1;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(60px);
+}
+
+.sdp-approach-right {
+  width: 70%;
+}
+
+.sdp-accordion-item {
+  position: relative;
+}
+
+.sdp-accordion-header {
+  display: flex;
+  align-items: center;
+  padding: 16px 0;
+  cursor: none;
+  transition: opacity 0.3s ease;
+}
+
+.sdp-accordion-header:hover {
+  opacity: 0.7;
+}
+
+.sdp-accordion-num {
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  color: #6d28d9;
+  width: 60px;
+  flex-shrink: 0;
+  font-family: monospace;
+}
+
+.sdp-accordion-question {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #0a0a0a;
+  flex: 1;
+}
+
+.sdp-accordion-icon {
+  font-size: 1.5rem;
+  color: #0a0a0a;
+  width: 40px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.sdp-accordion-answer {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding-left: 60px;
+}
+
+.sdp-accordion-answer p {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.8;
+  padding: 16px 0 20px;
+  margin: 0;
+}
+
+.sdp-accordion-divider {
+  width: 100%;
+  height: 1px;
+  background: #e0e0e0;
+  transform-origin: left;
+}
+
+/* ==================== PART 5: DESIGN SERVICES GRID ==================== */
+.sdp-services-grid {
+  background: #ffffff;
+  padding: 4vw 5vw;
+  display: flex;
+  gap: 5vw;
+}
+
+.sdp-services-left {
+  width: 30%;
+  position: sticky;
+  top: 120px;
+  height: fit-content;
+  transition: opacity 0.4s ease;
+}
+
+.sdp-services-title {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 700;
+  color: #0a0a0a;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.sdp-services-right {
+  width: 70%;
+}
+
+.sdp-services-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+.sdp-service-card {
+  padding: 32px 24px 32px 0;
+}
+
+.sdp-service-card--empty {
+  visibility: hidden;
+}
+
+.sdp-service-card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #0a0a0a;
+  margin: 0 0 12px;
+}
+
+.sdp-service-card-desc {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.7;
+  margin: 0 0 24px;
+}
+
+.sdp-service-card-divider {
+  width: 100%;
+  height: 1px;
+  background: #ebebeb;
+}
+
+/* ==================== PART 6: WORKING WITH KYUREX ==================== */
+.sdp-working-with {
+  background: #0a0a0a;
+  padding: 5vw 5vw;
+}
+
+.sdp-working-heading {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  margin: 0 0 24px 0;
+}
+
+.sdp-working-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin-bottom: 60px;
+}
+
+.sdp-working-grid {
+  display: grid;
+  grid-template-columns: 22% 22% 56%;
+  gap: 4%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* Left Column */
+.sdp-working-left {
+  position: relative;
+}
+
+.sdp-working-left::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.15) 20%,
+    rgba(255, 255, 255, 0.15) 80%,
+    transparent
+  );
+  opacity: 0.5;
+}
+
+.sdp-working-label {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.5;
+  margin: 0 0 40px 0;
+}
+
+.sdp-service-links {
+  display: flex;
+  flex-direction: column;
+}
+
+.sdp-service-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: none;
+  transition: color 0.3s ease;
+}
+
+.sdp-service-link:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sdp-service-link:hover {
+  color: #ffffff;
+}
+
+.sdp-service-link.active {
+  color: #6d28d9;
+}
+
+.sdp-service-arrow {
+  display: inline-block;
+}
+
+/* Center Column - Photo */
+.sdp-working-center {
+  position: relative;
+}
+
+.sdp-photo-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.sdp-team-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sdp-photo-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #0a0a0a;
+  transform-origin: bottom;
+}
+
+/* Right Column - Testimonial */
+.sdp-working-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 40px;
+}
+
+.sdp-testimonial-quote {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.8;
+  margin: 0 0 32px 0;
+  font-style: italic;
+}
+
+.sdp-testimonial-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.sdp-testimonial-company {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 8px 0 0 0;
+}
+
+/* ==================== RESPONSIVE STYLES ==================== */
+@media (max-width: 1200px) {
+  .sdp-vision-grid {
+    grid-template-columns: 30% 1fr;
+    gap: 3vw;
+  }
+  
+  .sdp-vision-para-col:last-child {
+    grid-column: 2;
+  }
+  
+  .sdp-working-grid {
+    grid-template-columns: 30% 30% 40%;
+    gap: 3%;
+  }
+}
+
+@media (max-width: 992px) {
+  .sdp-hero-row {
+    flex-direction: column;
+    gap: 32px;
+  }
+  
+  .sdp-hero-description {
+    flex: 1;
+    max-width: 100%;
+  }
+  
+  .sdp-hero-link {
+    flex: 1;
+    justify-content: flex-start;
+  }
+  
+  .sdp-statement {
+    flex-direction: column;
+    gap: 40px;
+  }
+  
+  .sdp-statement-left,
+  .sdp-statement-right {
+    width: 100%;
+  }
+  
+  .sdp-vision-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .sdp-vision-image-col {
+    max-width: 300px;
+  }
+  
+  .sdp-approach {
+    flex-direction: column;
+    gap: 40px;
+  }
+  
+  .sdp-approach-left,
+  .sdp-approach-right {
+    width: 100%;
+  }
+  
+  .sdp-approach-left {
+    position: relative;
+    top: 0;
+  }
+  
+  .sdp-services-grid {
+    flex-direction: column;
+    gap: 40px;
+  }
+  
+  .sdp-services-left,
+  .sdp-services-right {
+    width: 100%;
+  }
+  
+  .sdp-services-left {
+    position: relative;
+    top: 0;
+  }
+  
+  .sdp-working-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .sdp-working-right {
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .sdp-hero-content {
+    padding: 0 4vw 6vw;
+  }
+  
+  .sdp-statement,
+  .sdp-vision,
+  .sdp-approach,
+  .sdp-services-grid,
+  .sdp-working-with {
+    padding: 6vw 4vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .sdp-hero-heading {
+    font-size: clamp(2.5rem, 12vw, 5rem);
+  }
+  
+  .sdp-services-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .sdp-service-card--empty {
+    display: none;
+  }
+  
+  .sdp-scroll-progress {
+    top: 55px;
+  }
+}

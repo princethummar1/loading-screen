@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* CRITICAL — let footer show through */
+html, body, #root {
+  min-height: 100%;
+  width: 100%;
+  cursor: none;
+  background: transparent;
+}
+
+html {
+  overflow-x: hidden;
+  /* Hide native scrollbar — replaced by CustomScrollbar component */
+  scrollbar-width: none;       /* Firefox */
+  -ms-overflow-style: none;   /* IE / Edge */
+}
+
+html::-webkit-scrollbar {
+  display: none;               /* Chrome / Safari / Opera */
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: transparent;
+}
+
+a, button {
+  cursor: none;
+}
+
+.main-content {
+  position: relative;
+  width: 100%;
+}

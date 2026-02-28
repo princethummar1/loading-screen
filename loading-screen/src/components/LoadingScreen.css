@@ -1,0 +1,35 @@
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #0a0a0c;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  z-index: 9999;
+}
+
+.percentage-container {
+  display: flex;
+  align-items: baseline;
+  padding: 2rem 3rem;
+  line-height: 1;
+}
+
+.percentage-number {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  font-size: 10rem;
+  font-weight: 200;
+  color: #333;
+  letter-spacing: -0.02em;
+}
+
+.percentage-symbol {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  font-size: 10rem;
+  font-weight: 200;
+  color: #7c3aed;
+  letter-spacing: -0.02em;
+}

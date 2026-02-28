@@ -1,0 +1,449 @@
+/* ==================== PORTFOLIO PAGE ==================== */
+.pp-hero {
+  min-height: 65vh;
+  background: #0a0a0a;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 5vw 6vw;
+}
+
+.pp-hero-content {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.pp-hero-heading {
+  font-size: clamp(4rem, 12vw, 10rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+  margin: 0;
+}
+
+.pp-hero-subheading {
+  font-size: clamp(1rem, 2.5vw, 1.8rem);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 8px 0 0 0;
+}
+
+.pp-hero-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  margin-top: 24px;
+}
+
+/* Filter Tags */
+.pp-filter-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-top: 24px;
+}
+
+.pp-filter-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  cursor: none;
+  font-family: inherit;
+  padding: 0;
+  transition: color 0.3s ease;
+}
+
+.pp-filter-tag:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.pp-filter-tag.active {
+  color: #ffffff;
+}
+
+.pp-filter-checkbox {
+  font-size: 0.8rem;
+}
+
+/* ==================== CASE STUDIES LIST ==================== */
+.pp-case-studies {
+  background: #0a0a0a;
+  padding: 0 5vw 4vw;
+}
+
+.pp-project-row {
+  position: relative;
+}
+
+.pp-project-row.hovered {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.pp-project-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.pp-project-content {
+  padding: 32px 0;
+}
+
+.pp-project-grid {
+  display: grid;
+  grid-template-columns: 30% 40% 30%;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Project Name Column */
+.pp-project-name-col {
+  position: relative;
+}
+
+.pp-project-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ccc;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.pp-project-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  margin-top: 12px;
+  opacity: 0;
+  transform: translateY(8px);
+  cursor: none;
+  transition: color 0.3s ease;
+}
+
+.pp-project-cta:hover {
+  color: #6d28d9;
+}
+
+.pp-project-cta .arrow {
+  transition: transform 0.3s ease;
+}
+
+.pp-project-cta:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* Description Column */
+.pp-project-desc-col {
+  padding-right: 20px;
+}
+
+.pp-project-description {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* Meta Column */
+.pp-project-meta-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.pp-project-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pp-project-tag {
+  font-size: 0.68rem;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+.pp-project-location {
+  font-size: 0.68rem;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+/* Hover Image Panel */
+.pp-project-panel {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 40px;
+}
+
+.pp-panel-images {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  width: 100%;
+  padding: 20px 0;
+}
+
+.pp-panel-image {
+  width: calc(33.333% - 16px);
+  max-width: 350px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* ==================== WORKING WITH KYUREX ==================== */
+.pp-working-with {
+  background: #0a0a0a;
+  padding: 8vw 5vw;
+}
+
+.pp-working-heading {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  margin: 0 0 24px 0;
+}
+
+.pp-working-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin-bottom: 60px;
+}
+
+.pp-working-grid {
+  display: grid;
+  grid-template-columns: 22% 22% 56%;
+  gap: 4%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* Left Column */
+.pp-working-left {
+  position: relative;
+}
+
+.pp-working-left::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.15) 20%,
+    rgba(255, 255, 255, 0.15) 80%,
+    transparent
+  );
+  opacity: 0.5;
+}
+
+.pp-working-label {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.5;
+  margin: 0 0 40px 0;
+}
+
+.pp-service-links {
+  display: flex;
+  flex-direction: column;
+}
+
+.pp-service-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: none;
+  transition: color 0.3s ease;
+}
+
+.pp-service-link:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.pp-service-link:hover {
+  color: #ffffff;
+}
+
+.pp-service-arrow {
+  display: inline-block;
+}
+
+/* Center Column - Photo */
+.pp-working-center {
+  display: flex;
+  justify-content: center;
+}
+
+.pp-photo-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.pp-team-photo {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  display: block;
+}
+
+.pp-photo-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #0a0a0a;
+}
+
+/* Right Column - Testimonial */
+.pp-working-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 20px;
+}
+
+.pp-testimonial-quote {
+  font-size: clamp(1rem, 1.8vw, 1.4rem);
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 300;
+  line-height: 1.8;
+  margin: 0 0 32px 0;
+}
+
+.pp-testimonial-name {
+  font-weight: 700;
+  color: #ffffff;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.pp-testimonial-company {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.85rem;
+  margin: 4px 0 0 0;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 1100px) {
+  .pp-working-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .pp-working-left {
+    order: 3;
+  }
+
+  .pp-working-center {
+    order: 1;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .pp-working-right {
+    order: 2;
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .pp-working-left::before {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .pp-hero {
+    min-height: 50vh;
+    padding: 0 5vw 4vw;
+  }
+
+  .pp-project-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .pp-project-name {
+    font-size: 1.3rem;
+  }
+
+  .pp-project-desc-col {
+    padding-right: 0;
+  }
+
+  .pp-project-meta-col {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+  }
+
+  .pp-project-tags {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .pp-panel-images {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .pp-panel-image {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .pp-filter-tags {
+    gap: 16px 24px;
+  }
+}
+
+@media (max-width: 600px) {
+  .pp-hero-heading {
+    font-size: clamp(3rem, 15vw, 5rem);
+  }
+
+  .pp-filter-tags {
+    gap: 12px 20px;
+  }
+
+  .pp-filter-tag {
+    font-size: 0.6rem;
+  }
+
+  .pp-working-heading {
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+  }
+}

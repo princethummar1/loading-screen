@@ -1,0 +1,422 @@
+.contact-page {
+  min-height: 100vh;
+  background: #ffffff;
+  padding-top: 100px; /* Account for fixed navbar */
+}
+
+.contact-container {
+  display: flex;
+  gap: 4vw;
+  padding: 6vw 5vw;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* ==================== LEFT COLUMN ==================== */
+.contact-left {
+  width: 55%;
+}
+
+.contact-heading {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 700;
+  color: #0a0a0a;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.heading-line {
+  display: block;
+}
+
+.contact-subheading {
+  font-size: 1.1rem;
+  color: #555;
+  font-weight: 300;
+  margin-top: 16px;
+  margin-bottom: 0;
+}
+
+.contact-divider {
+  width: 100%;
+  height: 1px;
+  background: #e0e0e0;
+  margin: 32px 0;
+}
+
+/* Testimonial Card */
+.testimonial-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 24px 0;
+}
+
+.testimonial-accent {
+  width: 2px;
+  height: 60px;
+  background: #6d28d9;
+  flex-shrink: 0;
+}
+
+.testimonial-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.testimonial-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.testimonial-content {
+  flex: 1;
+}
+
+.testimonial-quote {
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.7;
+  margin: 0 0 12px 0;
+}
+
+.testimonial-name {
+  font-weight: 600;
+  color: #0a0a0a;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.testimonial-company {
+  color: #aaa;
+  font-size: 0.85rem;
+  margin: 4px 0 0 0;
+}
+
+/* ==================== FAQ ACCORDION ==================== */
+.faq-section {
+  margin-top: 32px;
+}
+
+.faq-item {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.faq-item:first-child {
+  border-top: 1px solid #e0e0e0;
+}
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0a0a0a;
+  text-align: left;
+  cursor: none;
+  font-family: inherit;
+}
+
+.faq-question-text {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.faq-icon {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: #0a0a0a;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.faq-answer {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.faq-answer p {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.75;
+  padding: 0 0 24px 0;
+  margin: 0;
+}
+
+/* ==================== SOCIAL ICONS ROW ==================== */
+.contact-social-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 60px;
+  overflow: visible;
+  position: relative;
+}
+
+.contact-social-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  font-size: 18px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: none;
+  background: transparent;
+}
+
+.contact-social-icon:hover {
+  border-color: #6d28d9;
+  color: #6d28d9;
+  background: rgba(109, 40, 217, 0.05);
+}
+
+/* ==================== RIGHT COLUMN ==================== */
+.contact-right {
+  width: 45%;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.form-row {
+  display: flex;
+  gap: 32px;
+}
+
+.form-row-half .form-field {
+  width: 50%;
+}
+
+.form-field {
+  position: relative;
+  width: 100%;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #aaa;
+  margin-bottom: 8px;
+  transition: color 0.3s ease;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  font-size: 1rem;
+  padding: 12px 0;
+  outline: none;
+  background: transparent;
+  color: #0a0a0a;
+  font-family: inherit;
+  cursor: none;
+  transition: border-color 0.3s ease;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #bbb;
+}
+
+.form-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0 center;
+  padding-right: 20px;
+}
+
+.form-select option {
+  background: #fff;
+  color: #0a0a0a;
+}
+
+.form-textarea {
+  min-height: 100px;
+  resize: none;
+  line-height: 1.6;
+}
+
+/* Animated underline */
+.input-underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #6d28d9;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+/* Focus states */
+.form-input:focus ~ .input-underline,
+.form-select:focus ~ .input-underline,
+.form-textarea:focus ~ .input-underline {
+  transform: scaleX(1);
+}
+
+.form-field:focus-within .form-label {
+  color: #6d28d9;
+}
+
+/* Submit Button - Minimal Style */
+.form-submit-wrapper {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.form-submit-minimal {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: none;
+  font-family: inherit;
+}
+
+.submit-text {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #0a0a0a;
+  transition: color 0.3s ease;
+}
+
+.submit-arrow {
+  font-size: 1.1rem;
+  color: #0a0a0a;
+  transition: color 0.3s ease;
+}
+
+.submit-underline {
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 280px;
+  height: 1px;
+  background: #0a0a0a;
+}
+
+.form-submit-minimal:hover .submit-text,
+.form-submit-minimal:hover .submit-arrow {
+  color: #6d28d9;
+}
+
+/* Old submit button - keep for reference */
+.form-submit {
+  width: 100%;
+  height: 56px;
+  background: #0a0a0a;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: none;
+  font-family: inherit;
+  transition: background 0.3s ease;
+}
+
+.form-submit:hover {
+  background: #6d28d9;
+}
+
+.form-response-text {
+  text-align: left;
+  color: #aaa;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  margin: 40px 0 0 0;
+}
+
+/* ==================== ENHANCED FORM FIELD FOCUS ==================== */
+.form-input::placeholder,
+.form-textarea::placeholder {
+  transition: opacity 0.3s ease;
+}
+
+.form-input:focus::placeholder,
+.form-textarea:focus::placeholder {
+  opacity: 0;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 900px) {
+  .contact-container {
+    flex-direction: column;
+    padding: 4vw 5vw;
+  }
+
+  .contact-left,
+  .contact-right {
+    width: 100%;
+  }
+
+  .contact-heading {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .form-row-half {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .form-row-half .form-field {
+    width: 100%;
+  }
+
+  .testimonial-card {
+    flex-wrap: wrap;
+  }
+
+  .testimonial-accent {
+    display: none;
+  }
+
+  .faq-question {
+    font-size: 0.95rem;
+    padding: 16px 0;
+  }
+
+  .faq-answer p {
+    font-size: 0.9rem;
+  }
+
+  .contact-social-row {
+    margin-top: 40px;
+  }
+
+  .submit-underline {
+    width: 200px;
+  }
+}

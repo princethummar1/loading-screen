@@ -1,0 +1,468 @@
+.partnership-section {
+  background-color: #ffffff;
+  min-height: 100vh;
+  padding: 6vw 5vw;
+  position: relative;
+  z-index: 2;
+  overflow: visible;
+}
+
+/* Ambient Orbs */
+.partnership-section .orbs-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.partnership-section .orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.partnership-section .orb-1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(109, 40, 217, 0.06) 0%, transparent 70%);
+  filter: blur(60px);
+  top: -100px;
+  right: -100px;
+  animation: float1 10s ease-in-out infinite alternate;
+}
+
+.partnership-section .orb-2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(109, 40, 217, 0.04) 0%, transparent 70%);
+  filter: blur(80px);
+  bottom: 0;
+  left: -80px;
+  animation: float2 13s ease-in-out infinite alternate;
+}
+
+@keyframes float1 {
+  from { transform: translateY(0px) translateX(0px); }
+  to { transform: translateY(-40px) translateX(20px); }
+}
+
+@keyframes float2 {
+  from { transform: translateY(0px); }
+  to { transform: translateY(30px) translateX(-15px); }
+}
+
+/* Section Label */
+.partnership-section .section-label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 4vw;
+  position: relative;
+  z-index: 1;
+}
+
+.partnership-section .label-line {
+  width: 40px;
+  height: 1px;
+  background-color: #aaa;
+}
+
+.partnership-section .label-text {
+  font-size: 0.7rem;
+  letter-spacing: 4px;
+  color: #aaa;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+/* Statement Block */
+.partnership-section .statement-block {
+  display: flex;
+  align-items: flex-start;
+  padding: 6vw 0;
+  gap: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.partnership-section .statement-left {
+  width: 55%;
+  padding-right: 4vw;
+}
+
+.partnership-section .statement-heading {
+  font-size: clamp(2rem, 4.5vw, 3.8rem);
+  font-weight: 700;
+  color: #0a0a0a;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.partnership-section .statement-line {
+  display: block;
+  overflow: hidden;
+}
+
+.partnership-section .statement-divider {
+  width: 1px;
+  background-color: #ebebeb;
+  align-self: stretch;
+  min-height: 200px;
+}
+
+.partnership-section .statement-right {
+  width: 45%;
+  padding-left: 4vw;
+}
+
+.partnership-section .statement-paragraph {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.85;
+  font-weight: 300;
+  margin: 0 0 40px 0;
+}
+
+/* Stats */
+.partnership-section .stats-row {
+  display: flex;
+  gap: 50px;
+}
+
+.partnership-section .stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.partnership-section .stat-number-row {
+  display: flex;
+  align-items: baseline;
+}
+
+.partnership-section .stat-number {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #0a0a0a;
+  display: inline-block;
+}
+
+.partnership-section .stat-symbol {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #0a0a0a;
+}
+
+.partnership-section .stat-label {
+  font-size: 0.7rem;
+  color: #aaa;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+/* Animated Divider */
+.partnership-section .animated-divider {
+  width: 100%;
+  height: 1px;
+  background-color: #ebebeb;
+  transform-origin: left;
+  position: relative;
+  z-index: 1;
+}
+
+/* Steps Container */
+.partnership-section .steps-container {
+  position: relative;
+  width: 100vw;
+  margin-left: -5vw;
+  min-height: 100vh;
+  z-index: 10;
+  background: #0a0a0a;
+  overflow: visible;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.partnership-section .steps-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 5vw;
+  z-index: 10;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.partnership-section .steps-label {
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.partnership-section .steps-dots {
+  display: flex;
+  gap: 12px;
+}
+
+.partnership-section .step-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #333;
+  transition: background 0.3s ease;
+}
+
+.partnership-section .steps-track {
+  display: flex;
+  width: fit-content;
+  padding-top: 100px;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.partnership-section .step-card {
+  width: 45vw;
+  min-width: 400px;
+  min-height: 75vh;
+  padding: 5vw;
+  background: #0e0e0e;
+  border-right: 1px solid #222;
+  border-top: 1px solid #222;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.partnership-section .step-card:first-child {
+  border-left: 1px solid #222;
+}
+
+.partnership-section .step-number {
+  font-size: 0.75rem;
+  color: #666;
+  letter-spacing: 4px;
+  margin-bottom: 24px;
+}
+
+.partnership-section .step-title {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 24px 0;
+  line-height: 1.1;
+}
+
+.partnership-section .typewriter-title {
+  display: inline;
+}
+
+.partnership-section .tw-char {
+  opacity: 0;
+}
+
+.partnership-section .tw-cursor {
+  opacity: 0;
+  animation: blink 0.8s infinite;
+  color: #6d28d9;
+  font-weight: 400;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.partnership-section .step-line {
+  width: 40px;
+  height: 2px;
+  background-color: #6d28d9;
+  margin-bottom: 24px;
+}
+
+.partnership-section .step-desc {
+  font-size: 0.95rem;
+  color: #888;
+  line-height: 1.8;
+  max-width: 380px;
+  margin: 0;
+  flex: 1;
+}
+
+.partnership-section .step-icon {
+  font-size: 2rem;
+  color: #333;
+  margin-top: auto;
+  padding-top: 40px;
+}
+
+/* Testimonial Block */
+.partnership-section .testimonial-block {
+  text-align: center;
+  padding: 8vw 5vw;
+  max-width: 750px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.partnership-section .testimonial-glow {
+  position: absolute;
+  width: 600px;
+  height: 400px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at center, rgba(109, 40, 217, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.partnership-section .quote-mark {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  font-size: 7rem;
+  color: #6d28d9;
+  opacity: 0;
+  font-family: Georgia, serif;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.partnership-section .testimonial-quote {
+  font-size: clamp(1.1rem, 2vw, 1.45rem);
+  color: #1a1a1a;
+  font-weight: 300;
+  line-height: 1.9;
+  font-style: italic;
+  margin: 0;
+  min-height: 100px;
+}
+
+.partnership-section .testimonial-attribution {
+  font-size: 0.75rem;
+  color: #aaa;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 24px;
+  opacity: 0;
+}
+
+/* CTA Button */
+.partnership-section .cta-wrapper {
+  text-align: center;
+  padding: 40px;
+  margin: 2vw auto 0;
+  display: inline-block;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.partnership-section .cta-button {
+  border: 1.5px solid #0a0a0a;
+  color: #0a0a0a;
+  background: transparent;
+  padding: 16px 44px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.partnership-section .cta-button span {
+  display: inline-block;
+}
+
+.partnership-section .cta-button:hover {
+  background: #0a0a0a;
+  color: #ffffff;
+}
+
+/* Mobile Responsive */
+@media (max-width: 900px) {
+  .partnership-section .statement-block {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .partnership-section .statement-left,
+  .partnership-section .statement-right {
+    width: 100%;
+    padding: 0;
+  }
+
+  .partnership-section .statement-divider {
+    display: none;
+  }
+
+  .partnership-section .steps-container {
+    min-height: auto;
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .partnership-section .steps-header {
+    position: relative;
+    padding: 20px 0;
+  }
+
+  .partnership-section .steps-track {
+    flex-direction: column;
+    width: 100%;
+    padding-top: 0;
+  }
+
+  .partnership-section .step-card {
+    width: 100%;
+    min-width: auto;
+    min-height: auto;
+    padding: 40px 0;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid #222;
+  }
+
+  .partnership-section .step-card:first-child {
+    border-left: none;
+  }
+
+  .partnership-section .tw-char {
+    opacity: 1;
+  }
+
+  .partnership-section .tw-cursor {
+    display: none;
+  }
+
+  .partnership-section .stats-row {
+    gap: 30px;
+  }
+
+  .partnership-section .quote-mark {
+    font-size: 5rem;
+    left: -10px;
+    top: 20px;
+  }
+
+  .partnership-section .cta-wrapper {
+    padding: 20px;
+  }
+}

@@ -1,0 +1,970 @@
+/* ==================== NEWS & INSIGHTS PAGE — CREATIVE SCROLL ==================== */
+.news-insights-page {
+  background: transparent;
+}
+
+/* ==================== SECTION 1: MAGNETIC PARTICLE HERO ==================== */
+.nip-hero {
+  min-height: 100vh;
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 0 5vw 10vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.nip-hero-title {
+  font-size: clamp(4rem, 11vw, 9rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+  margin: 0;
+  position: relative;
+}
+
+.nip-hero-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.nip-hero-char {
+  display: inline-block;
+  position: relative;
+  will-change: transform, opacity;
+  cursor: default;
+}
+
+.nip-hero-space {
+  display: inline-block;
+  width: 0.3em;
+}
+
+.nip-hero-subtext {
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 24px;
+  opacity: 0;
+}
+
+/* ==================== SECTION 2: HORIZONTAL SCROLL ==================== */
+.nip-horizontal {
+  height: 100vh;
+  width: 100vw;
+  background: #0a0a0a;
+  overflow: hidden;
+  position: relative;
+}
+
+.nip-horizontal-track {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 40px;
+  padding: 0 10vw;
+  height: 100%;
+  align-items: center;
+  width: calc(3 * 80vw + 2 * 40px + 20vw);
+  will-change: transform;
+  position: relative;
+}
+
+.nip-horiz-card {
+  flex-shrink: 0;
+  width: 80vw;
+  height: 75vh;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  will-change: transform, opacity;
+}
+
+.nip-horiz-card-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120%;
+  height: 100%;
+  background-size: cover;
+  background-position: 30% center;
+  will-change: background-position;
+}
+
+.nip-horiz-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.75) 0%, rgba(109, 40, 217, 0.25) 100%);
+  z-index: 1;
+}
+
+/* Curtain overlays for right-to-left reveal */
+.nip-horiz-curtain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  transform-origin: right;
+}
+
+.nip-horiz-curtain-purple {
+  background: #6d28d9;
+  z-index: 4;
+}
+
+.nip-horiz-curtain-dark {
+  background: #0a0a0a;
+  z-index: 3;
+}
+
+.nip-horiz-card-number {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 500;
+  z-index: 5;
+  opacity: 0;
+}
+
+.nip-horiz-card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 32px 40px 40px;
+  z-index: 5;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+}
+
+.nip-horiz-content-item {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.nip-horiz-pill {
+  display: inline-block;
+  border: 1.5px solid rgba(109,40,217,0.8);
+  color: #a78bfa;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  padding: 4px 14px;
+  text-transform: uppercase;
+  background: transparent;
+  width: fit-content;
+}
+
+.nip-horiz-date {
+  display: block;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 12px;
+}
+
+.nip-horiz-title {
+  font-size: clamp(1.6rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+  max-width: 600px;
+  margin: 16px 0;
+}
+
+.nip-horiz-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #ffffff;
+  text-decoration: none;
+  cursor: none;
+  width: fit-content;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+}
+
+.nip-horiz-link svg {
+  transition: transform 0.3s ease;
+}
+
+.nip-horiz-link:hover svg {
+  transform: translateX(4px);
+}
+
+/* Progress Dots */
+.nip-progress-dots {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.nip-progress-dots.visible {
+  opacity: 1;
+}
+
+.nip-progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.nip-progress-dot.active {
+  background: #6d28d9;
+  transform: scale(1.4);
+}
+
+/* ==================== SECTION 3: IGNITE TEXT REVEAL ==================== */
+.nip-ignite {
+  min-height: 100vh;
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 5vw;
+}
+
+.nip-ignite-text {
+  position: relative;
+  text-align: center;
+}
+
+.nip-ignite-line {
+  display: block;
+}
+
+.nip-ignite-char {
+  display: inline-block;
+  font-size: clamp(4rem, 10vw, 9rem);
+  font-weight: 700;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+  line-height: 1.1;
+  will-change: color, -webkit-text-stroke;
+}
+
+.nip-ignite-sweep {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, #6d28d9 50%, transparent 100%);
+  pointer-events: none;
+  z-index: 2;
+  will-change: transform;
+}
+
+.nip-ignite-stats {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  margin-top: 48px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 1px;
+  opacity: 0;
+}
+
+.nip-ignite-dot {
+  color: #6d28d9;
+}
+
+/* ==================== SECTION 4: STACKED CARD DECK ==================== */
+.nip-deck {
+  min-height: 80vh;
+  background: #0a0a0a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 6vh 0;
+}
+
+.nip-deck-stack {
+  position: relative;
+  width: 70vw;
+  height: 60vh;
+}
+
+.nip-deck-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  will-change: transform, opacity;
+}
+
+.nip-deck-card-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.nip-deck-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.75) 0%, rgba(109, 40, 217, 0.25) 100%);
+}
+
+.nip-deck-card-content {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  max-width: 500px;
+}
+
+.nip-deck-pill {
+  display: inline-block;
+  border: 1px solid #6d28d9;
+  color: #6d28d9;
+  border-radius: 999px;
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  padding: 5px 14px;
+  text-transform: uppercase;
+  background: transparent;
+}
+
+.nip-deck-date {
+  display: block;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 12px;
+}
+
+.nip-deck-title {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+  margin: 12px 0 0;
+}
+
+.nip-deck-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: #ffffff;
+  text-decoration: none;
+  margin-top: 20px;
+  padding: 0 0 4px 0;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  transition: border-color 0.3s ease;
+  cursor: none;
+  background: transparent;
+  font-family: inherit;
+}
+
+.nip-deck-link:hover {
+  border-color: #6d28d9;
+}
+
+.nip-deck-link svg {
+  transition: transform 0.3s ease;
+}
+
+.nip-deck-link:hover svg {
+  transform: translateX(4px);
+}
+
+/* ==================== SECTION 5: OTHER ARTICLES 3-CARD GRID ==================== */
+.nip-other-articles {
+  background: #ffffff;
+  padding: 5vw 5vw 6vw;
+}
+
+.nip-other-divider {
+  width: 100%;
+  height: 1px;
+  background: #e8e8e8;
+  margin-bottom: 3vw;
+}
+
+.nip-other-label {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #0a0a0a;
+  margin: 0 0 3vw;
+}
+
+.nip-other-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3vw;
+}
+
+.nip-other-card {
+  cursor: none;
+}
+
+.nip-other-card-image {
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.nip-other-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.nip-other-card-curtain {
+  position: absolute;
+  inset: 0;
+  background: #0a0a0a;
+  transform-origin: right;
+}
+
+.nip-other-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.nip-other-pill {
+  display: inline-block;
+  border: 1.5px solid #6d28d9;
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: #6d28d9;
+  text-transform: uppercase;
+}
+
+.nip-other-date {
+  font-size: 0.85rem;
+  color: #aaa;
+  font-weight: 400;
+}
+
+.nip-other-card-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0a0a0a;
+  line-height: 1.4;
+  margin: 14px 0 0;
+}
+
+.nip-other-read-time {
+  font-size: 0.75rem;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 8px;
+  display: block;
+}
+
+.nip-other-card-divider {
+  width: 100%;
+  height: 1px;
+  background: #e0e0e0;
+  margin-top: 20px;
+}
+
+.nip-other-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #0a0a0a;
+  text-decoration: none;
+  margin-top: 20px;
+  cursor: none;
+}
+
+.nip-arrow-icon {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+/* ==================== SECTION 6: ARCHIVE ==================== */
+.nip-archive {
+  background: #ffffff;
+  padding: 0 5vw 8vw;
+}
+
+.nip-archive-heading {
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 700;
+  color: #0a0a0a;
+  line-height: 1;
+  margin: 0;
+}
+
+.nip-archive-divider {
+  width: 100%;
+  height: 1px;
+  background: #e0e0e0;
+  margin: 24px 0 40px;
+}
+
+.nip-archive-layout {
+  display: flex;
+  gap: 5vw;
+}
+
+.nip-archive-list {
+  flex: 0 0 75%;
+}
+
+.nip-archive-row {
+  position: relative;
+  overflow: hidden;
+  transition: background 0.2s ease;
+}
+
+.nip-archive-row:hover {
+  background: #fafafa;
+}
+
+.nip-archive-row-divider {
+  width: 100%;
+  height: 1px;
+  background: #e8e8e8;
+  transform-origin: left;
+}
+
+.nip-archive-row-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 28px 0;
+}
+
+.nip-archive-row-left {
+  flex: 1;
+}
+
+.nip-archive-row-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nip-archive-pill {
+  display: inline-block;
+  border: 1.5px solid #6d28d9;
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: #6d28d9;
+  text-transform: uppercase;
+}
+
+.nip-archive-date {
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.nip-archive-row-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #0a0a0a;
+  line-height: 1.3;
+  margin: 8px 0 0;
+}
+
+.nip-archive-row-excerpt {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.65;
+  max-width: 700px;
+  margin: 8px 0 0;
+}
+
+.nip-archive-row-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  padding-left: 24px;
+}
+
+.nip-archive-read-time {
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+.nip-archive-read-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: #0a0a0a;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  cursor: none;
+}
+
+.nip-archive-row:hover .nip-archive-read-link {
+  opacity: 1;
+}
+
+.nip-archive-read-link svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Archive Sidebar */
+.nip-archive-sidebar {
+  flex: 0 0 25%;
+  position: sticky;
+  top: 100px;
+  align-self: flex-start;
+}
+
+.nip-archive-filter-indicator {
+  position: absolute;
+  right: 0;
+  top: 14px;
+  width: 6px;
+  height: 6px;
+  background: #6d28d9;
+  opacity: 0;
+}
+
+.nip-archive-filter-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-top: 1px solid #e8e8e8;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #aaa;
+  padding: 14px 0;
+  cursor: none;
+  text-align: left;
+  transition: color 0.2s ease;
+  font-family: inherit;
+}
+
+.nip-archive-filter-item:last-child {
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.nip-archive-filter-item:hover {
+  color: #0a0a0a;
+}
+
+.nip-archive-filter-item.active {
+  color: #6d28d9;
+}
+
+.nip-archive-filter-square {
+  font-size: 6px;
+  color: #6d28d9;
+}
+
+/* ==================== SECTION 7: EMAIL CTA ==================== */
+.nip-cta {
+  min-height: 60vh;
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8vw 5vw;
+  position: relative;
+  overflow: hidden;
+}
+
+.nip-cta-orb {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(109,40,217,0.08) 0%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+  animation: ctaFloat 12s ease-in-out infinite alternate;
+}
+
+.nip-cta-orb-1 {
+  top: -200px;
+  left: -200px;
+}
+
+.nip-cta-orb-2 {
+  bottom: -200px;
+  right: -200px;
+  animation-delay: -6s;
+}
+
+@keyframes ctaFloat {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(30px, 30px);
+  }
+}
+
+.nip-cta-title {
+  font-size: clamp(2.8rem, 6vw, 5.5rem);
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.nip-cta-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.nip-cta-char {
+  display: inline-block;
+  position: relative;
+  will-change: transform, opacity;
+}
+
+.nip-cta-space {
+  display: inline-block;
+  width: 0.3em;
+}
+
+.nip-cta-subtext {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.nip-cta-form {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+  width: 100%;
+  max-width: 520px;
+  margin-top: 48px;
+  z-index: 1;
+}
+
+.nip-cta-input-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.nip-cta-label {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.nip-cta-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  font-size: 1.1rem;
+  padding: 12px 0;
+  outline: none;
+  font-family: inherit;
+}
+
+.nip-cta-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.nip-cta-underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #6d28d9;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.35s ease;
+}
+
+.nip-cta-underline.focused {
+  transform: scaleX(1);
+}
+
+.nip-cta-submit {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: none;
+  font-size: 1.1rem;
+  transition: background 0.3s ease, border-color 0.3s ease;
+  flex-shrink: 0;
+}
+
+.nip-cta-submit:hover {
+  background: #6d28d9;
+  border-color: #6d28d9;
+}
+
+.nip-cta-submit svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 1024px) {
+  .nip-other-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .nip-archive-layout {
+    flex-direction: column;
+  }
+
+  .nip-archive-list {
+    flex: 1;
+  }
+
+  .nip-archive-sidebar {
+    position: relative;
+    top: 0;
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 24px;
+  }
+
+  .nip-archive-filter-item {
+    flex: 0 0 auto;
+    border: none;
+    padding: 10px 0;
+  }
+
+  .nip-deck-stack {
+    width: 85vw;
+    height: 55vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .nip-hero {
+    padding: 0 5vw 6vh;
+  }
+
+  .nip-horiz-card {
+    width: 90vw;
+    height: 75vh;
+  }
+
+  .nip-horiz-card-content {
+    left: 24px;
+    bottom: 24px;
+    right: 24px;
+  }
+
+  .nip-other-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nip-archive-row-content {
+    flex-direction: column;
+  }
+
+  .nip-archive-row-right {
+    flex-direction: row;
+    padding-left: 0;
+    padding-top: 16px;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .nip-archive-read-link {
+    opacity: 1;
+  }
+
+  .nip-deck-stack {
+    width: 90vw;
+    height: 50vh;
+  }
+
+  .nip-deck-card-content {
+    left: 20px;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .nip-cta-form {
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .nip-cta-input-wrapper {
+    width: 100%;
+  }
+
+  .nip-cta-input {
+    text-align: center;
+  }
+
+  .nip-cta-label {
+    text-align: center;
+  }
+
+  .nip-cta-orb {
+    width: 300px;
+    height: 300px;
+  }
+}
