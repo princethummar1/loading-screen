@@ -10,14 +10,14 @@ function CookieBanner({ isVisible }) {
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.div 
+        <motion.div
           className="cookie-banner"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
           transition={{ duration: 0.5, delay: 0.5 }}
         >
-          <span className="cookie-text">This website use Cookies.</span>
+          <span className="cookie-text"> use Cookies.</span>
           <div className="cookie-buttons">
             <button className="cookie-btn" data-cursor-hover>PREFERENCES</button>
             <button className="cookie-btn" onClick={() => setDismissed(true)} data-cursor-hover>REJECT</button>
