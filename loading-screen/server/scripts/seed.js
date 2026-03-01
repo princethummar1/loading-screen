@@ -563,7 +563,7 @@ const defaultSettings = {
   agencyName: 'Kyurex',
   contactEmail: 'hello@kyurex.com',
   responseTimeText: 'We typically respond within 24 hours.',
-  cookieBannerText: 'This website uses cookies to enhance your browsing experience.',
+  cookieBannerText: 'We use cookies to deliver and improve our services, analyze site usage, and if you agree, to customize or personalize your experience and market our services to you. You can read our Cookie Policy here.',
   footerBadgeText: 'AI & Web Agency',
   socialLinks: {
     instagram: 'https://instagram.com/kyurex',
