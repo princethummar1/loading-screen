@@ -480,6 +480,7 @@ function AboutPage() {
         right: 0,
         height: '100vh',
         zIndex: 1,
+        pointerEvents: 'auto',
       }}>
         <FooterCTA />
       </div>

@@ -7,6 +7,7 @@ import CustomCursor from './CustomCursor'
 import Navbar from './Navbar'
 import MenuPanel from './MenuPanel'
 import FooterCTA from './FooterCTA'
+import { setGlobalLenis, getGlobalLenis } from './PageTransition'
 import './CaseStudy.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -158,14 +159,26 @@ function CaseStudy() {
     // This MUST happen before we create new ones, otherwise pinned
     // sections from the old page block the new page's scroll calculation.
     ScrollTrigger.getAll().forEach(t => t.kill())
-    gsap.globalTimeline.clear()
+
+    // ── Destroy existing global Lenis if any ──
+    const existingLenis = getGlobalLenis()
+    if (existingLenis) {
+      existingLenis.destroy()
+    }
 
     // ── Lenis ──
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smooth: true,
+      smoothWheel: true,
+      wheelMultiplier: 0.8,
+      touchMultiplier: 1.5,
+      syncTouch: true,
+      syncTouchLerp: 0.075,
     })
+
+    // ── Set as global Lenis for PageTransition ──
+    setGlobalLenis(lenis)
 
     const lenisRaf = (time) => { lenis.raf(time * 1000) }
     gsap.ticker.add(lenisRaf)
@@ -362,6 +375,8 @@ function CaseStudy() {
       }
       ScrollTrigger.getAll().forEach(t => t.kill())
       gsap.ticker.remove(lenisRaf)
+      lenis.off('scroll', ScrollTrigger.update)
+      setGlobalLenis(null)
       lenis.destroy()
     }
   }, [slug, loading, data])
@@ -449,6 +464,7 @@ function CaseStudy() {
         right: 0,
         height: '100vh',
         zIndex: 1,
+        pointerEvents: 'auto',
       }}>
         <FooterCTA />
       </div>

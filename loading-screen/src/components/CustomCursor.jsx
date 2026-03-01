@@ -15,6 +15,21 @@ function CustomCursor() {
       if (!isVisible) setIsVisible(true)
       targetPosition.current = { x: e.clientX, y: e.clientY }
       
+      // First check if cursor is over the menu panel (dark) - cursor should stay white
+      const menuPanel = document.querySelector('.menu-panel')
+      if (menuPanel) {
+        const menuRect = menuPanel.getBoundingClientRect()
+        if (
+          e.clientX >= menuRect.left &&
+          e.clientX <= menuRect.right &&
+          e.clientY >= menuRect.top &&
+          e.clientY <= menuRect.bottom
+        ) {
+          setIsOnLight(false)
+          return
+        }
+      }
+      
       // Check if cursor is over a light section
       const lightSections = document.querySelectorAll('.services-section, .partnership-section, .contact-page, .adp-header, .adp-hero, .adp-body, .adp-other-articles, .adp-not-found, .cs-hero, .cs-marquee, .cs-cases')
       let onLight = false

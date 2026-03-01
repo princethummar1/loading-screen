@@ -12,6 +12,7 @@ const DEFAULT_SETTINGS = [
   { key: 'socialLinkedIn', label: 'LinkedIn URL', type: 'url', description: 'LinkedIn profile URL' },
   { key: 'socialTwitter', label: 'Twitter URL', type: 'url', description: 'Twitter profile URL' },
   { key: 'socialInstagram', label: 'Instagram URL', type: 'url', description: 'Instagram profile URL' },
+  { key: 'socialYouTube', label: 'YouTube URL', type: 'url', description: 'YouTube channel URL' },
   { key: 'googleAnalyticsId', label: 'Google Analytics ID', type: 'text', description: 'GA4 Measurement ID (G-XXXXXXXXXX)' },
   { key: 'footerText', label: 'Footer Text', type: 'text', description: 'Text displayed in footer' }
 ];

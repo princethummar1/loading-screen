@@ -1,0 +1,207 @@
+.hero-organism-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-organism-container canvas {
+  pointer-events: auto;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* Ambient radial glow behind the organism */
+.hero-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    rgba(124, 58, 237, 0.15) 0%,
+    rgba(88, 28, 135, 0.08) 40%,
+    transparent 70%
+  );
+  animation: pulse 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.3);
+    opacity: 1;
+  }
+}
+
+/* Flash overlay on click */
+.hero-flash-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(147, 51, 234, 0.8),
+    transparent 70%
+  );
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+  mix-blend-mode: screen;
+}
+
+/* Vignette for beat flash */
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(88, 28, 135, 0.6) 100%
+  );
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Click hint */
+.blob-hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  pointer-events: none;
+  animation: hintPulse 2s ease-in-out infinite;
+  z-index: 5;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+@keyframes hintPulse {
+  0%, 100% { 
+    opacity: 0.4; 
+    transform: translate(-50%, -50%) scale(1); 
+  }
+  50% { 
+    opacity: 0.9; 
+    transform: translate(-50%, -50%) scale(1.05); 
+  }
+}
+
+/* Audio playing indicator */
+.audio-indicator {
+  position: absolute;
+  top: 24px;
+  right: 80px;
+  display: flex;
+  gap: 3px;
+  align-items: flex-end;
+  height: 20px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.audio-indicator.playing {
+  opacity: 1;
+}
+
+.audio-indicator span {
+  width: 3px;
+  background: #a855f7;
+  border-radius: 2px;
+  animation: audioBar 0.8s ease-in-out infinite;
+}
+
+.audio-indicator span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.audio-indicator span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.audio-indicator span:nth-child(4) {
+  animation-delay: 0.45s;
+}
+
+@keyframes audioBar {
+  0%, 100% { height: 4px; }
+  50% { height: 18px; }
+}
+
+/* Vertical stripe overlay */
+.hero-organism-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 22px,
+    rgba(139, 92, 246, 0.08) 22px,
+    rgba(139, 92, 246, 0.08) 24px,
+    transparent 24px,
+    transparent 44px,
+    rgba(217, 70, 239, 0.12) 44px,
+    rgba(217, 70, 239, 0.12) 46px
+  );
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0.5;
+}
+
+/* 📱 MOBILE */
+@media (max-width: 768px) {
+  .hero-glow {
+    width: 350px;
+    height: 350px;
+  }
+
+  .hero-organism-container::before {
+    opacity: 0.3;
+  }
+
+  .blob-hint {
+    font-size: 0.75rem;
+  }
+
+  .audio-indicator {
+    right: 20px;
+    top: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-glow {
+    width: 280px;
+    height: 280px;
+  }
+
+  .hero-organism-container::before {
+    opacity: 0.2;
+  }
+
+  .blob-hint {
+    font-size: 0.7rem;
+  }
+}

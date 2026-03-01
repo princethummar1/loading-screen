@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heimdall Power — Case Study | YourStudio</title>
+<meta name="description" content="A stunning case study showcasing our work with Heimdall Power — 3D animations, branding, creative development, and web design.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ========== RESET & BASE ========== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #fff; cursor: none; }
+body { overflow-x: hidden; cursor: none; }
+a { color: inherit; text-decoration: none; cursor: none; }
+button { cursor: none; border: none; background: none; font-family: inherit; }
+img { display: block; max-width: 100%; }
+ul, ol { list-style: none; }
+
+/* ========== CUSTOM CURSOR ========== */
+.cursor-dot {
+  position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+  background: #fff; border-radius: 50%;
+  pointer-events: none; z-index: 10000;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s;
+}
+.cursor-ring {
+  position: fixed; top: 0; left: 0; width: 40px; height: 40px;
+  border: 1.5px solid rgba(255,255,255,0.6); border-radius: 50%;
+  pointer-events: none; z-index: 10000;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, background 0.3s, border-color 0.3s;
+  display: flex; align-items: center; justify-content: center;
+  mix-blend-mode: difference;
+}
+.cursor-ring.expanded {
+  width: 60px; height: 60px;
+}
+.cursor-ring.card-hover {
+  width: 90px; height: 90px;
+  background: #fff; border-color: #fff;
+  mix-blend-mode: normal;
+}
+.cursor-ring .cursor-text {
+  font-size: 11px; font-weight: 600; color: #0a0a0a;
+  opacity: 0; transition: opacity 0.3s;
+  white-space: nowrap;
+}
+.cursor-ring.card-hover .cursor-text { opacity: 1; }
+
+/* ========== NAVIGATION ========== */
+.nav {
+  position: fixed; top: 0; left: 0; width: 100%; z-index: 9000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 40px;
+  transition: color 0.4s;
+}
+.nav-pill {
+  padding: 10px 24px; border-radius: 999px;
+  border: 1.5px solid #0a0a0a; background: transparent;
+  font-size: 13px; font-weight: 500; letter-spacing: 0.02em;
+  transition: border-color 0.4s, color 0.4s, background 0.4s;
+  color: #0a0a0a;
+}
+.nav.dark-mode .nav-pill {
+  border-color: #fff; color: #fff;
+}
+.nav-pill:hover {
+  background: #0a0a0a; color: #fff;
+}
+.nav.dark-mode .nav-pill:hover {
+  background: #fff; color: #0a0a0a;
+}
+.nav-logo {
+  font-size: 18px; font-weight: 700; letter-spacing: -0.02em;
+  color: #0a0a0a; transition: color 0.4s;
+}
+.nav.dark-mode .nav-logo { color: #fff; }
+
+/* ========== SECTION 1 — HERO ========== */
+.hero {
+  position: relative; width: 100%; min-height: 100vh;
+  background: #FF4D2E; display: flex; flex-direction: column;
+  justify-content: flex-end; padding: 60px 40px 40px;
+  overflow: hidden;
+}
+.hero-headline {
+  font-size: clamp(5rem, 12vw, 10rem); font-weight: 300;
+  color: #fff; line-height: 0.95; letter-spacing: -0.03em;
+  margin-bottom: 20px;
+}
+.hero-headline .word-wrap {
+  overflow: hidden; display: inline-block;
+}
+.hero-headline .word {
+  display: inline-block;
+}
+.hero-divider {
+  width: 100%; height: 1px; background: rgba(255,255,255,0.3);
+  margin-bottom: 30px;
+}
+.hero-columns {
+  display: grid; grid-template-columns: 1fr 1fr 1.5fr;
+  gap: 40px; color: #fff; font-size: 14px; line-height: 1.6;
+  padding-bottom: 20px;
+}
+.hero-col-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; margin-bottom: 12px; opacity: 0.7;
+}
+.hero-col-list { font-weight: 300; }
+.hero-col-list span { display: block; margin-bottom: 2px; }
+.hero-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  border-bottom: 1px solid #fff; padding-bottom: 2px;
+  font-weight: 400; margin-top: 12px; transition: opacity 0.3s;
+}
+.hero-link:hover { opacity: 0.7; }
+
+/* ========== SECTION 2 — 3D SCROLL GALLERY ========== */
+.gallery-section {
+  position: relative; width: 100%; height: 100vh;
+  background: #8a9ba8; overflow: hidden;
+  perspective: 1000px;
+}
+.gallery-container {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  display: flex; align-items: center; justify-content: center;
+}
+.gallery-card {
+  position: absolute; border-radius: 16px; overflow: hidden;
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+  transition: box-shadow 0.3s;
+}
+
+/* Card 1 — Orange wide */
+.gallery-card-1 {
+  width: 320px; height: 200px; background: #FF4D2E;
+  top: 8%; left: 5%;
+  display: flex; align-items: center; justify-content: center;
+}
+.card1-content {
+  text-align: center; color: #fff;
+}
+.card1-content .dl-btn {
+  padding: 12px 28px; border-radius: 999px;
+  background: #fff; color: #FF4D2E; font-weight: 600;
+  font-size: 14px; display: inline-block;
+}
+.card1-content p { font-size: 12px; margin-top: 8px; opacity: 0.8; }
+
+/* Card 2 — Dark dot grid */
+.gallery-card-2 {
+  width: 220px; height: 260px; background: #0e1117;
+  top: 5%; right: 15%;
+}
+.dot-grid {
+  width: 100%; height: 100%; display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  padding: 20px; gap: 2px;
+}
+.dot-grid span {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #FF4D2E; opacity: 0.5; place-self: center;
+}
+.dot-grid span:nth-child(3n) { opacity: 1; }
+.dot-grid span:nth-child(5n) { opacity: 0.2; background: #fff; }
+
+/* Card 3 — White tall quote */
+.gallery-card-3 {
+  width: 240px; height: 340px; background: #fff; color: #0a0a0a;
+  bottom: 5%; left: 10%; padding: 30px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.card3-quote {
+  font-size: 16px; line-height: 1.5; font-weight: 300;
+  font-style: italic; margin-bottom: 16px;
+}
+.card3-author { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* Card 4 — Light square dot logo */
+.gallery-card-4 {
+  width: 180px; height: 180px; background: #f0ebe3;
+  top: 60%; left: 2%;
+  display: flex; align-items: center; justify-content: center;
+}
+.dot-logo {
+  display: grid; grid-template-columns: repeat(4,12px); gap: 8px;
+}
+.dot-logo span {
+  width: 12px; height: 12px; border-radius: 50%; background: #FF4D2E;
+}
+.dot-logo span:nth-child(even) { background: transparent; border: 2px solid #FF4D2E; }
+
+/* Card 5 — Dark wide center (THE CENTER CARD) */
+.gallery-card-5 {
+  width: 400px; height: 260px; background: #111720;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  z-index: 10;
+}
+.card5-content {
+  width: 100%; height: 100%; padding: 20px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.card5-header {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; color: rgba(255,255,255,0.5);
+}
+.card5-header span { width: 8px; height: 8px; border-radius: 50%; background: #FF4D2E; }
+.card5-ui {
+  flex: 1; display: flex; gap: 12px; align-items: flex-end; padding-top: 16px;
+}
+.card5-bar {
+  flex: 1; background: linear-gradient(to top, #FF4D2E, #ff7a5c);
+  border-radius: 6px 6px 0 0; opacity: 0.8;
+}
+.card5-bar:nth-child(1) { height: 40%; }
+.card5-bar:nth-child(2) { height: 60%; }
+.card5-bar:nth-child(3) { height: 80%; }
+.card5-bar:nth-child(4) { height: 50%; }
+.card5-bar:nth-child(5) { height: 70%; }
+.card5-bar:nth-child(6) { height: 90%; }
+.card5-bar:nth-child(7) { height: 45%; }
+.card5-footer {
+  display: flex; justify-content: space-between;
+  font-size: 10px; color: rgba(255,255,255,0.3);
+  padding-top: 12px;
+}
+
+/* Card 6 — Photo / Nature placeholder */
+.gallery-card-6 {
+  width: 260px; height: 200px;
+  background: linear-gradient(135deg, #4a6741, #2d4a2d 40%, #87a37e 60%, #a8c4a0);
+  top: 55%; right: 5%;
+}
+.card6-overlay {
+  width: 100%; height: 100%;
+  background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.3));
+  padding: 20px; display: flex; align-items: flex-end;
+  font-size: 12px; color: #fff; font-weight: 300;
+}
+
+/* Card 7 — Striped pattern */
+.gallery-card-7 {
+  width: 200px; height: 240px;
+  background: repeating-linear-gradient(
+    45deg, #0a0a0a, #0a0a0a 8px, #FF4D2E 8px, #FF4D2E 16px
+  );
+  bottom: 10%; right: 10%;
+}
+
+/* ========== SECTION 3 — HORIZONTAL MARQUEE ========== */
+.marquee-section {
+  position: relative; width: 100%; height: 100vh;
+  background: #FF4D2E; overflow: hidden;
+}
+.marquee-container {
+  position: absolute; top: 50%; left: 40px;
+  transform: translateY(-50%);
+  display: flex; gap: 24px;
+  will-change: transform;
+}
+.marquee-card {
+  flex-shrink: 0; width: 280px; height: 600px;
+  background: #111720; border-radius: 24px; overflow: hidden;
+  padding: 24px; display: flex; flex-direction: column;
+  color: #fff; position: relative;
+}
+.marquee-card-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+  text-transform: uppercase; opacity: 0.5; margin-bottom: 12px;
+}
+.marquee-card-headline {
+  font-size: 22px; font-weight: 300; line-height: 1.3;
+  margin-bottom: 16px;
+}
+.marquee-card-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.marquee-card-cta {
+  padding: 10px 24px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.3);
+  color: #fff; font-size: 13px; display: inline-block; align-self: flex-start;
+  margin-top: auto; transition: background 0.3s, color 0.3s;
+}
+.marquee-card-cta:hover { background: #fff; color: #0a0a0a; }
+
+/* Card-specific visuals */
+.mc-sphere {
+  width: 120px; height: 120px; margin: 20px auto;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FF4D2E 0%, #cc2200 40%, #661100 100%);
+  box-shadow: 0 0 60px rgba(255,77,46,0.4), inset 0 -20px 40px rgba(0,0,0,0.4);
+}
+.mc-lock {
+  width: 60px; height: 60px; margin: 20px auto;
+  border: 3px solid #FF4D2E; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.mc-lock::after {
+  content: ''; width: 16px; height: 20px;
+  background: #FF4D2E; border-radius: 3px;
+}
+.mc-lock::before {
+  content: ''; position: absolute; top: -18px;
+  width: 28px; height: 22px;
+  border: 3px solid #FF4D2E; border-bottom: none;
+  border-radius: 14px 14px 0 0;
+}
+.mc-quote-card {
+  background: #FF4D2E; border-radius: 16px; padding: 24px;
+  margin: 16px 0; flex: 1; display: flex; flex-direction: column; justify-content: center;
+}
+.mc-quote-card blockquote {
+  font-size: 15px; font-weight: 300; line-height: 1.5;
+  font-style: italic; margin-bottom: 12px;
+}
+.mc-quote-card cite { font-size: 11px; font-style: normal; font-weight: 600; opacity: 0.7; }
+.mc-stats { display: flex; flex-direction: column; gap: 16px; margin: 20px 0; }
+.mc-stat {
+  display: flex; justify-content: space-between;
+  padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.mc-stat-value { font-size: 28px; font-weight: 300; color: #FF4D2E; }
+.mc-stat-label { font-size: 12px; opacity: 0.5; align-self: flex-end; }
+.mc-product-ui {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 16px;
+}
+.mc-product-ring {
+  width: 100px; height: 100px; border: 2px solid rgba(255,77,46,0.4);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+}
+.mc-product-ring-inner {
+  width: 60px; height: 60px; border: 2px solid #FF4D2E;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 700; color: #FF4D2E;
+}
+
+/* ========== SECTION 4 — CASE STUDIES ========== */
+.cases-section {
+  position: relative; width: 100%;
+  background: #FF4D2E; padding: 60px 40px 80px;
+  overflow: hidden;
+}
+.cases-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.cases-year { font-size: 14px; font-weight: 400; color: rgba(0,0,0,0.5); }
+.cases-title {
+  font-size: clamp(3rem, 8vw, 7rem); font-weight: 300; color: #0a0a0a;
+  line-height: 0.95; letter-spacing: -0.03em;
+}
+.cases-divider { width: 100%; height: 1px; background: rgba(0,0,0,0.15); margin-bottom: 24px; }
+.cases-nav {
+  display: flex; gap: 8px; margin-bottom: 30px; justify-content: flex-end;
+}
+.cases-nav-btn {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1.5px solid #0a0a0a; display: flex; align-items: center;
+  justify-content: center; font-size: 18px; color: #0a0a0a;
+  transition: background 0.3s, color 0.3s;
+}
+.cases-nav-btn:hover { background: #0a0a0a; color: #fff; }
+
+/* Accordion Cards */
+.cases-cards {
+  display: flex; gap: 16px; height: 520px;
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.case-card {
+  position: relative; border-radius: 24px; overflow: hidden;
+  padding: 20px; display: flex; flex-direction: column;
+  justify-content: flex-end; cursor: none;
+  transition: flex 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.case-card:nth-child(1) { flex: 2; background: #c8d1e0; }
+.case-card:nth-child(2) { flex: 1; background: #111720; color: #fff; }
+.case-card:nth-child(3) { flex: 1; background: #9b7dd4; }
+
+.cases-cards:hover .case-card:nth-child(1) { flex: 1.2; }
+.cases-cards:hover .case-card:nth-child(2) { flex: 0.8; }
+.cases-cards:hover .case-card:nth-child(3) { flex: 0.8; }
+
+.case-card:nth-child(1):hover { flex: 2 !important; }
+.case-card:nth-child(2):hover { flex: 2 !important; }
+.case-card:nth-child(3):hover { flex: 2 !important; }
+
+.case-card:nth-child(1):hover ~ .case-card:nth-child(2),
+.case-card:nth-child(1):hover ~ .case-card:nth-child(3) { flex: 0.8 !important; }
+.case-card:nth-child(2):hover ~ .case-card:nth-child(3) { flex: 0.8 !important; }
+
+.case-card-browser {
+  width: 100%; height: 70%; background: rgba(0,0,0,0.08);
+  border-radius: 12px; overflow: hidden; margin-bottom: 16px;
+  position: relative;
+}
+.case-card:nth-child(2) .case-card-browser { background: rgba(255,255,255,0.08); }
+.browser-dots {
+  display: flex; gap: 5px; padding: 10px 14px;
+}
+.browser-dots span {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(0,0,0,0.15);
+}
+.case-card:nth-child(2) .browser-dots span { background: rgba(255,255,255,0.15); }
+.browser-content {
+  padding: 16px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; flex: 1;
+  text-align: center; height: calc(100% - 32px);
+}
+.browser-content h3 {
+  font-size: 18px; font-weight: 600; margin-bottom: 8px;
+}
+.browser-content p {
+  font-size: 12px; opacity: 0.6; max-width: 80%;
+}
+.case-card-name {
+  display: inline-block; padding: 6px 16px;
+  border-radius: 999px; font-size: 12px; font-weight: 500;
+  background: rgba(0,0,0,0.08);
+  align-self: flex-start;
+}
+.case-card:nth-child(2) .case-card-name { background: rgba(255,255,255,0.1); }
+
+/* ========== SECTION 5 — FOOTER CTA ========== */
+.footer-section {
+  position: relative; width: 100%; min-height: 100vh;
+  background: #0a0a0a; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 80px 40px;
+  overflow: hidden;
+}
+.footer-bg-gradient {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: radial-gradient(ellipse at 30% 50%, rgba(255,77,46,0.06) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 70%, rgba(100,60,200,0.04) 0%, transparent 50%);
+  animation: gradientShift 12s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes gradientShift {
+  0% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 0.6; transform: scale(1); }
+}
+.footer-cta-text {
+  text-align: center; font-size: clamp(3rem, 9vw, 9rem);
+  font-weight: 300; line-height: 1.05; letter-spacing: -0.03em;
+  color: #fff; margin-bottom: 48px; position: relative; z-index: 2;
+}
+.footer-cta-text em {
+  font-style: italic; font-weight: 200;
+}
+.footer-cta-text .word-wrap {
+  overflow: hidden; display: inline-block; vertical-align: bottom;
+}
+.footer-cta-text .word {
+  display: inline-block;
+}
+.footer-buttons {
+  display: flex; gap: 16px; position: relative; z-index: 2;
+  margin-bottom: 80px;
+}
+.footer-btn {
+  padding: 16px 36px; border-radius: 999px;
+  border: 1.5px solid #fff; color: #fff; background: transparent;
+  font-size: 15px; font-weight: 500; letter-spacing: 0.01em;
+  transition: background 0.4s, color 0.4s, transform 0.2s;
+  will-change: transform;
+}
+.footer-btn:hover { background: #fff; color: #0a0a0a; }
+.footer-bottom {
+  position: absolute; bottom: 30px; left: 40px; right: 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 13px; color: rgba(255,255,255,0.4);
+}
+.footer-bottom a {
+  transition: color 0.3s;
+}
+.footer-bottom a:hover { color: #fff; }
+.footer-socials { display: flex; gap: 24px; }
+.footer-logo-mark {
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700;
+}
+
+/* ========== UTILITIES ========== */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+</style>
+</head>
+<body>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"><span class="cursor-text">View →</span></div>
+
+<!-- NAVIGATION -->
+<nav class="nav" id="mainNav">
+  <button class="nav-pill" id="navMenu">MENU</button>
+  <a href="#" class="nav-logo">YS.</a>
+  <a href="#" class="nav-pill">CONTACT</a>
+</nav>
+
+<!-- SECTION 1 — HERO -->
+<section class="hero" id="heroSection">
+  <h1 class="hero-headline" id="heroHeadline">
+    <span class="word-wrap"><span class="word">Heimdall</span></span>
+    <span class="word-wrap"><span class="word">Power</span></span>
+  </h1>
+  <div class="hero-divider" id="heroDivider"></div>
+  <div class="hero-columns" id="heroColumns">
+    <div class="hero-col">
+      <div class="hero-col-label">• Services /</div>
+      <div class="hero-col-list">
+        <span>3D Animations</span>
+        <span>Branding</span>
+        <span>Creative Development</span>
+        <span>Web Design</span>
+        <span>Webflow Development</span>
+        <span>Strategy</span>
+      </div>
+    </div>
+    <div class="hero-col">
+      <div class="hero-col-label">• Location /</div>
+      <div class="hero-col-list">
+        <span>Norway</span>
+      </div>
+    </div>
+    <div class="hero-col">
+      <p style="font-weight:300; max-width: 360px;">
+        Heimdall Power is an innovative Norwegian technology company specializing in advanced power grid monitoring. We crafted a full digital experience from 3D product visualization to scalable web platform.
+      </p>
+      <a href="#" class="hero-link">Live Website →</a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2 — 3D SCROLL GALLERY -->
+<section class="gallery-section" id="gallerySection">
+  <div class="gallery-container" id="galleryContainer">
+    <!-- Card 1 — Orange wide -->
+    <div class="gallery-card gallery-card-1" data-card="1">
+      <div class="card1-content">
+        <div class="dl-btn">Download Report</div>
+        <p>Heimdall Power Annual 2024</p>
+      </div>
+    </div>
+    <!-- Card 2 — Dark dot grid -->
+    <div class="gallery-card gallery-card-2" data-card="2">
+      <div class="dot-grid">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+    <!-- Card 3 — White tall quote -->
+    <div class="gallery-card gallery-card-3" data-card="3">
+      <div class="card3-quote">"Neuron transforms how we monitor power lines — delivering the intelligence utilities need to keep the grid resilient."</div>
+      <div class="card3-author">— CEO, Heimdall Power</div>
+    </div>
+    <!-- Card 4 — Light dot logo -->
+    <div class="gallery-card gallery-card-4" data-card="4">
+      <div class="dot-logo">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+    <!-- Card 5 — Center dark UI -->
+    <div class="gallery-card gallery-card-5" data-card="5">
+      <div class="card5-content">
+        <div class="card5-header"><span></span> Heimdall Power — Grid Monitor</div>
+        <div class="card5-ui">
+          <div class="card5-bar"></div><div class="card5-bar"></div><div class="card5-bar"></div>
+          <div class="card5-bar"></div><div class="card5-bar"></div><div class="card5-bar"></div>
+          <div class="card5-bar"></div>
+        </div>
+        <div class="card5-footer"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span></div>
+      </div>
+    </div>
+    <!-- Card 6 — Nature photo -->
+    <div class="gallery-card gallery-card-6" data-card="6">
+      <div class="card6-overlay">Norwegian Highlands — Power Infrastructure</div>
+    </div>
+    <!-- Card 7 — Striped pattern -->
+    <div class="gallery-card gallery-card-7" data-card="7"></div>
+  </div>
+</section>
+
+<!-- SECTION 3 — HORIZONTAL MARQUEE -->
+<section class="marquee-section" id="marqueeSection">
+  <div class="marquee-container" id="marqueeContainer">
+    <!-- Card 1 — Neuron product -->
+    <div class="marquee-card">
+      <div class="marquee-card-label">• Neuron</div>
+      <div class="marquee-card-body">
+        <div class="mc-sphere"></div>
+        <p style="text-align:center; font-size:13px; opacity:0.6; margin-top:16px;">Next-gen power line sensor</p>
+      </div>
+      <div class="marquee-card-cta">Learn More →</div>
+    </div>
+    <!-- Card 2 — Hero headline -->
+    <div class="marquee-card">
+      <div class="marquee-card-label">• Hero</div>
+      <div class="marquee-card-body" style="justify-content:flex-start; padding-top: 20px;">
+        <div class="marquee-card-headline">The Power<br>of Knowing</div>
+        <p style="font-size:13px; opacity:0.5; margin-bottom: 20px;">Heimdall Power provides advanced grid monitoring technology that empowers utilities worldwide.</p>
+        <div class="marquee-card-cta">Get Started →</div>
+      </div>
+    </div>
+    <!-- Card 3 — Security -->
+    <div class="marquee-card">
+      <div class="marquee-card-label">• Security</div>
+      <div class="marquee-card-body">
+        <div class="mc-lock"></div>
+        <p style="text-align:center; font-size:14px; font-weight:300; margin-top:20px;">Enterprise-grade<br>Security</p>
+        <p style="text-align:center; font-size:12px; opacity:0.4; margin-top:8px;">SOC 2 Type II Certified</p>
+      </div>
+    </div>
+    <!-- Card 4 — Testimonial -->
+    <div class="marquee-card" style="padding:0;">
+      <div class="mc-quote-card" style="margin:0; border-radius:24px; height:100%; padding:28px;">
+        <div class="marquee-card-label" style="color:rgba(255,255,255,0.6);">• Testimonial</div>
+        <blockquote>"Their attention to detail and creative vision transformed our brand presence entirely. Outstanding partnership."</blockquote>
+        <cite>— Grid Operations Director, Nordic Energy</cite>
+      </div>
+    </div>
+    <!-- Card 5 — Stats -->
+    <div class="marquee-card">
+      <div class="marquee-card-label">• Impact</div>
+      <div class="marquee-card-body">
+        <div class="mc-stats">
+          <div class="mc-stat">
+            <div class="mc-stat-value">40%</div>
+            <div class="mc-stat-label">Capacity increase</div>
+          </div>
+          <div class="mc-stat">
+            <div class="mc-stat-value">98%</div>
+            <div class="mc-stat-label">Uptime reliability</div>
+          </div>
+          <div class="mc-stat">
+            <div class="mc-stat-value">15K+</div>
+            <div class="mc-stat-label">Sensors deployed</div>
+          </div>
+          <div class="mc-stat">
+            <div class="mc-stat-value">$2.1B</div>
+            <div class="mc-stat-label">Grid value protected</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Card 6 — Product UI -->
+    <div class="marquee-card">
+      <div class="marquee-card-label">• Dashboard</div>
+      <div class="marquee-card-body">
+        <div class="mc-product-ui">
+          <div class="mc-product-ring">
+            <div class="mc-product-ring-inner">N</div>
+          </div>
+          <p style="font-size:14px; font-weight:300; text-align:center;">Real-time Monitoring<br>Platform</p>
+        </div>
+      </div>
+      <div class="marquee-card-cta">View Demo →</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4 — CASE STUDIES -->
+<section class="cases-section" id="casesSection">
+  <div class="cases-header">
+    <div class="cases-year">2021 — 2024</div>
+    <div class="cases-title" id="casesTitle">
+      <span class="word-wrap"><span class="word">Case</span></span>
+      <span class="word-wrap"><span class="word">Studies</span></span>
+    </div>
+  </div>
+  <div class="cases-divider"></div>
+  <div class="cases-nav">
+    <button class="cases-nav-btn" aria-label="Previous">←</button>
+    <button class="cases-nav-btn" aria-label="Next">→</button>
+  </div>
+  <div class="cases-cards" id="casesCards">
+    <!-- Card 1 — Starred -->
+    <a href="#" class="case-card" data-case>
+      <div class="case-card-browser">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-content">
+          <h3>Starred</h3>
+          <p>A recruitment platform reimagined for the modern workforce</p>
+        </div>
+      </div>
+      <div class="case-card-name">Starred</div>
+    </a>
+    <!-- Card 2 — Kablamo -->
+    <a href="#" class="case-card" data-case>
+      <div class="case-card-browser">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-content">
+          <h3 style="font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;">We Design and<br>Build Bespoke<br>Software</h3>
+        </div>
+      </div>
+      <div class="case-card-name">Kablamo</div>
+    </a>
+    <!-- Card 3 — Lavender -->
+    <a href="#" class="case-card" data-case>
+      <div class="case-card-browser">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-content">
+          <h3>Email like<br>it's magic ✨</h3>
+          <p>AI-powered email productivity for modern teams</p>
+        </div>
+      </div>
+      <div class="case-card-name">Lavender</div>
+    </a>
+  </div>
+</section>
+
+<!-- SECTION 5 — FOOTER CTA -->
+<section class="footer-section" id="footerSection">
+  <div class="footer-bg-gradient"></div>
+  <div class="footer-cta-text" id="footerCta">
+    <div>
+      <span class="word-wrap"><span class="word">Let's</span></span>
+      <span class="word-wrap"><span class="word">build</span></span>
+      <span class="word-wrap"><span class="word">something</span></span>
+    </div>
+    <div>
+      <span class="word-wrap"><span class="word"><em>remarkable.</em></span></span>
+    </div>
+  </div>
+  <div class="footer-buttons" id="footerButtons">
+    <button class="footer-btn magnetic-btn">Start a Project →</button>
+    <button class="footer-btn magnetic-btn">View Our Work →</button>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 YourStudio</span>
+    <div class="footer-logo-mark">YS</div>
+    <div class="footer-socials">
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Twitter</a>
+    </div>
+  </div>
+</section>
+
+<!-- CDN SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script>
+(function() {
+  'use strict';
+
+  // ========================
+  // LENIS SMOOTH SCROLL
+  // ========================
+  const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smooth: true,
+  });
+
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+
+  // Connect Lenis to GSAP ScrollTrigger
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+  gsap.ticker.lagSmoothing(0);
+
+  // ========================
+  // CUSTOM CURSOR
+  // ========================
+  const cursorDot = document.getElementById('cursorDot');
+  const cursorRing = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursorDot.style.left = mouseX + 'px';
+    cursorDot.style.top = mouseY + 'px';
+  });
+
+  function animateCursor() {
+    ringX += (mouseX - ringX) * 0.1;
+    ringY += (mouseY - ringY) * 0.1;
+    cursorRing.style.left = ringX + 'px';
+    cursorRing.style.top = ringY + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  // Cursor hover effects
+  const links = document.querySelectorAll('a, button, .nav-pill');
+  links.forEach(link => {
+    link.addEventListener('mouseenter', () => cursorRing.classList.add('expanded'));
+    link.addEventListener('mouseleave', () => cursorRing.classList.remove('expanded'));
+  });
+
+  const caseCards = document.querySelectorAll('[data-case]');
+  caseCards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      cursorRing.classList.add('card-hover');
+      cursorDot.style.opacity = '0';
+    });
+    card.addEventListener('mouseleave', () => {
+      cursorRing.classList.remove('card-hover');
+      cursorDot.style.opacity = '1';
+    });
+  });
+
+  // ========================
+  // NAVIGATION COLOR CHANGE
+  // ========================
+  const nav = document.getElementById('mainNav');
+  const darkSections = document.querySelectorAll('.gallery-section, .footer-section');
+  
+  darkSections.forEach(section => {
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top 60px',
+      end: 'bottom 60px',
+      onEnter: () => nav.classList.add('dark-mode'),
+      onLeave: () => nav.classList.remove('dark-mode'),
+      onEnterBack: () => nav.classList.add('dark-mode'),
+      onLeaveBack: () => nav.classList.remove('dark-mode'),
+    });
+  });
+
+  // ========================
+  // SECTION 1 — HERO ANIMATIONS
+  // ========================
+  const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+  heroTl.from('#heroHeadline .word', {
+    y: 150,
+    opacity: 0,
+    duration: 1.4,
+    stagger: 0.15,
+    delay: 0.3,
+  })
+  .from('#heroDivider', {
+    scaleX: 0,
+    transformOrigin: 'left center',
+    duration: 1,
+  }, '-=0.8')
+  .from('#heroColumns .hero-col', {
+    y: 40,
+    opacity: 0,
+    duration: 0.9,
+    stagger: 0.12,
+  }, '-=0.6');
+
+  // ========================
+  // SECTION 2 — 3D GALLERY SCROLL
+  // ========================
+  gsap.registerPlugin(ScrollTrigger);
+
+  const galleryCards = {
+    card1: document.querySelector('.gallery-card-1'),
+    card2: document.querySelector('.gallery-card-2'),
+    card3: document.querySelector('.gallery-card-3'),
+    card4: document.querySelector('.gallery-card-4'),
+    card5: document.querySelector('.gallery-card-5'),
+    card6: document.querySelector('.gallery-card-6'),
+    card7: document.querySelector('.gallery-card-7'),
+  };
+
+  // Initial scattered positions (percentage offsets from center)
+  const scatteredPositions = {
+    card1: { x: '-38%', y: '-35%', rx: 5, ry: -4 },
+    card2: { x: '30%',  y: '-40%', rx: -3, ry: 6 },
+    card3: { x: '-35%', y: '15%',  rx: 4, ry: -5 },
+    card4: { x: '-45%', y: '25%',  rx: -6, ry: 3 },
+    card5: { x: '-50%', y: '-50%', rx: 0, ry: 0 },   // center
+    card6: { x: '32%',  y: '20%',  rx: -4, ry: 7 },
+    card7: { x: '35%',  y: '30%',  rx: 5, ry: -3 },
+  };
+
+  // Set initial positions
+  Object.keys(scatteredPositions).forEach(key => {
+    const card = galleryCards[key];
+    const pos = scatteredPositions[key];
+    if (key === 'card5') {
+      gsap.set(card, {
+        xPercent: -50, yPercent: -50,
+        left: '50%', top: '50%',
+        scale: 1.2,
+        rotateX: 0, rotateY: 0,
+      });
+    } else {
+      gsap.set(card, {
+        left: `calc(50% + ${pos.x})`,
+        top: `calc(50% + ${pos.y})`,
+        scale: 0.85,
+        rotateX: pos.rx,
+        rotateY: pos.ry,
+        xPercent: -50, yPercent: -50,
+      });
+    }
+  });
+
+  const galleryTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '#gallerySection',
+      start: 'top top',
+      end: '+=300%',
+      pin: true,
+      scrub: 1.5,
+    }
+  });
+
+  // PHASE 1 (0→40%): Outer cards gather, center stays
+  const outerCardKeys = ['card1','card2','card3','card4','card6','card7'];
+  
+  outerCardKeys.forEach(key => {
+    const pos = scatteredPositions[key];
+    galleryTl.to(galleryCards[key], {
+      left: `calc(50% + ${parseFloat(pos.x) * 0.3}%)`,
+      top: `calc(50% + ${parseFloat(pos.y) * 0.3}%)`,
+      scale: 1,
+      rotateX: 0,
+      rotateY: 0,
+      duration: 0.4,
+      ease: 'power2.inOut',
+    }, 0);
+  });
+  
+  galleryTl.to(galleryCards.card5, {
+    scale: 1.0,
+    duration: 0.4,
+  }, 0);
+
+  // PHASE 2 (40%→70%): Center zooms, outer cards spread + shrink
+  galleryTl.to(galleryCards.card5, {
+    scale: 1.8,
+    z: 200,
+    boxShadow: '0 30px 100px rgba(0,0,0,0.5)',
+    duration: 0.3,
+    ease: 'power2.in',
+  }, 0.4);
+
+  outerCardKeys.forEach(key => {
+    const pos = scatteredPositions[key];
+    galleryTl.to(galleryCards[key], {
+      left: `calc(50% + ${parseFloat(pos.x) * 1.6}%)`,
+      top: `calc(50% + ${parseFloat(pos.y) * 1.6}%)`,
+      scale: 0.6,
+      opacity: 0.5,
+      duration: 0.3,
+    }, 0.4);
+  });
+
+  // PHASE 3 (70%→100%): Center fills screen, outer cards vanish
+  galleryTl.to(galleryCards.card5, {
+    scale: 4,
+    z: 400,
+    duration: 0.3,
+    ease: 'power2.in',
+  }, 0.7);
+
+  outerCardKeys.forEach(key => {
+    galleryTl.to(galleryCards[key], {
+      opacity: 0,
+      scale: 0.3,
+      duration: 0.3,
+    }, 0.7);
+  });
+
+  // ========================
+  // SECTION 3 — HORIZONTAL MARQUEE
+  // ========================
+  const marqueeCards = document.querySelectorAll('.marquee-card');
+  
+  // Entrance stagger
+  gsap.from(marqueeCards, {
+    x: 100,
+    opacity: 0,
+    stagger: 0.1,
+    duration: 1,
+    ease: 'power3.out',
+    scrollTrigger: {
+      trigger: '#marqueeSection',
+      start: 'top 80%',
+    }
+  });
+
+  // Pin + horizontal scroll
+  gsap.to('#marqueeContainer', {
+    x: () => -(document.getElementById('marqueeContainer').scrollWidth - window.innerWidth + 80),
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#marqueeSection',
+      start: 'top top',
+      end: '+=200%',
+      pin: true,
+      scrub: 1,
+      invalidateOnRefresh: true,
+    }
+  });
+
+  // ========================
+  // SECTION 4 — CASE STUDIES ENTRANCE
+  // ========================
+  ScrollTrigger.create({
+    trigger: '#casesSection',
+    start: 'top 70%',
+    once: true,
+    onEnter: () => {
+      gsap.from('#casesTitle .word', {
+        y: 100,
+        opacity: 0,
+        duration: 1.2,
+        stagger: 0.1,
+        ease: 'power3.out',
+      });
+      gsap.from('.cases-year', {
+        opacity: 0,
+        y: 20,
+        duration: 0.8,
+        delay: 0.3,
+      });
+      gsap.from('.case-card', {
+        clipPath: 'inset(100% 0 0 0)',
+        duration: 1.2,
+        stagger: 0.15,
+        ease: 'power3.inOut',
+        delay: 0.4,
+      });
+    }
+  });
+
+  // ========================
+  // SECTION 5 — FOOTER CTA
+  // ========================
+  ScrollTrigger.create({
+    trigger: '#footerSection',
+    start: 'top 70%',
+    once: true,
+    onEnter: () => {
+      gsap.from('#footerCta .word', {
+        y: 100,
+        opacity: 0,
+        duration: 1.2,
+        stagger: 0.08,
+        ease: 'power3.out',
+      });
+      gsap.from('.footer-btn', {
+        y: 40,
+        opacity: 0,
+        duration: 0.9,
+        stagger: 0.12,
+        delay: 0.5,
+        ease: 'power3.out',
+      });
+    }
+  });
+
+  // MAGNETIC BUTTONS
+  const magneticBtns = document.querySelectorAll('.magnetic-btn');
+  magneticBtns.forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const distance = Math.sqrt(x * x + y * y);
+      
+      if (distance < 80) {
+        gsap.to(btn, {
+          x: x * 0.3,
+          y: y * 0.3,
+          duration: 0.3,
+          ease: 'power2.out',
+        });
+      }
+    });
+    btn.addEventListener('mouseleave', () => {
+      gsap.to(btn, {
+        x: 0,
+        y: 0,
+        duration: 0.5,
+        ease: 'elastic.out(1, 0.5)',
+      });
+    });
+  });
+
+  // ========================
+  // GLOBAL SECTION ENTRANCES
+  // ========================
+  // General fade-in for paragraphs
+  gsap.utils.toArray('.hero-col p, .cases-year').forEach(el => {
+    gsap.from(el, {
+      opacity: 0,
+      y: 30,
+      duration: 0.8,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 85%',
+        once: true,
+      }
+    });
+  });
+
+})();
+</script>
+</body>
+</html>

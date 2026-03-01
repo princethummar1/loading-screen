@@ -7,11 +7,13 @@ import MagneticIcon from './MagneticIcon'
 import CustomCursor from './CustomCursor'
 import Navbar from './Navbar'
 import MenuPanel from './MenuPanel'
+import { useSiteData } from '../context/SiteDataContext'
 import './ContactPage.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const faqData = [
+// Static fallback FAQs (used if API unavailable)
+const staticFaqData = [
   {
     question: "What type of clients does Kyurex work with?",
     answer: "We work with founders, growing startups, and established businesses across healthcare, real estate, education, retail, and B2B services. What matters most is that our clients are ready to build something meaningful — whether it's their first digital product or a complete platform overhaul."
@@ -35,6 +37,7 @@ const faqData = [
 ]
 
 function ContactPage() {
+  const { faqs, testimonials } = useSiteData()
   const pageRef = useRef(null)
   const headingRef = useRef(null)
   const subheadingRef = useRef(null)
@@ -60,6 +63,12 @@ function ContactPage() {
     budget: '',
     message: ''
   })
+
+  // Use API FAQs if available, otherwise fall back to static
+  const faqData = (faqs && faqs.length > 0) ? faqs : staticFaqData
+  
+  // Get first testimonial for contact page, filter by page if applicable
+  const contactTestimonial = testimonials?.find(t => t.pages?.includes('contact')) || testimonials?.[0] || null
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -278,22 +287,42 @@ function ContactPage() {
             <div className="contact-divider" ref={dividerRef}></div>
             
             {/* Testimonial Card */}
-            <div className="testimonial-card" ref={testimonialRef}>
-              <div className="testimonial-accent"></div>
-              <div className="testimonial-photo">
-                <img 
-                  src="https://picsum.photos/seed/alex/200/200" 
-                  alt="Alex Morrison"
-                />
+            {contactTestimonial && (
+              <div className="testimonial-card" ref={testimonialRef}>
+                <div className="testimonial-accent"></div>
+                <div className="testimonial-photo">
+                  <img 
+                    src={contactTestimonial.authorImage || `https://picsum.photos/seed/${contactTestimonial.authorName?.replace(/\s/g, '')}/200/200`} 
+                    alt={contactTestimonial.authorName || 'Client'}
+                  />
+                </div>
+                <div className="testimonial-content">
+                  <p className="testimonial-quote">
+                    "{contactTestimonial.quote}"
+                  </p>
+                  <p className="testimonial-name">{contactTestimonial.authorName}</p>
+                  <p className="testimonial-company">{contactTestimonial.authorCompany}</p>
+                </div>
               </div>
-              <div className="testimonial-content">
-                <p className="testimonial-quote">
-                  "From proposal to launch, the execution was precise, strategic, and genuinely impressive."
-                </p>
-                <p className="testimonial-name">Alex Morrison</p>
-                <p className="testimonial-company">TechVentures</p>
+            )}
+            {!contactTestimonial && (
+              <div className="testimonial-card" ref={testimonialRef}>
+                <div className="testimonial-accent"></div>
+                <div className="testimonial-photo">
+                  <img 
+                    src="https://picsum.photos/seed/alex/200/200" 
+                    alt="Alex Morrison"
+                  />
+                </div>
+                <div className="testimonial-content">
+                  <p className="testimonial-quote">
+                    "From proposal to launch, the execution was precise, strategic, and genuinely impressive."
+                  </p>
+                  <p className="testimonial-name">Alex Morrison</p>
+                  <p className="testimonial-company">TechVentures</p>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* FAQ Accordion */}
             <div className="faq-section" ref={faqSectionRef}>

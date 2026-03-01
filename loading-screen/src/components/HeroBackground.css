@@ -32,3 +32,12 @@
     opacity: 0.6;
   }
 }
+
+/* 📱 MOBILE */
+@media (max-width: 768px) {
+  .hero-background {
+    /* Use dvh for better mobile viewport handling */
+    height: 100dvh;
+    min-height: 500px;
+  }
+}

@@ -22,3 +22,16 @@
     max-width: none;
   }
 }
+
+/* 📱 MOBILE - Small screens */
+@media (max-width: 480px) {
+  .hero-text {
+    left: 1rem;
+    right: 1rem;
+    bottom: 5rem;
+  }
+
+  .hero-text h1 {
+    font-size: clamp(1.5rem, 8vw, 2rem);
+  }
+}
