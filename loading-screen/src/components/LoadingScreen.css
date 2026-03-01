@@ -33,3 +33,26 @@
   color: #7c3aed;
   letter-spacing: -0.02em;
 }
+
+/* 📱 MOBILE */
+@media (max-width: 768px) {
+  .loading-screen {
+    height: 100dvh;
+  }
+
+  .percentage-container {
+    padding: 1.5rem 1.5rem;
+  }
+
+  .percentage-number,
+  .percentage-symbol {
+    font-size: 6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .percentage-number,
+  .percentage-symbol {
+    font-size: 4rem;
+  }
+}

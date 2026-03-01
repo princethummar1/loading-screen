@@ -217,7 +217,8 @@ export async function getSettings() {
       contactEmail: 'hello@kyurex.com',
       socialLinkedIn: '',
       socialTwitter: '',
-      socialInstagram: ''
+      socialInstagram: '',
+      socialYouTube: ''
     };
   }
 }

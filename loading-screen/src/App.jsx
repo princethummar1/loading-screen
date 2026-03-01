@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import LoadingScreen from './components/LoadingScreen'
 import HeroBackground from './components/HeroBackground'
-import LetterK from './components/LetterK'
+import HeroOrganism from './components/HeroOrganism'
 import CustomCursor from './components/CustomCursor'
 import Navbar from './components/Navbar'
 import MenuPanel from './components/MenuPanel'
@@ -36,7 +36,7 @@ function App() {
       <CustomCursor />
       
       {/* Fixed Navbar */}
-      <Navbar onMenuClick={() => setIsMenuOpen(true)} />
+      <Navbar onMenuClick={() => setIsMenuOpen(true)} isHomePage={true} />
 
       {/* FOOTER fixed at bottom - revealed when scrolling past content */}
       <div style={{
@@ -58,7 +58,7 @@ function App() {
         <div style={{ pointerEvents: 'auto' }}>
           {/* Hero Section */}
           <HeroBackground>
-            <LetterK />
+            <HeroOrganism />
             <HeroText isVisible={showHeroContent} />
             <CookieBanner isVisible={showHeroContent} />
           </HeroBackground>

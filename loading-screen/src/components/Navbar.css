@@ -99,3 +99,40 @@
 .navbar-light .nav-dots {
   color: rgba(0, 0, 0, 0.4);
 }
+
+/* 📱 MOBILE */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem 1rem;
+  }
+
+  .nav-pill {
+    padding: 6px 14px;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  .nav-logo svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .nav-right {
+    gap: 0.75rem;
+  }
+
+  .nav-dots {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.75rem 0.75rem;
+  }
+
+  .nav-pill {
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+}

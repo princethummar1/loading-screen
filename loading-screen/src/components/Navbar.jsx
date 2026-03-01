@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import SoundWave from './SoundWave/SoundWave'
 import './Navbar.css'
 
-function Navbar({ onMenuClick, isContactPage }) {
+function Navbar({ onMenuClick, isContactPage, isHomePage = false }) {
   const [isLight, setIsLight] = useState(false)
   const location = useLocation()
   const isOnContactPage = isContactPage || location.pathname === '/contact'
+  const isOnHomePage = isHomePage || location.pathname === '/'
 
   useEffect(() => {
     // Contact page is always light background
@@ -43,7 +45,7 @@ function Navbar({ onMenuClick, isContactPage }) {
       </Link>
       
       <div className="nav-right">
-        <span className="nav-dots">·····</span>
+        {isOnHomePage && <SoundWave />}
         <Link 
           to="/contact" 
           className={`nav-pill ${isOnContactPage ? 'nav-pill-active' : ''}`}
