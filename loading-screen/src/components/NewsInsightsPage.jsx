@@ -1072,7 +1072,7 @@ function NewsInsightsPage() {
             </div>
           </section>
           {/* ==================== SECTION 5: OTHER ARTICLES 3-CARD GRID ==================== */}
-          <section className="nip-other-articles" ref={otherArticlesRef}>
+          <section className="nip-other-articles" ref={otherArticlesRef} data-cursor-theme="light">
             <div className="nip-other-divider" />
             <h3 className="nip-other-label">Other articles</h3>
             
@@ -1118,7 +1118,7 @@ function NewsInsightsPage() {
           </section>
 
           {/* ==================== SECTION 6: ARCHIVE ==================== */}
-          <section className="nip-archive" ref={archiveRef}>
+          <section className="nip-archive" ref={archiveRef} data-cursor-theme="light">
             <h2 className="nip-archive-heading" ref={archiveHeadingRef}>Archive</h2>
             <div className="nip-archive-divider" />
             
