@@ -6,7 +6,7 @@ function HeroBackground({ children }) {
   const lines = Array.from({ length: lineCount }, (_, i) => i)
 
   return (
-    <div className="hero-background">
+    <div className="hero-background" data-cursor-theme="dark">
       <div className="vertical-lines">
         {lines.map((i) => (
           <div 

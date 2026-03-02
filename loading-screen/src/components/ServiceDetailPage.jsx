@@ -155,6 +155,10 @@ function ServiceDetailPage() {
     lenisRef.current = lenis
     setGlobalLenis(lenis)
 
+    // Scroll to top on navigation
+    window.scrollTo(0, 0)
+    lenis.scrollTo(0, { immediate: true })
+
     // Sync Lenis scroll with ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update)
 
@@ -765,7 +769,7 @@ function ServiceDetailPage() {
         <div style={{ pointerEvents: 'auto' }}>
 
           {/* ==================== PART 1: HERO HEADER ==================== */}
-          <section className="sdp-hero" ref={heroRef}>
+          <section className="sdp-hero" ref={heroRef} data-cursor-theme="dark">
             <div className="sdp-hero-bg" ref={heroBgRef}></div>
             <div className="sdp-hero-content">
               <h1 className="sdp-hero-heading" ref={heroHeadingRef}>
@@ -787,7 +791,7 @@ function ServiceDetailPage() {
           <div className="sdp-section-divider" ref={divider1Ref}></div>
 
           {/* ==================== PART 2: STATEMENT SECTION ==================== */}
-          <section className="sdp-statement" ref={statementRef}>
+          <section className="sdp-statement" ref={statementRef} data-cursor-theme="dark">
             <div className="sdp-statement-left">
               <span className="sdp-statement-breadcrumb">• KYUREX AGENCY /</span>
               <p className="sdp-statement-text">
@@ -811,7 +815,7 @@ function ServiceDetailPage() {
           <div className="sdp-section-divider" ref={divider2Ref}></div>
 
           {/* ==================== PART 3: VISION SECTION ==================== */}
-          <section className="sdp-vision" ref={visionRef}>
+          <section className="sdp-vision" ref={visionRef} data-cursor-theme="light">
             <h2 className="sdp-vision-title" ref={visionTitleRef}>
               {service.visionTitle}
             </h2>
@@ -849,7 +853,7 @@ function ServiceDetailPage() {
           <div className="sdp-section-divider" ref={divider3Ref}></div>
 
           {/* ==================== PART 4: OUR APPROACH ACCORDION ==================== */}
-          <section className="sdp-approach" ref={approachRef}>
+          <section className="sdp-approach" ref={approachRef} data-cursor-theme="light">
             <div className="sdp-approach-left" ref={approachLeftRef}>
               <h2 className="sdp-approach-title" ref={approachTitleRef}>
                 Our<br />Approach
@@ -891,7 +895,7 @@ function ServiceDetailPage() {
           </section>
 
           {/* ==================== PART 5: DESIGN SERVICES GRID ==================== */}
-          <section className="sdp-services-grid" ref={servicesGridRef}>
+          <section className="sdp-services-grid" ref={servicesGridRef} data-cursor-theme="light">
             <div className="sdp-services-left" ref={servicesLeftRef}>
               <h2 className="sdp-services-title">
                 {service.name.split(' ')[0]}<br />Services
@@ -926,7 +930,7 @@ function ServiceDetailPage() {
           <div className="sdp-section-divider" ref={divider4Ref}></div>
 
           {/* ==================== PART 6: WORKING WITH KYUREX ==================== */}
-          <section className="sdp-working-with" ref={workingWithRef}>
+          <section className="sdp-working-with" ref={workingWithRef} data-cursor-theme="dark">
             <h2 className="sdp-working-heading" ref={workingHeadingRef}>
               Working with Kyurex
             </h2>

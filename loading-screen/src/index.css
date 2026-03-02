@@ -2,13 +2,35 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  cursor: none !important;
+}
+
+/* Prevent text cursor blink on focus */
+*:focus {
+  outline: none;
+  cursor: none !important;
+  caret-color: transparent;
+}
+
+/* Prevent text selection cursor on non-input elements */
+*:not(input):not(textarea):not([contenteditable="true"]) {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Allow text cursor only on actual input elements */
+input, textarea, [contenteditable="true"] {
+  cursor: text !important;
+  caret-color: auto;
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 /* CRITICAL — let footer show through */
 html, body, #root {
   min-height: 100%;
   width: 100%;
-  cursor: none;
+  cursor: none !important;
   background: transparent;
 }
 
@@ -30,8 +52,8 @@ body {
   background-color: transparent;
 }
 
-a, button {
-  cursor: none;
+a, button, input, textarea, select, [role="button"] {
+  cursor: none !important;
 }
 
 .main-content {
@@ -41,8 +63,9 @@ a, button {
 
 /* 📱 MOBILE - Restore native cursor on touch devices */
 @media (hover: none), (pointer: coarse) {
+  *,
   html, body, #root,
-  a, button {
-    cursor: auto;
+  a, button, input, textarea, select, [role="button"] {
+    cursor: auto !important;
   }
 }

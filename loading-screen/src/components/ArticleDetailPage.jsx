@@ -763,6 +763,7 @@ function ArticleDetailPage() {
             key={index}
             className="adp-content-code"
             ref={blockRef}
+            data-cursor-theme="dark"
           >
             <pre className="adp-code"><code className={`language-${block.language || 'javascript'}`}>{block.code || block.content}</code></pre>
           </div>
@@ -791,7 +792,7 @@ function ArticleDetailPage() {
         <CustomCursor />
         <Navbar onMenuClick={() => setIsMenuOpen(true)} />
         <MenuPanel isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
-        <div className="adp-not-found" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="adp-not-found" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }} data-cursor-theme="light">
           <div style={{ textAlign: 'center' }}>
             <div style={{ width: '40px', height: '40px', border: '3px solid #333', borderTopColor: '#6d28d9', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 20px' }}></div>
             <p>Loading article...</p>
@@ -808,7 +809,7 @@ function ArticleDetailPage() {
         <CustomCursor />
         <Navbar onMenuClick={() => setIsMenuOpen(true)} />
         <MenuPanel isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
-        <div className="adp-not-found">
+        <div className="adp-not-found" data-cursor-theme="light">
           <h1>Article Not Found</h1>
           <p>The article you're looking for doesn't exist.</p>
           <button onClick={() => navigate('/news')} data-cursor-hover>
@@ -843,7 +844,7 @@ function ArticleDetailPage() {
         <div style={{ pointerEvents: 'auto' }}>
 
           {/* ==================== PART 1: ARTICLE HEADER ==================== */}
-          <header className="adp-header" ref={headerRef}>
+          <header className="adp-header" ref={headerRef} data-cursor-theme="light">
             <a 
               className="adp-go-back"
               ref={goBackRef}
@@ -866,7 +867,7 @@ function ArticleDetailPage() {
           </header>
 
           {/* ==================== PART 2: HERO IMAGE + AUTHOR SIDEBAR ==================== */}
-          <section className="adp-hero" ref={heroRef}>
+          <section className="adp-hero" ref={heroRef} data-cursor-theme="light">
             <div className="adp-hero-image-wrapper">
               <img 
                 src={article.heroImage || `https://picsum.photos/seed/${article.slug}/1400/900`} 
@@ -929,7 +930,7 @@ function ArticleDetailPage() {
           </section>
 
           {/* ==================== PART 3: ARTICLE BODY (THREE COLUMN) ==================== */}
-          <section className="adp-body" ref={bodyRef}>
+          <section className="adp-body" ref={bodyRef} data-cursor-theme="light">
             {/* Left - Sticky Outline */}
             <nav className="adp-outline" ref={outlineRef}>
               <span className="adp-outline-label">• ARTICLE OUTLINE /</span>
@@ -969,7 +970,7 @@ function ArticleDetailPage() {
           </section>
 
           {/* ==================== PART 4: OTHER ARTICLES ==================== */}
-          <section className="adp-other-articles" ref={otherArticlesRef}>
+          <section className="adp-other-articles" ref={otherArticlesRef} data-cursor-theme="light">
             <div className="adp-other-divider" />
             <h3 className="adp-other-label">Other articles</h3>
             

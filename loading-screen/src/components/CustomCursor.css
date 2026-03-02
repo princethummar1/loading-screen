@@ -4,23 +4,23 @@
   left: 0;
   width: 12px;
   height: 12px;
-  background-color: white;
+  background-color: var(--cursor-dot-color, #ffffff);
   border-radius: 50%;
-  pointer-events: none;
-  z-index: 10000;
-  transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  pointer-events: none !important;
+  user-select: none !important;
+  z-index: 999999;
+  transition: width 0.2s ease, height 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
   will-change: transform;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Transform handles both position and centering */
 }
 
 .custom-cursor.hovering {
   width: 40px;
   height: 40px;
   background-color: transparent;
-  border: 2px solid rgba(255, 255, 255, 0.6);
+  border: 2px solid var(--cursor-ring-color, rgba(255, 255, 255, 0.6));
 }
 
 .custom-cursor.has-text {
@@ -37,20 +37,8 @@
   text-transform: uppercase;
   color: white;
   white-space: nowrap;
-}
-
-/* Dark cursor for light sections */
-.custom-cursor.cursor-dark {
-  background-color: #111;
-}
-
-.custom-cursor.cursor-dark.hovering {
-  background-color: transparent;
-  border-color: rgba(0, 0, 0, 0.4);
-}
-
-.custom-cursor.cursor-dark.has-text {
-  background-color: rgba(109, 40, 217, 0.9);
+  pointer-events: none !important;
+  user-select: none !important;
 }
 
 /* 📱 MOBILE - Hide custom cursor on touch devices */

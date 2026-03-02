@@ -186,7 +186,7 @@ function FooterCTA() {
   ]
 
   return (
-    <section className="footer-cta" ref={sectionRef}>
+    <section className="footer-cta" ref={sectionRef} data-cursor-theme="dark">
       {/* Vertical Lines Background */}
       <div className="vertical-lines" ref={linesRef}>
         {[...Array(25)].map((_, i) => (
@@ -268,8 +268,8 @@ function FooterCTA() {
         {/* Vertical Divider */}
         <div className="panel-divider"></div>
 
-        {/* Right Panel - 68% */}
-        <div className="right-panel" ref={rightPanelRef}>
+        {/* Right Panel - 68% - turns light on hover */}
+        <div className="right-panel" ref={rightPanelRef} data-cursor-theme="dark" data-cursor-theme-hover="light">
           <div className="right-top" ref={rightTopRef}>
             <span className="panel-label muted-text animate-in">GET IN TOUCH</span>
             <h3 className="panel-subheading white-text animate-in">

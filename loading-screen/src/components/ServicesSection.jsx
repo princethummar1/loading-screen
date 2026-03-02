@@ -131,7 +131,7 @@ function ServicesSection() {
   }, [services])
 
   return (
-    <section className="services-section" ref={sectionRef}>
+    <section className="services-section" ref={sectionRef} data-cursor-theme="light">
       {/* Headline */}
       <div className="services-headline" ref={headlineRef}>
         <h2>

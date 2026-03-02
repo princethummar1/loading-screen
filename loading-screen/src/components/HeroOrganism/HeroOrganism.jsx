@@ -1,4 +1,4 @@
-import { useRef, useEffect, useMemo, Suspense, useState, useCallback } from 'react'
+import { useRef, useEffect, useMemo, Suspense, useState, useCallback, memo } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import { EffectComposer, Bloom, ChromaticAberration } from '@react-three/postprocessing'
@@ -363,9 +363,12 @@ function ParticleRing({
   useFrame((state) => {
     if (!pointsRef.current || !positionsRef.current) return
     
+    // Skip updates when hero is scrolled out of view (scroll > 1.2)
+    const scroll = scrollProgress.current
+    if (scroll > 1.2) return
+    
     const t = state.clock.elapsedTime
     const mouse = smoothMouse.current
-    const scroll = scrollProgress.current
     const audio = audioData.current
     const explosion = explosionProgress.current
     const beatBurst = particleBeatBurst.current
@@ -615,7 +618,7 @@ function BeatDetector({ audioData, onBeat }) {
 // ============================================================
 // MAIN EXPORT COMPONENT
 // ============================================================
-export default function HeroOrganism({ className = '' }) {
+function HeroOrganism({ className = '' }) {
   const mouse = useRef({ x: 0, y: 0 })
   const smoothMouse = useRef({ x: 0, y: 0 })
   const scrollProgress = useRef(0)
@@ -664,7 +667,7 @@ export default function HeroOrganism({ className = '' }) {
       mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1
       mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1
     }
-    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
   
@@ -1001,7 +1004,8 @@ export default function HeroOrganism({ className = '' }) {
               intensity={2.0}
               luminanceThreshold={0.4}
               luminanceSmoothing={0.8}
-              radius={0.8}
+              mipmapBlur={true}
+              radius={0.6}
               blendFunction={BlendFunction.ADD}
             />
             <ChromaticAberration
@@ -1014,3 +1018,5 @@ export default function HeroOrganism({ className = '' }) {
     </div>
   )
 }
+
+export default memo(HeroOrganism)

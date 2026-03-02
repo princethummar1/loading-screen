@@ -32,9 +32,13 @@ function PageTransitionWrapper({ children }) {
 
     isAnimatingRef.current = true
 
-    // Lock scroll
+    // Lock scroll - safely handle null lenis
     const lenis = getGlobalLenis()
-    if (lenis) lenis.stop()
+    try {
+      if (lenis && typeof lenis.stop === 'function') lenis.stop()
+    } catch (e) {
+      console.warn('Lenis stop failed:', e)
+    }
     document.body.style.overflow = 'hidden'
 
     // Make curtain block interactions during transition
@@ -44,8 +48,12 @@ function PageTransitionWrapper({ children }) {
       isAnimatingRef.current = false
       document.body.style.overflow = ''
       if (curtain) curtain.style.pointerEvents = 'none'
-      const lenisCleanup = getGlobalLenis()
-      if (lenisCleanup) lenisCleanup.start()
+      try {
+        const lenisCleanup = getGlobalLenis()
+        if (lenisCleanup && typeof lenisCleanup.start === 'function') lenisCleanup.start()
+      } catch (e) {
+        console.warn('Lenis start failed:', e)
+      }
       tlRef.current = null
     }
 
@@ -66,10 +74,14 @@ function PageTransitionWrapper({ children }) {
 
     // Scroll to top while covered
     tl.call(() => {
-      const lenisScroll = getGlobalLenis()
-      if (lenisScroll) {
-        lenisScroll.scrollTo(0, { immediate: true })
-      } else {
+      try {
+        const lenisScroll = getGlobalLenis()
+        if (lenisScroll && typeof lenisScroll.scrollTo === 'function') {
+          lenisScroll.scrollTo(0, { immediate: true })
+        } else {
+          window.scrollTo(0, 0)
+        }
+      } catch (e) {
         window.scrollTo(0, 0)
       }
     })

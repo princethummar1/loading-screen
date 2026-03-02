@@ -271,7 +271,7 @@ function ContactPage() {
       <Navbar isContactPage onMenuClick={() => setIsMenuOpen(true)} />
       <MenuPanel isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
       
-      <div className="contact-page" ref={pageRef}>
+      <div className="contact-page" ref={pageRef} data-cursor-theme="light">
         <div className="contact-container">
           {/* Left Column */}
           <div className="contact-left">

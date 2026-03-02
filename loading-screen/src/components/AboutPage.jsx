@@ -490,8 +490,8 @@ function AboutPage() {
         <div style={{ pointerEvents: 'auto' }}>
 
           {/* ==================== PART 1: HERO HEADER ==================== */}
-          <section className="ap-hero" ref={heroRef}>
-            {/* Tiled background */}
+          <section className="ap-hero" ref={heroRef} data-cursor-theme="dark">
+            {/* Tiled background */}}
             <div className="ap-hero-bg" ref={heroBgRef}></div>
             
             {/* Bottom-left content */}
@@ -512,7 +512,7 @@ function AboutPage() {
           </section>
 
           {/* ==================== PART 2: ABOUT STATEMENT ==================== */}
-          <section className="ap-statement" ref={statementRef}>
+          <section className="ap-statement" ref={statementRef} data-cursor-theme="dark">
             <div className="ap-statement-left">
               <p className="ap-statement-para1" ref={statementPara1Ref}>
                 At Kyurex, we believe that a great product is more than just a digital presence — it's an intelligent experience. We specialize in blending cutting-edge web development with AI automation to connect businesses with their audiences.
@@ -542,12 +542,12 @@ function AboutPage() {
           </section>
 
           {/* ==================== PART 3: LOGO MARQUEE ==================== */}
-          <section className="ap-marquee">
+          <section className="ap-marquee" data-cursor-theme="light">
             <LogoMarquee showLabel={false} />
           </section>
 
           {/* ==================== PART 4: ACCORDION ==================== */}
-          <section className="ap-accordion" ref={accordionSectionRef}>
+          <section className="ap-accordion" ref={accordionSectionRef} data-cursor-theme="light">
             <div className="ap-accordion-left">
               <h2 className="ap-accordion-title">
                 The Kyurex<br />Approach
@@ -588,6 +588,7 @@ function AboutPage() {
             className="ap-gallery" 
             ref={gallerySectionRef}
             onMouseMove={handleGalleryMouseMove}
+            data-cursor-theme="dark"
           >
             {/* Fan layout images */}
             <div className="ap-gallery-fan">
@@ -656,7 +657,7 @@ function AboutPage() {
           )}
 
           {/* ==================== PART 6: VALUES STATEMENT ==================== */}
-          <section className="ap-values" ref={valuesSectionRef}>
+          <section className="ap-values" ref={valuesSectionRef} data-cursor-theme="light">
             <div className="ap-values-left">
               <h2 
                 className="ap-values-line"
@@ -693,7 +694,7 @@ function AboutPage() {
           </section>
 
           {/* ==================== PART 7: ARTICLES ==================== */}
-          <section className="ap-articles" ref={articlesSectionRef}>
+          <section className="ap-articles" ref={articlesSectionRef} data-cursor-theme="light">
             <h2 className="ap-articles-heading" ref={articlesHeadingRef}>
               Most popular articles
             </h2>

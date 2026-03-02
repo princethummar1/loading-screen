@@ -366,17 +366,20 @@ function PartnershipSection() {
       if (span) gsap.to(span, { x: 0, y: 0, duration: 0.8, ease: 'elastic.out(1, 0.4)' })
     }
 
-    wrapper?.addEventListener('mousemove', handleMouseMove)
-    wrapper?.addEventListener('mouseleave', handleMouseLeave)
+    wrapper?.addEventListener('mousemove', handleMouseMove, { passive: true })
+    wrapper?.addEventListener('mouseleave', handleMouseLeave, { passive: true })
 
-    // ResizeObserver for ScrollTrigger refresh on resize
+    // ResizeObserver for ScrollTrigger refresh on resize (debounced)
+    let resizeTimeout
     const handleResize = () => {
-      ScrollTrigger.refresh()
+      clearTimeout(resizeTimeout)
+      resizeTimeout = setTimeout(() => ScrollTrigger.refresh(), 200)
     }
-    window.addEventListener('resize', handleResize)
+    window.addEventListener('resize', handleResize, { passive: true })
 
     return () => {
       ctx.revert()
+      clearTimeout(resizeTimeout)
       wrapper?.removeEventListener('mousemove', handleMouseMove)
       wrapper?.removeEventListener('mouseleave', handleMouseLeave)
       window.removeEventListener('resize', handleResize)
@@ -384,7 +387,7 @@ function PartnershipSection() {
   }, [quoteRevealed])
 
   return (
-    <section className="partnership-section" ref={sectionRef}>
+    <section className="partnership-section" ref={sectionRef} data-cursor-theme="light">
       {/* Ambient Orbs */}
       <div className="orbs-container">
         <div className="orb orb-1"></div>
@@ -434,7 +437,7 @@ function PartnershipSection() {
       <div className="animated-divider" ref={divider1Ref}></div>
 
       {/* Horizontal Pin-Scroll Steps */}
-      <div className="steps-container" ref={stepsContainerRef}>
+      <div className="steps-container" ref={stepsContainerRef} data-cursor-theme="dark">
         <div className="steps-header" ref={stepsHeaderRef}>
           <span className="steps-label">Our Process</span>
           <div className="steps-dots">

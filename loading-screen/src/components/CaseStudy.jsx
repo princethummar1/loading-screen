@@ -474,7 +474,7 @@ function CaseStudy() {
         <div style={{ pointerEvents: 'auto' }}>
 
           {/* ═══════════════ SECTION 1 — HERO ═══════════════ */}
-          <section className="cs-hero" ref={heroRef}>
+          <section className="cs-hero" ref={heroRef} data-cursor-theme="light">
             <h1 className="cs-hero-headline" ref={headlineRef}>
               {displayName.split(' ').map((word, i) => (
                 <span className="cs-word-wrap" key={i}>
@@ -654,7 +654,7 @@ function CaseStudy() {
           </section>
 
           {/* ═══════════════ SECTION 3 — HORIZONTAL MARQUEE ═══════════════ */}
-          <section className="cs-marquee" ref={marqueeRef}>
+          <section className="cs-marquee" ref={marqueeRef} data-cursor-theme="light">
             <div className="cs-marquee-track" ref={marqueeTrackRef}>
 
               {/* Dynamic Marquee Cards */}
@@ -790,7 +790,7 @@ function CaseStudy() {
           </section>
 
           {/* ═══════════════ SECTION 4 — OTHER CASE STUDIES ═══════════════ */}
-          <section className="cs-cases" ref={casesRef}>
+          <section className="cs-cases" ref={casesRef} data-cursor-theme="light">
             <div className="cs-cases-header">
               <div className="cs-cases-year">2021 — {new Date().getFullYear()}</div>
               <div className="cs-cases-title" ref={casesTitleRef}>
