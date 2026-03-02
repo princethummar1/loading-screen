@@ -66,3 +66,127 @@
     justify-content: center;
   }
 }
+
+/* Preferences Modal */
+.cookie-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+
+.cookie-modal {
+  background: #1a1a1a;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 420px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.cookie-modal-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cookie-modal-header h3 {
+  margin: 0;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.cookie-modal-body {
+  padding: 0.5rem 0;
+}
+
+.cookie-category-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cookie-category-row:last-child {
+  border-bottom: none;
+}
+
+.cookie-category-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.cookie-category-label {
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.cookie-category-desc {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.65rem;
+}
+
+.cookie-category-toggle {
+  flex-shrink: 0;
+}
+
+.cookie-toggle-locked {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.65rem;
+  opacity: 0.6;
+}
+
+.cookie-toggle-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  min-width: 50px;
+}
+
+.cookie-toggle-btn:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: white;
+}
+
+.cookie-toggle-btn.active {
+  background: rgba(124, 58, 237, 0.5);
+  border-color: #7c3aed;
+  color: white;
+}
+
+.cookie-modal-footer {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  justify-content: flex-end;
+}
+
+@media (max-width: 480px) {
+  .cookie-modal {
+    max-width: 100%;
+  }
+  
+  .cookie-modal-footer {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

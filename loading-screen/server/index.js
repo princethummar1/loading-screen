@@ -64,6 +64,7 @@ app.use('/api/faqs', require('./routes/faqs'));
 app.use('/api/logos', require('./routes/logos'));
 app.use('/api/media', require('./routes/media'));
 app.use('/api/settings', require('./routes/settings'));
+app.use('/api/consent', require('./routes/consent'));
 
 // Health check
 app.get('/api/health', (req, res) => {

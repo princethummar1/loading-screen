@@ -36,7 +36,9 @@ function ServicesSection() {
   const headlineRef = useRef(null)
   const headlineWordsRef = useRef([])
   const serviceRowsRef = useRef([])
+  const serviceBodyColsRef = useRef([])
   const serviceImagesRef = useRef([])
+  const shutterOverlaysRef = useRef([])
   const paragraphWordsRef = useRef([])
   const [services, setServices] = useState(defaultServices)
   const [dataLoaded, setDataLoaded] = useState(false)
@@ -92,26 +94,44 @@ function ServicesSection() {
         }
       )
 
+      const shutterOverlays = shutterOverlaysRef.current
+      const bodyCols = serviceBodyColsRef.current
+
       // Service row animations
       rows.forEach((row, index) => {
         if (!row) return
 
-        gsap.fromTo(row,
-          { y: 40, opacity: 0 },
-          {
-            y: 0, opacity: 1, duration: 0.9, ease: 'power2.out',
-            scrollTrigger: { trigger: row, start: 'top 85%', toggleActions: 'play none none reverse' }
-          }
-        )
-
-        if (images[index]) {
-          gsap.fromTo(images[index],
-            { x: 80, opacity: 0 },
+        // Animate body column only (not title)
+        if (bodyCols[index]) {
+          gsap.fromTo(bodyCols[index],
+            { y: 40, opacity: 0 },
             {
-              x: 0, opacity: 1, duration: 1, ease: 'power3.out',
-              scrollTrigger: { trigger: row, start: 'top 75%', toggleActions: 'play none none reverse' }
+              y: 0, opacity: 1, duration: 0.9, ease: 'power2.out',
+              scrollTrigger: { trigger: row, start: 'top 85%', toggleActions: 'play none none reverse' }
             }
           )
+        }
+
+        // Shutter close effect on images (top to bottom reveal)
+        if (shutterOverlays[index]) {
+          gsap.fromTo(shutterOverlays[index],
+            { scaleY: 1 },
+            {
+              scaleY: 0,
+              duration: 1.2,
+              ease: 'power3.inOut',
+              scrollTrigger: {
+                trigger: row,
+                start: 'top 75%',
+                end: 'top 25%',
+                scrub: 1,
+              }
+            }
+          )
+        }
+
+        if (images[index]) {
+          gsap.set(images[index], { opacity: 1 })
         }
 
         const words = paragraphWordsRef.current[index]
@@ -173,7 +193,7 @@ function ServicesSection() {
                 </div>
 
                 {/* Column 2 - Body */}
-                <div className="service-body-col">
+                <div className="service-body-col" ref={el => serviceBodyColsRef.current[serviceIndex] = el}>
                   <p className="service-body">
                     {bodyWords.map((word, wordIndex) => (
                       <span
@@ -197,12 +217,18 @@ function ServicesSection() {
 
                 {/* Column 3 - Image */}
                 <div className="service-image-col">
-                  <img
-                    src={service.heroImage}
-                    alt={(service.name || '').replace('\n', ' ')}
-                    className="service-image"
-                    ref={el => serviceImagesRef.current[serviceIndex] = el}
-                  />
+                  <div className="service-image-wrapper">
+                    <img
+                      src={service.heroImage}
+                      alt={(service.name || '').replace('\n', ' ')}
+                      className="service-image"
+                      ref={el => serviceImagesRef.current[serviceIndex] = el}
+                    />
+                    <div 
+                      className="shutter-overlay"
+                      ref={el => shutterOverlaysRef.current[serviceIndex] = el}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

@@ -11,6 +11,7 @@ import {
   FiTag, 
   FiImage, 
   FiSliders,
+  FiShield,
   FiLogOut
 } from 'react-icons/fi';
 
@@ -26,6 +27,7 @@ export default function AdminLayout({ children }) {
     { path: '/admin/faq', icon: FiHelpCircle, label: 'FAQ' },
     { path: '/admin/logos', icon: FiTag, label: 'Logo Marquee' },
     { path: '/admin/media', icon: FiImage, label: 'Media Library' },
+    { path: '/admin/cookie-consent', icon: FiShield, label: 'Cookie Consent' },
     { path: '/admin/settings', icon: FiSliders, label: 'Settings' },
   ];
 

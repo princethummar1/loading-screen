@@ -14,6 +14,7 @@ import FAQManager from './pages/FAQManager';
 import LogosManager from './pages/LogosManager';
 import MediaLibrary from './pages/MediaLibrary';
 import SettingsManager from './pages/SettingsManager';
+import CookieConsentStats from './pages/CookieConsentStats';
 import './AdminStyles.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
@@ -311,6 +312,16 @@ export default function AdminApp() {
             <ProtectedRoute>
               <AdminLayout>
                 <SettingsManager />
+              </AdminLayout>
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="cookie-consent" 
+          element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <CookieConsentStats />
               </AdminLayout>
             </ProtectedRoute>
           } 

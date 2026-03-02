@@ -220,6 +220,11 @@ export const dashboardAPI = {
   getRecentActivity: () => apiCall('/api/dashboard/activity'),
 };
 
+// ===== Cookie Consent API =====
+export const consentAPI = {
+  getStats: () => apiCall('/api/consent/stats'),
+};
+
 // Export all APIs
 export default {
   auth: authAPI,
@@ -232,4 +237,5 @@ export default {
   media: mediaAPI,
   settings: settingsAPI,
   dashboard: dashboardAPI,
+  consent: consentAPI,
 };
