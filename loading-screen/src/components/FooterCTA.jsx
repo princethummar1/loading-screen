@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -28,6 +28,7 @@ function FooterCTA() {
   const footerBarRef = useRef(null)
   const linesRef = useRef(null)
   const socialIconRefs = useRef([])
+  const hoverTlRef = useRef(null)
 
   // Track which social icons are being hovered (for magnetic glow effect)
   const [hoveredIcon, setHoveredIcon] = useState(null)
@@ -105,6 +106,7 @@ function FooterCTA() {
 
     // Create paused timeline for hover - faster transitions
     const hoverTl = gsap.timeline({ paused: true })
+    hoverTlRef.current = hoverTl
     hoverTl
       .to(rightPanel, {
         backgroundColor: '#ffffff',
@@ -169,12 +171,37 @@ function FooterCTA() {
     }
   }
 
+  // Kill all footer animations before navigation to prevent conflicts with page transition
+  const cleanupBeforeNav = useCallback(() => {
+    // Kill the hover timeline if it's playing
+    if (hoverTlRef.current) {
+      hoverTlRef.current.pause()
+      hoverTlRef.current.progress(0)
+    }
+    // Kill any GSAP tweens on the footer section
+    gsap.killTweensOf(sectionRef.current)
+    gsap.killTweensOf(rightPanelRef.current)
+    gsap.killTweensOf(startProjectRef.current)
+    // Reset right panel styles immediately
+    if (rightPanelRef.current) {
+      gsap.set(rightPanelRef.current, { backgroundColor: '#0a0a0a' })
+    }
+  }, [])
+
   const handleNavClick = (path) => {
-    navigate(path)
+    cleanupBeforeNav()
+    // Small delay to let cleanup take effect before transition starts
+    requestAnimationFrame(() => {
+      navigate(path)
+    })
   }
 
   const handleContactClick = () => {
-    navigate('/contact')
+    cleanupBeforeNav()
+    // Small delay to let cleanup take effect before transition starts
+    requestAnimationFrame(() => {
+      navigate('/contact')
+    })
   }
 
   // Build social links from settings - always show all icons

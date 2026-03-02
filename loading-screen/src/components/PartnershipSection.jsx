@@ -110,6 +110,10 @@ function PartnershipSection() {
   const originalQuote = "Kyurex didn't just build our platform — they structured our product vision and execution from the ground up."
 
   useEffect(() => {
+    // Track cleanup functions at effect level
+    let horizontalRefreshTimeout = null
+    let handleWindowLoad = null
+    
     const ctx = gsap.context(() => {
       // Section label animation
       gsap.fromTo(labelRef.current,
@@ -224,10 +228,11 @@ function PartnershipSection() {
         )
 
         // Phase 2: Horizontal scroll with pin
-        const scrollDistance = track.scrollWidth - window.innerWidth + 100
+        // Calculate scroll distance dynamically for proper refresh handling
+        const getScrollDistance = () => track.scrollWidth - window.innerWidth + 100
         
-        gsap.to(track, {
-          x: -scrollDistance,
+        const horizontalTween = gsap.to(track, {
+          x: () => -getScrollDistance(),
           ease: 'none',
           scrollTrigger: {
             trigger: container,
@@ -237,8 +242,13 @@ function PartnershipSection() {
             anticipatePin: 1,
             scrub: 0.8,
             start: 'top top',
-            end: `+=${scrollDistance}`,
+            end: () => `+=${getScrollDistance()}`,
             invalidateOnRefresh: true,
+            refreshPriority: -1, // Lower priority ensures proper measurement order
+            onRefresh: (self) => {
+              // Recalculate on refresh to ensure pin position is correct
+              gsap.set(track, { x: -getScrollDistance() * self.progress })
+            },
             onUpdate: (self) => {
               const activeIndex = Math.min(3, Math.floor(self.progress * 4))
               setActiveStep(activeIndex)
@@ -249,10 +259,15 @@ function PartnershipSection() {
           }
         })
 
-        // Refresh after a short delay to ensure correct measurements
-        setTimeout(() => {
-          ScrollTrigger.refresh()
-        }, 100)
+        // Track that desktop mode was used for cleanup
+        horizontalRefreshTimeout = setTimeout(() => {
+          ScrollTrigger.refresh(true) // true = safe mode, recalculates everything
+        }, 300)
+
+        handleWindowLoad = () => {
+          setTimeout(() => ScrollTrigger.refresh(true), 100)
+        }
+        window.addEventListener('load', handleWindowLoad)
       } else {
         // Mobile: simple staggered fade-in for cards
         const cards = stepsTrackRef.current?.querySelectorAll('.step-card')
@@ -380,6 +395,8 @@ function PartnershipSection() {
     return () => {
       ctx.revert()
       clearTimeout(resizeTimeout)
+      if (horizontalRefreshTimeout) clearTimeout(horizontalRefreshTimeout)
+      if (handleWindowLoad) window.removeEventListener('load', handleWindowLoad)
       wrapper?.removeEventListener('mousemove', handleMouseMove)
       wrapper?.removeEventListener('mouseleave', handleMouseLeave)
       window.removeEventListener('resize', handleResize)

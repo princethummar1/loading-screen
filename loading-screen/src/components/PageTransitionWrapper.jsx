@@ -78,9 +78,11 @@ function PageTransitionWrapper({ children }) {
         const lenisScroll = getGlobalLenis()
         if (lenisScroll && typeof lenisScroll.scrollTo === 'function') {
           lenisScroll.scrollTo(0, { immediate: true })
-        } else {
-          window.scrollTo(0, 0)
         }
+        // Always also scroll window to ensure fixed elements see the change
+        window.scrollTo(0, 0)
+        document.documentElement.scrollTop = 0
+        document.body.scrollTop = 0
       } catch (e) {
         window.scrollTo(0, 0)
       }

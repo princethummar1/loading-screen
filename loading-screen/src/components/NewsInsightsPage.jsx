@@ -1213,10 +1213,10 @@ function NewsInsightsPage() {
               </MagneticIcon>
             </div>
           </section>
-
-          {/* Spacer for footer reveal */}
-          <div style={{ height: '100vh', background: 'transparent' }} />
         </div>
+
+        {/* Spacer - outside pointerEvents: auto div, inherits pointer-events: none from main */}
+        <div style={{ height: '100vh' }} />
       </main>
     </>
   )
