@@ -231,7 +231,8 @@ function CaseStudy() {
         }
 
         // ────────── VIDEO SHOWCASE SCROLL ZOOM ──────────
-        if (videoSectionRef.current && videoInnerRef.current && videoElRef.current) {
+        const isMobileVideo = window.innerWidth < 768
+        if (!isMobileVideo && videoSectionRef.current && videoInnerRef.current && videoElRef.current) {
           gsap.fromTo(videoInnerRef.current,
             { borderRadius: '28px', scale: 0.88 },
             {
@@ -264,80 +265,147 @@ function CaseStudy() {
         // ────────── 3D GALLERY ──────────
         if (galleryRef.current && cardsRef.current.length === 7) {
           const cards = cardsRef.current
+          const isMobile = window.innerWidth < 768
 
-          const positions = [
-            { top: '5%',  left: '25%', rotateX: 0, rotateY: 8,   scale: 0.85 },
-            { top: '5%',  right: '8%', rotateX: -5, rotateY: 0,  scale: 0.85 },
-            { top: '8%',  right: '-2%', rotateX: 0, rotateY: 8,  scale: 0.85 },
-            { top: '35%', left: '2%',  rotateX: -5, rotateY: 0,  scale: 0.85 },
-            { top: '22%', left: '28%', rotateX: 0, rotateY: 0,   scale: 1.15 },
-            { bottom: '5%', left: '28%', rotateX: 0, rotateY: -6, scale: 0.85 },
-            { bottom: '5%', left: '48%', rotateX: 0, rotateY: -6, scale: 0.85 },
-          ]
+          if (isMobile) {
+            // ── MOBILE: Simple 2-col grid, fade in ──
+            
+            // Show only first 5 cards on mobile (hide 5,6)
+            gsap.set(cards[5], { display: 'none' })
+            gsap.set(cards[6], { display: 'none' })
 
-          cards.forEach((card, i) => {
-            if (!card) return
-            gsap.set(card, { ...positions[i], position: 'absolute' })
-          })
+            const mobileLayout = [
+              { top: '2%',  left: '1%',  width: '48%', height: '31%' }, // card 0
+              { top: '2%',  left: '51%', width: '48%', height: '31%' }, // card 1
+              { top: '35%', left: '1%',  width: '48%', height: '31%' }, // card 2
+              { top: '35%', left: '51%', width: '48%', height: '31%' }, // card 3
+              { top: '68%', left: '1%',  width: '98%', height: '30%' }, // card 4 — full width
+            ]
 
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: galleryRef.current,
-              start: 'top top',
-              end: '+=300%',
-              pin: true,
-              scrub: 1.5,
-              anticipatePin: 1,
+            mobileLayout.forEach((pos, i) => {
+              if (!cards[i]) return
+              gsap.set(cards[i], {
+                position: 'absolute',
+                ...pos,
+                borderRadius: '12px',
+                overflow: 'hidden',
+                right: 'auto',
+                bottom: 'auto',
+                rotateX: 0,
+                rotateY: 0,
+                scale: 1,
+              })
+            })
+
+            // Simple fade + slide up on scroll
+            gsap.from(cards.slice(0, 5).filter(Boolean), {
+              opacity: 0,
+              y: 40,
+              stagger: 0.08,
+              duration: 0.7,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: galleryRef.current,
+                start: 'top 75%',
+                once: true,
+              }
+            })
+
+          } else {
+            // ── DESKTOP: existing cinematic zoom animation ──
+            const positions = [
+              { top: '5%',  left: '25%', rotateX: 0, rotateY: 8,   scale: 0.85 },
+              { top: '5%',  right: '8%', rotateX: -5, rotateY: 0,  scale: 0.85 },
+              { top: '8%',  right: '-2%', rotateX: 0, rotateY: 8,  scale: 0.85 },
+              { top: '35%', left: '2%',  rotateX: -5, rotateY: 0,  scale: 0.85 },
+              { top: '22%', left: '28%', rotateX: 0, rotateY: 0,   scale: 1.15 },
+              { bottom: '5%', left: '28%', rotateX: 0, rotateY: -6, scale: 0.85 },
+              { bottom: '5%', left: '48%', rotateX: 0, rotateY: -6, scale: 0.85 },
+            ]
+
+            cards.forEach((card, i) => {
+              if (!card) return
+              gsap.set(card, { ...positions[i], position: 'absolute' })
+            })
+
+            const tl = gsap.timeline({
+              scrollTrigger: {
+                trigger: galleryRef.current,
+                start: 'top top',
+                end: '+=300%',
+                pin: true,
+                scrub: 1.5,
+                anticipatePin: 1,
+              }
+            })
+
+            const outerCards = cards.filter((_, i) => i !== 4)
+
+            outerCards.forEach(card => {
+              if (!card) return
+              tl.to(card, { rotateX: 0, rotateY: 0, scale: 1, duration: 0.4, ease: 'power2.inOut' }, 0)
+            })
+            if (cards[4]) tl.to(cards[4], { scale: 1.0, duration: 0.4 }, 0)
+
+            if (cards[4]) {
+              tl.to(cards[4], { scale: 1.8, z: 200, boxShadow: '0 30px 100px rgba(0,0,0,0.5)', duration: 0.3, ease: 'power2.in' }, 0.4)
             }
-          })
+            outerCards.forEach(card => {
+              if (!card) return
+              tl.to(card, { scale: 0.6, opacity: 0.4, duration: 0.3 }, 0.4)
+            })
 
-          const outerCards = cards.filter((_, i) => i !== 4)
-
-          outerCards.forEach(card => {
-            if (!card) return
-            tl.to(card, { rotateX: 0, rotateY: 0, scale: 1, duration: 0.4, ease: 'power2.inOut' }, 0)
-          })
-          if (cards[4]) tl.to(cards[4], { scale: 1.0, duration: 0.4 }, 0)
-
-          if (cards[4]) {
-            tl.to(cards[4], { scale: 1.8, z: 200, boxShadow: '0 30px 100px rgba(0,0,0,0.5)', duration: 0.3, ease: 'power2.in' }, 0.4)
+            if (cards[4]) {
+              tl.to(cards[4], { scale: 4, z: 400, opacity: 0, duration: 0.3, ease: 'power2.in' }, 0.7)
+            }
+            outerCards.forEach(card => {
+              if (!card) return
+              tl.to(card, { opacity: 0, scale: 0.3, duration: 0.3 }, 0.7)
+            })
           }
-          outerCards.forEach(card => {
-            if (!card) return
-            tl.to(card, { scale: 0.6, opacity: 0.4, duration: 0.3 }, 0.4)
-          })
-
-          if (cards[4]) {
-            tl.to(cards[4], { scale: 4, z: 400, opacity: 0, duration: 0.3, ease: 'power2.in' }, 0.7)
-          }
-          outerCards.forEach(card => {
-            if (!card) return
-            tl.to(card, { opacity: 0, scale: 0.3, duration: 0.3 }, 0.7)
-          })
         }
 
         // ────────── HORIZONTAL MARQUEE ──────────
         if (marqueeRef.current && marqueeTrackRef.current) {
+          const isMobileMarquee = window.innerWidth < 768
           const marqueeCards = marqueeTrackRef.current.querySelectorAll('.cs-marquee-card')
 
-          gsap.from(marqueeCards, {
-            x: 100, opacity: 0, stagger: 0.1, duration: 1, ease: 'power3.out',
-            scrollTrigger: { trigger: marqueeRef.current, start: 'top 80%' }
-          })
+          if (isMobileMarquee) {
+            // No horizontal scroll on mobile
+            // Cards stack vertically, fade in on scroll
+            gsap.from(marqueeCards, {
+              opacity: 0,
+              y: 50,
+              stagger: 0.12,
+              duration: 0.8,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: marqueeRef.current,
+                start: 'top 75%',
+                once: true,
+              }
+            })
+          } else {
+            // Desktop: existing horizontal scroll animation
+            gsap.from(marqueeCards, {
+              x: 100, opacity: 0, stagger: 0.1, duration: 1, ease: 'power3.out',
+              scrollTrigger: { trigger: marqueeRef.current, start: 'top 80%' }
+            })
 
-          gsap.to(marqueeTrackRef.current, {
-            x: () => -(marqueeTrackRef.current.scrollWidth - window.innerWidth + 80),
-            ease: 'none',
-            scrollTrigger: {
-              trigger: marqueeRef.current,
-              start: 'top top',
-              end: '+=200%',
-              pin: true,
-              scrub: 1,
-              anticipatePin: 1,
-              invalidateOnRefresh: true,
-            }
-          })
+            gsap.to(marqueeTrackRef.current, {
+              x: () => -(marqueeTrackRef.current.scrollWidth - window.innerWidth + 80),
+              ease: 'none',
+              scrollTrigger: {
+                trigger: marqueeRef.current,
+                start: 'top top',
+                end: '+=200%',
+                pin: true,
+                scrub: 1,
+                anticipatePin: 1,
+                invalidateOnRefresh: true,
+              }
+            })
+          }
         }
 
         // ────────── CASE STUDIES ENTRANCE ──────────

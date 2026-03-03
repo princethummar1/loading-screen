@@ -222,7 +222,7 @@ function PartnershipSection() {
               trigger: container,
               start: 'top 85%',
               end: 'top 50%',
-              scrub: 0.3,
+              scrub: 0.5,
             }
           }
         )
@@ -240,15 +240,12 @@ function PartnershipSection() {
             pinSpacing: true,
             pinType: 'transform',
             anticipatePin: 1,
-            scrub: 0.8,
+            scrub: 1.5, // Smoother scrub - higher value = smoother but slower response
             start: 'top top',
             end: () => `+=${getScrollDistance()}`,
             invalidateOnRefresh: true,
-            refreshPriority: -1, // Lower priority ensures proper measurement order
-            onRefresh: (self) => {
-              // Recalculate on refresh to ensure pin position is correct
-              gsap.set(track, { x: -getScrollDistance() * self.progress })
-            },
+            fastScrollEnd: true, // Helps with fast scrolling
+            preventOverlaps: true,
             onUpdate: (self) => {
               const activeIndex = Math.min(3, Math.floor(self.progress * 4))
               setActiveStep(activeIndex)
@@ -259,33 +256,43 @@ function PartnershipSection() {
           }
         })
 
-        // Track that desktop mode was used for cleanup
+        // Single refresh after setup - delayed to ensure DOM is ready
         horizontalRefreshTimeout = setTimeout(() => {
-          ScrollTrigger.refresh(true) // true = safe mode, recalculates everything
-        }, 300)
-
-        handleWindowLoad = () => {
-          setTimeout(() => ScrollTrigger.refresh(true), 100)
-        }
-        window.addEventListener('load', handleWindowLoad)
+          ScrollTrigger.refresh()
+        }, 200)
       } else {
-        // Mobile: simple staggered fade-in for cards
-        const cards = stepsTrackRef.current?.querySelectorAll('.step-card')
+        // Mobile: Clear GSAP inline styles and simple staggered fade-in
+        const track = stepsTrackRef.current
+        const container = stepsContainerRef.current
+        const cards = track?.querySelectorAll('.step-card')
+        if (!track || !container) return
+
+        // CRITICAL: Clear ALL inline styles GSAP may have set so CSS takes full control
+        gsap.set(container, { clearProps: 'all' })
+        gsap.set(track, { clearProps: 'all' })
         if (cards) {
-          gsap.fromTo(cards,
-            { y: 40, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 0.8,
-              stagger: 0.15,
-              ease: 'power3.out',
-              scrollTrigger: {
-                trigger: stepsContainerRef.current,
-                start: 'top 80%',
-              }
+          cards.forEach(card => {
+            gsap.set(card, { clearProps: 'all' })
+          })
+        }
+
+        // Set active step so typewriter chars show immediately on mobile
+        setActiveStep(3)
+
+        // Simple fade in — no pin no scrub no horizontal
+        if (cards) {
+          gsap.from(Array.from(cards), {
+            opacity: 0,
+            y: 24,
+            stagger: 0.1,
+            duration: 0.6,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: container,
+              start: 'top 80%',
+              once: true,
             }
-          )
+          })
         }
       }
 

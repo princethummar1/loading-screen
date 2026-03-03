@@ -60,12 +60,23 @@ function ProjectRow({ project }) {
   const nameRef = useRef(null)
   const ctaRef = useRef(null)
   const [isHovered, setIsHovered] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Detect mobile on mount and resize
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   const dynamicSlug = project.slug || project._id || project.id || (project.name ? project.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') : '')
   const isCaseStudy = project.type === 'case-study' || !!dynamicSlug
   const projectLink = dynamicSlug ? `/case-study/${dynamicSlug}` : (project.liveUrl || '#')
 
   const handleMouseEnter = () => {
+    // Skip GSAP hover animations on mobile
+    if (isMobile) return
     setIsHovered(true)
     gsap.to(panelRef.current, { height: 380, opacity: 1, duration: 0.6, ease: 'power3.inOut' })
     gsap.to(nameRef.current, { x: 8, color: '#fff', duration: 0.3 })
@@ -73,6 +84,8 @@ function ProjectRow({ project }) {
   }
 
   const handleMouseLeave = () => {
+    // Skip GSAP hover animations on mobile
+    if (isMobile) return
     setIsHovered(false)
     gsap.to(panelRef.current, { height: 0, opacity: 0, duration: 0.5, ease: 'power3.inOut' })
     gsap.to(nameRef.current, { x: 0, color: '#ccc', duration: 0.3 })

@@ -37,9 +37,7 @@ function ServicesSection() {
   const headlineWordsRef = useRef([])
   const serviceRowsRef = useRef([])
   const serviceBodyColsRef = useRef([])
-  const serviceImagesRef = useRef([])
   const shutterOverlaysRef = useRef([])
-  const paragraphWordsRef = useRef([])
   const [services, setServices] = useState(defaultServices)
   const [dataLoaded, setDataLoaded] = useState(false)
 
@@ -71,25 +69,22 @@ function ServicesSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const section = sectionRef.current
       const headlineWordEls = headlineWordsRef.current
       const rows = serviceRowsRef.current
-      const images = serviceImagesRef.current
 
-      // Headline blur-scrub animation
+      // Headline fade-in animation (no blur for better performance)
       gsap.fromTo(headlineWordEls,
-        { filter: 'blur(12px)', opacity: 0 },
+        { opacity: 0, y: 20 },
         {
-          filter: 'blur(0px)',
           opacity: 1,
-          stagger: 0.06,
-          ease: 'power3.out',
+          y: 0,
+          stagger: 0.04,
+          duration: 0.6,
+          ease: 'power2.out',
           scrollTrigger: {
             trigger: headlineRef.current,
             start: 'top 80%',
-            end: 'bottom 40%',
-            scrub: 1,
-            markers: false,
+            toggleActions: 'play none none none',
           }
         }
       )
@@ -101,46 +96,30 @@ function ServicesSection() {
       rows.forEach((row, index) => {
         if (!row) return
 
-        // Animate body column only (not title)
+        // Animate body column
         if (bodyCols[index]) {
           gsap.fromTo(bodyCols[index],
-            { y: 40, opacity: 0 },
+            { y: 30, opacity: 0 },
             {
-              y: 0, opacity: 1, duration: 0.9, ease: 'power2.out',
-              scrollTrigger: { trigger: row, start: 'top 85%', toggleActions: 'play none none reverse' }
+              y: 0, opacity: 1, duration: 0.7, ease: 'power2.out',
+              scrollTrigger: { trigger: row, start: 'top 85%', toggleActions: 'play none none none' }
             }
           )
         }
 
-        // Shutter close effect on images (top to bottom reveal)
+        // Shutter reveal effect (simplified - no scrub)
         if (shutterOverlays[index]) {
           gsap.fromTo(shutterOverlays[index],
             { scaleY: 1 },
             {
               scaleY: 0,
-              duration: 1.2,
-              ease: 'power3.inOut',
+              duration: 0.8,
+              ease: 'power2.inOut',
               scrollTrigger: {
                 trigger: row,
                 start: 'top 75%',
-                end: 'top 25%',
-                scrub: 1,
+                toggleActions: 'play none none none',
               }
-            }
-          )
-        }
-
-        if (images[index]) {
-          gsap.set(images[index], { opacity: 1 })
-        }
-
-        const words = paragraphWordsRef.current[index]
-        if (words && words.length > 0) {
-          gsap.fromTo(words,
-            { opacity: 0.2 },
-            {
-              opacity: 1, stagger: 0.02, ease: 'none',
-              scrollTrigger: { trigger: row, start: 'top 70%', end: 'bottom 30%', scrub: 1.5 }
             }
           )
         }
@@ -170,9 +149,6 @@ function ServicesSection() {
       {/* Service Rows */}
       <div className="services-list">
         {services.map((service, serviceIndex) => {
-          const bodyWords = (service.heroDescription || '').split(' ')
-          paragraphWordsRef.current[serviceIndex] = []
-
           return (
             <div
               key={service.slug || serviceIndex}
@@ -195,20 +171,7 @@ function ServicesSection() {
                 {/* Column 2 - Body */}
                 <div className="service-body-col" ref={el => serviceBodyColsRef.current[serviceIndex] = el}>
                   <p className="service-body">
-                    {bodyWords.map((word, wordIndex) => (
-                      <span
-                        key={wordIndex}
-                        className="body-word"
-                        ref={el => {
-                          if (!paragraphWordsRef.current[serviceIndex]) {
-                            paragraphWordsRef.current[serviceIndex] = []
-                          }
-                          paragraphWordsRef.current[serviceIndex][wordIndex] = el
-                        }}
-                      >
-                        {word}{' '}
-                      </span>
-                    ))}
+                    {service.heroDescription}
                   </p>
                   <Link to={`/services/${service.slug}`} className="learn-more" data-cursor-hover>
                     Learn more <span className="arrow">→</span>
@@ -222,7 +185,6 @@ function ServicesSection() {
                       src={service.heroImage}
                       alt={(service.name || '').replace('\n', ' ')}
                       className="service-image"
-                      ref={el => serviceImagesRef.current[serviceIndex] = el}
                     />
                     <div 
                       className="shutter-overlay"

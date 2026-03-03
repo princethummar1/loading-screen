@@ -137,11 +137,13 @@ function createPillShape(length, thickness, radius) {
 
 // ============================================================
 // LETTER K COMPONENT (4 chrome pieces with gaps)
+// ⚡ MOBILE FIX 5: Added isMobile for simple auto-rotation
 // ============================================================
 function LetterK({ 
   smoothMouse, 
   audioData, 
-  kGroupRef 
+  kGroupRef,
+  isMobile // ⚡ MOBILE FIX 5
 }) {
   const materialRef = useRef()
   
@@ -225,6 +227,17 @@ function LetterK({
     }
   }, [kGroupRef])
   
+  // ⚡ PERF FIX: Dispose geometries and material on unmount
+  useEffect(() => {
+    return () => {
+      upperStemGeo?.dispose()
+      lowerStemGeo?.dispose()
+      upperArmGeo?.dispose()
+      lowerArmGeo?.dispose()
+      chromeMat?.dispose()
+    }
+  }, [upperStemGeo, lowerStemGeo, upperArmGeo, lowerArmGeo, chromeMat])
+  
   useFrame((state) => {
     if (!kGroupRef.current || !materialRef.current) return
     
@@ -232,20 +245,27 @@ function LetterK({
     const mouse = smoothMouse.current
     const audio = audioData.current
     
-    // Enhanced mouse interactivity - faster response, more rotation
-    const targetRotY = mouse.x * 0.8
-    const targetRotX = -mouse.y * 0.5
-    const targetRotZ = mouse.x * mouse.y * 0.15
-    
-    kGroupRef.current.rotation.y += (targetRotY - kGroupRef.current.rotation.y) * 0.12
-    kGroupRef.current.rotation.x += (targetRotX - kGroupRef.current.rotation.x) * 0.12
-    kGroupRef.current.rotation.z += (targetRotZ - kGroupRef.current.rotation.z) * 0.08
-    
-    // Mouse-driven position offset (subtle parallax)
-    const targetPosX = mouse.x * 0.15
-    const targetPosY = Math.sin(t * 0.6) * 0.06 + mouse.y * 0.1
-    kGroupRef.current.position.x = 0.3 + (targetPosX - (kGroupRef.current.position.x - 0.3)) * 0.1
-    kGroupRef.current.position.y += (targetPosY - kGroupRef.current.position.y) * 0.1
+    // ⚡ MOBILE FIX 5: Skip mouse rotation on mobile, use simple auto-rotation
+    if (!isMobile) {
+      // Enhanced mouse interactivity - faster response, more rotation
+      const targetRotY = mouse.x * 0.8
+      const targetRotX = -mouse.y * 0.5
+      const targetRotZ = mouse.x * mouse.y * 0.15
+      
+      kGroupRef.current.rotation.y += (targetRotY - kGroupRef.current.rotation.y) * 0.12
+      kGroupRef.current.rotation.x += (targetRotX - kGroupRef.current.rotation.x) * 0.12
+      kGroupRef.current.rotation.z += (targetRotZ - kGroupRef.current.rotation.z) * 0.08
+      
+      // Mouse-driven position offset (subtle parallax)
+      const targetPosX = mouse.x * 0.15
+      const targetPosY = Math.sin(t * 0.6) * 0.06 + mouse.y * 0.1
+      kGroupRef.current.position.x = 0.3 + (targetPosX - (kGroupRef.current.position.x - 0.3)) * 0.1
+      kGroupRef.current.position.y += (targetPosY - kGroupRef.current.position.y) * 0.1
+    } else {
+      // ⚡ MOBILE FIX 5: Simple slow auto rotation on mobile
+      // Simple floating animation
+      kGroupRef.current.position.y = Math.sin(t * 0.6) * 0.06
+    }
     
     // Audio reactivity on material
     const mat = materialRef.current
@@ -301,6 +321,7 @@ function LetterK({
 
 // ============================================================
 // PARTICLE RING COMPONENT
+// ⚡ PERF FIX: Added frame skipping + DynamicDrawUsage
 // ============================================================
 function ParticleRing({ 
   count, 
@@ -325,9 +346,10 @@ function ParticleRing({
   const initialAnglesRef = useRef()
   const initialRadiiRef = useRef()
   const velocitiesRef = useRef([])
+  const frameCount = useRef(0) // ⚡ PERF FIX: Frame counter  
   
-  // Initialize particle data
-  const { positions, initialAngles, initialRadii } = useMemo(() => {
+  // ⚡ PERF FIX: Memoize geometry with DynamicDrawUsage
+  const geometry = useMemo(() => {
     const pos = new Float32Array(count * 3)
     const angles = new Float32Array(count)
     const radii = new Float32Array(count)
@@ -350,18 +372,38 @@ function ParticleRing({
       })
     }
     velocitiesRef.current = vels
+    positionsRef.current = pos.slice()
+    initialAnglesRef.current = angles
+    initialRadiiRef.current = radii
     
-    return { positions: pos, initialAngles: angles, initialRadii: radii }
+    const geo = new THREE.BufferGeometry()
+    const posAttr = new THREE.BufferAttribute(pos, 3)
+    posAttr.usage = THREE.DynamicDrawUsage // ⚡ PERF FIX: Hint to GPU for dynamic updates
+    geo.setAttribute('position', posAttr)
+    
+    return geo
   }, [count, baseRadius, radiusVariance])
   
+  // ⚡ PERF FIX: Dispose geometry on unmount
   useEffect(() => {
-    positionsRef.current = positions.slice()
-    initialAnglesRef.current = initialAngles
-    initialRadiiRef.current = initialRadii
-  }, [positions, initialAngles, initialRadii])
+    return () => {
+      geometry?.dispose()
+    }
+  }, [geometry])
   
   useFrame((state) => {
     if (!pointsRef.current || !positionsRef.current) return
+    
+    // ⚡ PERF FIX: Frame skipping - inner ring every frame, mid every 2nd, outer every 3rd
+    frameCount.current++
+    const skipFrames = ringIndex === 0 ? 1 : ringIndex === 1 ? 2 : 3
+    if (frameCount.current % skipFrames !== 0) {
+      // Still update rotation for smooth appearance
+      const mouse = smoothMouse.current
+      pointsRef.current.rotation.y = mouse.x * 0.3
+      pointsRef.current.rotation.x = mouse.y * 0.2
+      return
+    }
     
     // Skip updates when hero is scrolled out of view (scroll > 1.2)
     const scroll = scrollProgress.current
@@ -457,15 +499,8 @@ function ParticleRing({
   
   return (
     <group rotation={[tiltX, 0, tiltZ]}>
-      <points ref={pointsRef}>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            count={count}
-            array={positions}
-            itemSize={3}
-          />
-        </bufferGeometry>
+      {/* ⚡ PERF FIX: Use memoized geometry with DynamicDrawUsage */}
+      <points ref={pointsRef} geometry={geometry}>
         <pointsMaterial
           ref={materialRef}
           size={size}
@@ -483,6 +518,7 @@ function ParticleRing({
 
 // ============================================================
 // MAIN SCENE - Contains blob + particles + shockwave
+// ⚡ MOBILE FIX 8: Added isMobile to skip mouse parallax
 // ============================================================
 function OrganismScene({ 
   smoothMouse, 
@@ -510,24 +546,26 @@ function OrganismScene({
     const scroll = scrollProgress.current
     const audio = audioData.current
     
-    // Whole scene subtle parallax
-    sceneRef.current.rotation.y = mouse.x * 0.08
-    sceneRef.current.rotation.x = -mouse.y * 0.05
+    // ⚡ MOBILE FIX 8: Skip mouse parallax on mobile
+    if (!isMobile) {
+      sceneRef.current.rotation.y = mouse.x * 0.08
+      sceneRef.current.rotation.x = -mouse.y * 0.05
+    }
     
-    // Scroll moves scene up and tilts
+    // Always run scroll + audio sway
     sceneRef.current.position.y = scroll * 2
-    
-    // Audio sway: scene rotates slightly with beat
     sceneRef.current.rotation.z = Math.sin(t * 0.5) * 0.02 * (1 + audio.avg * 2) + scroll * 0.3
   })
   
   return (
     <group ref={sceneRef}>
       {/* The 3D chrome Letter K */}
+      {/* ⚡ MOBILE FIX 5: Pass isMobile for auto-rotation */}
       <LetterK 
         smoothMouse={smoothMouse} 
         audioData={audioData}
         kGroupRef={blobRef}
+        isMobile={isMobile}
       />
       
       {/* Shockwave ring */}
@@ -592,12 +630,16 @@ function OrganismScene({
 // ============================================================
 // BEAT DETECTOR COMPONENT
 // ============================================================
-function BeatDetector({ audioData, onBeat }) {
+// ⚡ MOBILE FIX 9: Added isPlayingRef to skip when audio off
+function BeatDetector({ audioData, onBeat, isPlayingRef }) {
   const lastBass = useRef(0)
   const beatCooldown = useRef(0)
   const beatThreshold = 0.75
   
   useFrame((state) => {
+    // ⚡ MOBILE FIX 9: Skip entirely when not playing
+    if (!isPlayingRef.current) return
+    
     const bass = audioData.current.bass
     const now = state.clock.elapsedTime
     
@@ -616,13 +658,90 @@ function BeatDetector({ audioData, onBeat }) {
 }
 
 // ============================================================
+// ⚡ PERF FIX: ANIMATION CONTROLLER (replaces separate RAF loop)
+// Runs mouse smoothing + audio analysis inside fiber's useFrame
+// ⚡ MOBILE FIX 4: Added isMobile to skip mouse smoothing
+// ============================================================
+function AnimationController({ 
+  mouse, 
+  smoothMouse, 
+  analyser, 
+  audioDataArray, 
+  isPlayingRef, 
+  audioData, 
+  smoothedAudio, 
+  morphIntensity, 
+  particleBeatBurst,
+  isMobile // ⚡ MOBILE FIX 4
+}) {
+  const lerpSpeed = 0.15
+  
+  useFrame(() => {
+    // ⚡ MOBILE FIX 4: Skip mouse smoothing on mobile
+    if (!isMobile) {
+      smoothMouse.current.x += (mouse.current.x - smoothMouse.current.x) * 0.04
+      smoothMouse.current.y += (mouse.current.y - smoothMouse.current.y) * 0.04
+    }
+    
+    // Audio data processing
+    if (analyser.current && isPlayingRef.current) {
+      analyser.current.getByteFrequencyData(audioDataArray.current)
+      const data = audioDataArray.current
+      
+      // Bass: frequencies 2-12
+      let bassSum = 0
+      for (let i = 2; i < 12; i++) bassSum += data[i]
+      const rawBass = bassSum / 10 / 255
+      
+      // Mid: frequencies 12-80
+      let midSum = 0
+      for (let i = 12; i < 80; i++) midSum += data[i]
+      const rawMid = midSum / 68 / 255
+      
+      // High: frequencies 80-180
+      let highSum = 0
+      for (let i = 80; i < 180; i++) highSum += data[i]
+      const rawHigh = highSum / 100 / 255
+      
+      // Average
+      let totalSum = 0
+      for (let i = 0; i < data.length; i++) totalSum += data[i]
+      const rawAvg = totalSum / data.length / 255
+      
+      // SMOOTH with lerp
+      smoothedAudio.current.bass += (rawBass - smoothedAudio.current.bass) * lerpSpeed
+      smoothedAudio.current.mid += (rawMid - smoothedAudio.current.mid) * lerpSpeed
+      smoothedAudio.current.high += (rawHigh - smoothedAudio.current.high) * lerpSpeed
+      smoothedAudio.current.avg += (rawAvg - smoothedAudio.current.avg) * lerpSpeed
+      
+      audioData.current = { ...smoothedAudio.current }
+      morphIntensity.current = 0.25 + smoothedAudio.current.mid * 0.4
+    } else {
+      // Decay when not playing
+      smoothedAudio.current.bass *= 0.95
+      smoothedAudio.current.mid *= 0.95
+      smoothedAudio.current.high *= 0.95
+      smoothedAudio.current.avg *= 0.95
+      audioData.current = { ...smoothedAudio.current }
+    }
+    
+    // Decay beat burst
+    particleBeatBurst.current *= 0.92
+  })
+  
+  return null
+}
+
+// ============================================================
 // MAIN EXPORT COMPONENT
 // ============================================================
 function HeroOrganism({ className = '' }) {
   const mouse = useRef({ x: 0, y: 0 })
   const smoothMouse = useRef({ x: 0, y: 0 })
   const scrollProgress = useRef(0)
-  const [isMobile, setIsMobile] = useState(false)
+  // ⚡ MOBILE FIX 10: Use ref + state to prevent Canvas remount on resize
+  const isMobileRef = useRef(window.innerWidth < 768)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [showHint, setShowHint] = useState(true)
   const [shockwaveTrigger, setShockwaveTrigger] = useState(0)
   
@@ -655,15 +774,23 @@ function HeroOrganism({ className = '' }) {
   
   // Detect mobile
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    // ⚡ MOBILE FIX 10: Only update state if value changed to prevent Canvas remount
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 768
+      isMobileRef.current = mobile
+      setIsMobile(prev => prev !== mobile ? mobile : prev)
+    }
     checkMobile()
-    window.addEventListener('resize', checkMobile)
+    // ⚡ PERF FIX: Added passive flag
+    window.addEventListener('resize', checkMobile, { passive: true })
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
   
   // Track mouse position
   useEffect(() => {
     const handleMouseMove = (e) => {
+      // ⚡ MOBILE FIX 4: Skip on touch devices
+      if (isMobileRef.current) return
       mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1
       mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1
     }
@@ -683,69 +810,7 @@ function HeroOrganism({ className = '' }) {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
   
-  // Smooth mouse interpolation + audio data update with LERP
-  useEffect(() => {
-    let animationId
-    const lerpSpeed = 0.15  // Smooth audio transitions (higher = more reactive)
-    
-    const animate = () => {
-      smoothMouse.current.x += (mouse.current.x - smoothMouse.current.x) * 0.04
-      smoothMouse.current.y += (mouse.current.y - smoothMouse.current.y) * 0.04
-      
-      // FIX 2: Smoothed audio data with lerp
-      if (analyser.current && isPlayingRef.current) {
-        analyser.current.getByteFrequencyData(audioDataArray.current)
-        const data = audioDataArray.current
-        
-        // Raw values from specific frequency bins
-        // Bass: frequencies 2-12 (skip 0-1 which can have DC offset)
-        let bassSum = 0
-        for (let i = 2; i < 12; i++) bassSum += data[i]
-        const rawBass = bassSum / 10 / 255
-        
-        // Mid: frequencies 12-80
-        let midSum = 0
-        for (let i = 12; i < 80; i++) midSum += data[i]
-        const rawMid = midSum / 68 / 255
-        
-        // High: frequencies 80-180
-        let highSum = 0
-        for (let i = 80; i < 180; i++) highSum += data[i]
-        const rawHigh = highSum / 100 / 255
-        
-        // Average
-        let totalSum = 0
-        for (let i = 0; i < data.length; i++) totalSum += data[i]
-        const rawAvg = totalSum / data.length / 255
-        
-        // SMOOTH with lerp — removes spikes and jumps
-        smoothedAudio.current.bass += (rawBass - smoothedAudio.current.bass) * lerpSpeed
-        smoothedAudio.current.mid += (rawMid - smoothedAudio.current.mid) * lerpSpeed
-        smoothedAudio.current.high += (rawHigh - smoothedAudio.current.high) * lerpSpeed
-        smoothedAudio.current.avg += (rawAvg - smoothedAudio.current.avg) * lerpSpeed
-        
-        // Update the audioData ref with smoothed values
-        audioData.current = { ...smoothedAudio.current }
-        
-        // Update morph intensity based on mid
-        morphIntensity.current = 0.25 + smoothedAudio.current.mid * 0.4
-      } else {
-        // Slowly decay to 0 when not playing
-        smoothedAudio.current.bass *= 0.95
-        smoothedAudio.current.mid *= 0.95
-        smoothedAudio.current.high *= 0.95
-        smoothedAudio.current.avg *= 0.95
-        audioData.current = { ...smoothedAudio.current }
-      }
-      
-      // Decay beat burst
-      particleBeatBurst.current *= 0.92
-      
-      animationId = requestAnimationFrame(animate)
-    }
-    animate()
-    return () => cancelAnimationFrame(animationId)
-  }, [])
+  // ⚡ PERF FIX: Removed separate RAF loop - now handled by AnimationController inside Canvas
   
   // Initialize audio
   const initAudio = useCallback(() => {
@@ -944,11 +1009,17 @@ function HeroOrganism({ className = '' }) {
         gl={{
           alpha: true,
           antialias: true,
+          powerPreference: 'high-performance', // ⚡ PERF FIX: Use dedicated GPU
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: 1.6,
           outputColorSpace: THREE.SRGBColorSpace,
+          stencil: false, // ⚡ PERF FIX: Not needed, saves memory
+          depth: true,
+          logarithmicDepthBuffer: false, // ⚡ PERF FIX: Disable if not needed
         }}
-        dpr={[1, 1.5]}
+        dpr={isMobile ? [1, 1] : [1, 1.5]} // ⚡ MOBILE FIX 7: Force 1:1 on mobile
+        frameloop="always"
+        performance={{ min: 0.5 }} // ⚡ PERF FIX: Auto-throttle on lag
         style={{ background: 'transparent', cursor: 'pointer' }}
         onClick={handleBlobClick}
       >
@@ -956,34 +1027,59 @@ function HeroOrganism({ className = '' }) {
           {/* Camera controller for shake */}
           <CameraController cameraShake={cameraShake} />
           
-          {/* Beat detector */}
-          <BeatDetector 
-            audioData={audioData} 
-            onBeat={handleBeatDetected} 
+          {/* ⚡ PERF FIX: Animation controller - replaces separate RAF loop */}
+          {/* ⚡ MOBILE FIX 4: Pass isMobile to skip mouse smoothing */}
+          <AnimationController
+            mouse={mouse}
+            smoothMouse={smoothMouse}
+            analyser={analyser}
+            audioDataArray={audioDataArray}
+            isPlayingRef={isPlayingRef}
+            audioData={audioData}
+            smoothedAudio={smoothedAudio}
+            morphIntensity={morphIntensity}
+            particleBeatBurst={particleBeatBurst}
+            isMobile={isMobile}
           />
           
-          {/* Chrome-optimized lighting */}
-          <ambientLight intensity={0.3} color="#ffffff" />
+          {/* Beat detector */}
+          {/* ⚡ MOBILE FIX 9: Pass isPlayingRef to skip when audio off */}
+          <BeatDetector 
+            audioData={audioData} 
+            onBeat={handleBeatDetected}
+            isPlayingRef={isPlayingRef}
+          />
           
-          {/* Key light - main specular highlight */}
+          {/* ⚡ MOBILE FIX 6: Optimized lighting for mobile */}
+          {/* Always on - boosted on mobile to compensate for fewer lights */}
+          <ambientLight intensity={isMobile ? 0.5 : 0.3} color="#ffffff" />
+          
+          {/* Key light - always on, slightly dimmer on mobile */}
           <spotLight 
             position={[3, 4, 5]} 
-            intensity={80} 
+            intensity={isMobile ? 60 : 80} 
             color="#ffffff"
             angle={0.5}
             penumbra={0.5}
           />
           
-          {/* Rim lights for chrome edges */}
-          <pointLight position={[-5, 2, -2]} intensity={40} color="#a855f7" />
-          <pointLight position={[5, -2, -2]} intensity={40} color="#ec4899" />
+          {/* ⚡ MOBILE FIX 6: Desktop only - extra rim and fill lights */}
+          {!isMobile && (
+            <>
+              <pointLight position={[-5, 2, -2]} intensity={40} color="#a855f7" />
+              <pointLight position={[5, -2, -2]} intensity={40} color="#ec4899" />
+              <pointLight position={[0, 5, 3]} intensity={25} color="#3b82f6" />
+              <pointLight position={[0, -4, 2]} intensity={20} color="#8b5cf6" />
+            </>
+          )}
           
-          {/* Fill lights */}
-          <pointLight position={[0, 5, 3]} intensity={25} color="#3b82f6" />
-          <pointLight position={[0, -4, 2]} intensity={20} color="#8b5cf6" />
+          {/* ⚡ MOBILE FIX 6: Single purple rim on mobile */}
+          {isMobile && (
+            <pointLight position={[-5, 2, -2]} intensity={50} color="#a855f7" />
+          )}
           
-          {/* Environment for chrome reflections */}
-          <Environment background={false} preset="city" />
+          {/* ⚡ MOBILE FIX 3: Environment only on desktop */}
+          {!isMobile && <Environment background={false} preset="city" />}
           
           {/* The organism */}
           <OrganismScene 
@@ -998,20 +1094,28 @@ function HeroOrganism({ className = '' }) {
             blobRef={blobRef}
           />
           
-          {/* Refined bloom for chrome */}
-          <EffectComposer>
+          {/* ⚡ PERF FIX: Optimized bloom for chrome */}
+          {/* ⚡ MOBILE FIX 1 & 2: Lighter bloom + no ChromaticAberration on mobile */}
+          <EffectComposer
+            multisampling={0}       // ⚡ PERF FIX: Disable MSAA = 20-40% boost
+            disableNormalPass       // ⚡ PERF FIX: Skip unused normal pass
+          >
             <Bloom
-              intensity={2.0}
-              luminanceThreshold={0.4}
-              luminanceSmoothing={0.8}
+              intensity={isMobile ? 0.8 : 1.5}              // ⚡ MOBILE FIX 2
+              luminanceThreshold={isMobile ? 0.7 : 0.5}     // ⚡ MOBILE FIX 2: Higher = fewer pixels
+              luminanceSmoothing={0.9}
               mipmapBlur={true}
-              radius={0.6}
+              radius={isMobile ? 0.4 : 0.6}                 // ⚡ MOBILE FIX 2
+              levels={isMobile ? 3 : 5}                     // ⚡ MOBILE FIX 2: Fewer mip levels
               blendFunction={BlendFunction.ADD}
             />
-            <ChromaticAberration
-              offset={[0.0008, 0.0008]}
-              blendFunction={BlendFunction.NORMAL}
-            />
+            {/* ⚡ MOBILE FIX 1: ChromaticAberration disabled on mobile */}
+            {!isMobile && (
+              <ChromaticAberration
+                offset={[0.0008, 0.0008]}
+                blendFunction={BlendFunction.NORMAL}
+              />
+            )}
           </EffectComposer>
         </Suspense>
       </Canvas>

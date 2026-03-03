@@ -1333,6 +1333,46 @@
   }
 }
 
+/* Mobile Phone (<768px) - Prevent overflow */
+@media (max-width: 768px) {
+  .cs-hero {
+    padding: 80px 16px 24px;
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  .cs-hero-headline {
+    font-size: clamp(2.5rem, 10vw, 5rem);
+    word-break: break-word;
+  }
+
+  .cs-hero-description {
+    max-width: 100%;
+  }
+
+  .cs-gallery {
+    overflow: hidden;
+  }
+
+  .cs-gallery-card {
+    transform: scale(0.5) !important;
+  }
+
+  .cs-marquee-card {
+    width: 180px;
+    height: 360px;
+  }
+
+  .cs-cases {
+    padding: 30px 16px 40px;
+    overflow-x: hidden;
+  }
+
+  .cs-case-card {
+    height: 250px;
+  }
+}
+
 
 /* ======================== LOADING SKELETON ======================== */
 @keyframes cs-shimmer {
@@ -1349,4 +1389,359 @@
   );
   background-size: 200% 100%;
   animation: cs-shimmer 1.5s ease-in-out infinite;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOBILE RESPONSIVE STYLES (max-width: 768px)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+
+  /* ── GENERAL: Prevent horizontal overflow ── */
+  .cs-gallery,
+  .cs-marquee,
+  .cs-cases,
+  .cs-hero,
+  .cs-top-video {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  /* ── 1. HERO SECTION ── */
+  .cs-hero {
+    padding: 100px 20px 48px;
+  }
+
+  .cs-hero-headline {
+    font-size: clamp(2.2rem, 10vw, 3.5rem);
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+
+  .cs-hero-columns {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .cs-hero-col {
+    width: 100%;
+  }
+
+  .cs-hero-col-label {
+    font-size: 0.7rem;
+  }
+
+  .cs-hero-col-list {
+    font-size: 0.85rem;
+  }
+
+  .cs-hero-description {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .cs-hero-link {
+    margin-top: 16px;
+    display: inline-block;
+    font-size: 0.85rem;
+  }
+
+  .cs-hero-divider {
+    margin: 24px 0;
+  }
+
+  /* ── 2. VIDEO SHOWCASE ── */
+  .cs-top-video {
+    height: 60vh;
+    min-height: 300px;
+  }
+
+  .cs-top-video-inner {
+    border-radius: 16px !important;
+  }
+
+  .cs-top-video-footer {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 20px;
+  }
+
+  .cs-top-video-project-name {
+    font-size: 1rem;
+  }
+
+  .cs-top-video-corner-badge {
+    display: none;
+  }
+
+  .cs-top-video-cta {
+    font-size: 0.8rem;
+    padding: 8px 16px;
+  }
+
+  .cs-top-video-label {
+    font-size: 0.65rem;
+    padding: 6px 12px;
+  }
+
+  .cs-top-video-scroll {
+    display: none;
+  }
+
+  /* ── 3. GALLERY SECTION ── */
+  .cs-gallery {
+    height: 520px;
+    min-height: 500px;
+  }
+
+  .cs-gallery-container {
+    inset: 16px;
+  }
+
+  .cs-gallery-card {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .cs-card1-btn {
+    font-size: 0.75rem;
+    padding: 6px 14px;
+  }
+
+  .cs-card1-sub {
+    font-size: 0.65rem;
+  }
+
+  .cs-card-2 {
+    padding: 8px;
+  }
+
+  .cs-dot-grid {
+    gap: 1px;
+  }
+
+  .cs-dot-grid span {
+    width: 4px;
+    height: 4px;
+  }
+
+  .cs-card3-quote {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    padding: 12px;
+  }
+
+  .cs-card3-author {
+    font-size: 0.6rem;
+    padding: 0 12px 12px;
+  }
+
+  .cs-card-4 {
+    padding: 12px;
+  }
+
+  .cs-dot-logo span {
+    width: 8px;
+    height: 8px;
+  }
+
+  .cs-card5-inner {
+    padding: 12px;
+  }
+
+  .cs-card5-header {
+    font-size: 0.6rem;
+    gap: 4px;
+  }
+
+  .cs-card5-dot {
+    width: 5px;
+    height: 5px;
+  }
+
+  .cs-card5-bar {
+    border-radius: 3px 3px 0 0;
+  }
+
+  .cs-card5-footer {
+    font-size: 0.5rem;
+    padding-top: 6px;
+  }
+
+  .cs-card6-overlay {
+    font-size: 0.6rem;
+    padding: 10px;
+  }
+
+  /* ── 4. MARQUEE SECTION ── */
+  .cs-marquee {
+    padding: 60px 20px;
+    overflow: visible;
+    height: auto;
+    background: var(--cs-accent, #FF4D2E);
+  }
+
+  .cs-marquee-track {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transform: none !important;
+    width: 100%;
+  }
+
+  .cs-marquee-card {
+    width: 100% !important;
+    height: 280px;
+    flex-shrink: 0;
+  }
+
+  .cs-mc-label {
+    font-size: 0.65rem;
+  }
+
+  .cs-mc-headline {
+    font-size: 1.4rem;
+  }
+
+  .cs-mc-desc {
+    font-size: 0.85rem;
+  }
+
+  .cs-mc-stat-val {
+    font-size: 1.8rem;
+  }
+
+  .cs-mc-stat-label {
+    font-size: 0.6rem;
+  }
+
+  .cs-mc-quote-wrap {
+    padding: 24px;
+  }
+
+  .cs-mc-quote-wrap blockquote {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .cs-mc-quote-wrap cite {
+    font-size: 0.7rem;
+  }
+
+  .cs-mc-cta {
+    font-size: 0.8rem;
+    padding: 10px 20px;
+  }
+
+  .cs-mc-sphere {
+    width: 80px;
+    height: 80px;
+  }
+
+  .cs-mc-sphere-label {
+    font-size: 0.8rem;
+  }
+
+  .cs-mc-lock {
+    width: 50px;
+    height: 50px;
+  }
+
+  .cs-mc-security-title {
+    font-size: 1.1rem;
+  }
+
+  .cs-mc-security-sub {
+    font-size: 0.7rem;
+  }
+
+  .cs-mc-ring-outer {
+    width: 80px;
+    height: 80px;
+  }
+
+  .cs-mc-ring-inner {
+    font-size: 1.4rem;
+  }
+
+  .cs-mc-product-label {
+    font-size: 0.75rem;
+  }
+
+  /* ── 5. CASE STUDIES SECTION ── */
+  .cs-cases {
+    padding: 60px 20px;
+  }
+
+  .cs-cases-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .cs-cases-year {
+    font-size: 0.7rem;
+  }
+
+  .cs-cases-title {
+    font-size: clamp(2rem, 9vw, 3rem);
+  }
+
+  .cs-cases-divider {
+    margin: 24px 0;
+  }
+
+  .cs-cases-nav {
+    margin-top: 16px;
+    justify-content: flex-start;
+    gap: 12px;
+  }
+
+  .cs-cases-nav-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+  }
+
+  .cs-cases-cards {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .cs-case-card {
+    width: 100% !important;
+  }
+
+  .cs-card-browser {
+    height: 200px;
+  }
+
+  .cs-browser-dots span {
+    width: 8px;
+    height: 8px;
+  }
+
+  .cs-browser-content {
+    padding: 20px;
+  }
+
+  .cs-browser-content h3 {
+    font-size: 1.1rem;
+  }
+
+  .cs-browser-content p {
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .cs-card-name-pill {
+    font-size: 0.7rem;
+    padding: 8px 16px;
+  }
+
+  /* ── 6. SKELETON LOADERS ── */
+  .cs-skeleton {
+    height: 60px !important;
+  }
 }

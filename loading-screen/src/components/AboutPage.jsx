@@ -491,7 +491,7 @@ function AboutPage() {
 
           {/* ==================== PART 1: HERO HEADER ==================== */}
           <section className="ap-hero" ref={heroRef} data-cursor-theme="dark">
-            {/* Tiled background */}}
+            {/* Tiled background */}
             <div className="ap-hero-bg" ref={heroBgRef}></div>
             
             {/* Bottom-left content */}

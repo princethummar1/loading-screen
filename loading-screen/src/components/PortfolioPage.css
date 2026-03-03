@@ -447,3 +447,42 @@
     font-size: clamp(1.8rem, 8vw, 2.5rem);
   }
 }
+
+/* Mobile Phone (<768px) - Prevent overflow */
+@media (max-width: 768px) {
+  .pp-hero,
+  .pp-case-studies,
+  .pp-working-with {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  .pp-hero {
+    padding: 0 4vw 4vw;
+  }
+
+  .pp-case-studies {
+    padding: 0 4vw 4vw;
+  }
+
+  .pp-working-with {
+    padding: 6vw 4vw;
+  }
+
+  .pp-hero-heading {
+    font-size: clamp(2.5rem, 12vw, 4rem);
+    word-break: break-word;
+  }
+
+  .pp-project-name {
+    font-size: 1.2rem;
+  }
+
+  .pp-project-description {
+    font-size: 0.95rem;
+  }
+
+  .pp-testimonial-quote {
+    font-size: 1rem;
+  }
+}

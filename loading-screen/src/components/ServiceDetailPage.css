@@ -703,19 +703,47 @@
 }
 
 @media (max-width: 768px) {
+  /* Prevent horizontal overflow */
+  .service-detail-page {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  .sdp-hero {
+    overflow-x: hidden;
+  }
+
   .sdp-hero-heading {
     font-size: clamp(2.5rem, 12vw, 5rem);
+    word-break: break-word;
   }
-  
+
+  .sdp-hero-content {
+    padding: 0 4vw 4vw;
+  }
+
+  .sdp-statement,
+  .sdp-vision,
+  .sdp-approach,
+  .sdp-services-grid,
+  .sdp-working-with {
+    padding: 6vw 4vw;
+    overflow-x: hidden;
+  }
+
   .sdp-services-cards {
     grid-template-columns: 1fr;
   }
-  
+
   .sdp-service-card--empty {
     display: none;
   }
-  
+
   .sdp-scroll-progress {
     top: 55px;
+  }
+
+  .sdp-statement-text {
+    font-size: clamp(1.1rem, 4vw, 1.5rem);
   }
 }

@@ -420,3 +420,52 @@
     width: 200px;
   }
 }
+
+/* Mobile Phone (<768px) - Prevent overflow */
+@media (max-width: 768px) {
+  .contact-page {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  .contact-container {
+    padding: 4vw 4vw;
+  }
+
+  .contact-heading {
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+  }
+
+  .contact-form {
+    gap: 24px;
+  }
+
+  .form-row {
+    gap: 24px;
+  }
+
+  .faq-question {
+    font-size: 0.9rem;
+    padding: 14px 0;
+  }
+
+  .faq-question-text {
+    padding-right: 12px;
+  }
+
+  .contact-social-row {
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  .contact-social-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .submit-underline {
+    width: 100%;
+    max-width: 180px;
+  }
+}

@@ -30,6 +30,7 @@ input, textarea, [contenteditable="true"] {
 html, body, #root {
   min-height: 100%;
   width: 100%;
+  max-width: 100vw;
   cursor: none !important;
   background: transparent;
 }
@@ -39,6 +40,10 @@ html {
   /* Hide native scrollbar — replaced by CustomScrollbar component */
   scrollbar-width: none;       /* Firefox */
   -ms-overflow-style: none;   /* IE / Edge */
+}
+
+body {
+  overflow-x: hidden;
 }
 
 html::-webkit-scrollbar {
