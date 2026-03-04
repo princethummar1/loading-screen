@@ -170,25 +170,31 @@ function ServiceDetailPage() {
     gsap.ticker.lagSmoothing(0)
 
     // Parallax and rotation effects via Lenis
+    const isMobile = window.innerWidth <= 992
     const handleLenisScroll = ({ scroll }) => {
       // Hero background parallax (slower than main scroll)
       if (heroBgRef.current) {
         gsap.set(heroBgRef.current, { y: scroll * 0.4 })
       }
 
-      // Vision image parallax
-      if (visionImageRef.current) {
-        gsap.set(visionImageRef.current, { y: scroll * -0.15 })
+      // Vision image parallax — use viewport-relative offset instead of absolute scroll
+      if (!isMobile && visionImageRef.current) {
+        const rect = visionImageRef.current.getBoundingClientRect()
+        const viewportCenter = window.innerHeight / 2
+        const offset = (rect.top + rect.height / 2 - viewportCenter) / viewportCenter
+        gsap.set(visionImageRef.current, { y: offset * -40 }) // Subtle parallax ±40px
       }
 
-      // Vision image rotation parallax
-      const visionImageEl = visionImageRef.current?.querySelector('.sdp-vision-image')
-      if (visionImageEl) {
-        const rect = visionImageRef.current.getBoundingClientRect()
-        const centerY = rect.top + rect.height / 2
-        const viewportCenter = window.innerHeight / 2
-        const offset = (centerY - viewportCenter) / viewportCenter
-        gsap.set(visionImageEl, { rotation: offset * 3 }) // Subtle rotation ±3deg
+      // Vision image rotation parallax — disabled on mobile
+      if (!isMobile) {
+        const visionImageEl = visionImageRef.current?.querySelector('.sdp-vision-image')
+        if (visionImageEl) {
+          const rect = visionImageRef.current.getBoundingClientRect()
+          const centerY = rect.top + rect.height / 2
+          const viewportCenter = window.innerHeight / 2
+          const offset = (centerY - viewportCenter) / viewportCenter
+          gsap.set(visionImageEl, { rotation: offset * 3 }) // Subtle rotation ±3deg
+        }
       }
     }
     lenis.on('scroll', handleLenisScroll)
@@ -362,27 +368,52 @@ function ServiceDetailPage() {
       // Vision quote word opacity effect
       if (visionQuoteWordRefs.current.length > 0) {
         const words = visionQuoteWordRefs.current.filter(Boolean)
-        const halfLength = Math.floor(words.length / 2)
+        const isMobileView = window.innerWidth <= 992
         
-        words.forEach((word, i) => {
-          if (word) {
-            const startOpacity = i < halfLength ? 1 : 0.15
-            word.style.opacity = startOpacity
-            
-            if (i >= halfLength) {
-              gsap.to(word, {
+        // Set all words to ghost state initially
+        gsap.set(words, { opacity: 0.08, y: 4, color: '#999' })
+        
+        if (isMobileView) {
+          // On mobile, reveal all words together with a simple stagger
+          ScrollTrigger.create({
+            trigger: words[0]?.parentElement,
+            start: 'top 85%',
+            once: true,
+            onEnter: () => {
+              gsap.to(words, {
                 opacity: 1,
-                ease: 'none',
-                scrollTrigger: {
-                  trigger: word.parentElement,
-                  start: `top ${75 - ((i - halfLength) * 2)}%`,
-                  end: `top ${45 - ((i - halfLength) * 2)}%`,
-                  scrub: 1.5
-                }
+                y: 0,
+                color: '#0a0a0a',
+                duration: 0.4,
+                stagger: 0.02,
+                ease: 'power2.out'
               })
             }
-          }
-        })
+          })
+        } else {
+          // Desktop: staggered trigger points across scroll distance
+          const scrollRange = 60
+          const stepSize = scrollRange / words.length
+          
+          words.forEach((word, i) => {
+            const startPoint = 80 - (i * stepSize)
+            
+            ScrollTrigger.create({
+              trigger: word.parentElement,
+              start: `top ${startPoint}%`,
+              once: true,
+              onEnter: () => {
+                gsap.to(word, {
+                  opacity: 1,
+                  y: 0,
+                  color: '#0a0a0a',
+                  duration: 0.3,
+                  ease: 'power2.out'
+                })
+              }
+            })
+          })
+        }
       }
 
       // Vision paragraphs clip-path wipe-up reveal
@@ -586,6 +617,85 @@ function ServiceDetailPage() {
         }
       })
 
+      // Service card hover effects (desktop only)
+      const createdBorderAccents = []
+      if (window.innerWidth > 768) {
+        serviceCardRefs.current.forEach((card) => {
+          if (!card || card.classList.contains('sdp-service-card--empty')) return
+
+          const title = card.querySelector('.sdp-service-card-title')
+          const divider = card.querySelector('.sdp-service-card-divider')
+
+          // Create border accent element
+          const borderAccent = document.createElement('div')
+          borderAccent.className = 'sdp-card-border-accent'
+          card.appendChild(borderAccent)
+          createdBorderAccents.push(borderAccent)
+
+          const onEnter = () => {
+            // Border slides up
+            gsap.to(borderAccent, {
+              scaleY: 1,
+              duration: 0.35,
+              ease: 'power2.out',
+              overwrite: true
+            })
+            // Title shifts right
+            if (title) {
+              gsap.to(title, {
+                x: 10,
+                duration: 0.3,
+                ease: 'power2.out',
+                overwrite: true
+              })
+            }
+            // Divider color flash
+            if (divider) {
+              gsap.to(divider, {
+                backgroundColor: '#6d28d9',
+                duration: 0.2,
+                ease: 'power2.out',
+                overwrite: true,
+                onComplete: () => {
+                  gsap.to(divider, {
+                    backgroundColor: '#ebebeb',
+                    duration: 0.4,
+                    ease: 'power2.inOut'
+                  })
+                }
+              })
+            }
+          }
+
+          const onLeave = () => {
+            // Border slides back down
+            gsap.to(borderAccent, {
+              scaleY: 0,
+              duration: 0.3,
+              ease: 'power2.inOut',
+              overwrite: true
+            })
+            // Title returns
+            if (title) {
+              gsap.to(title, {
+                x: 0,
+                duration: 0.3,
+                ease: 'power2.out',
+                overwrite: true
+              })
+            }
+          }
+
+          card.addEventListener('mouseenter', onEnter, { passive: true })
+          card.addEventListener('mouseleave', onLeave, { passive: true })
+        })
+      }
+
+      // Store cleanup for border accents
+      const cleanupBorderAccents = () => {
+        createdBorderAccents.forEach(el => el?.remove())
+      }
+
       // ==================== PART 6: WORKING WITH KYUREX ANIMATIONS ====================
       // Section heading
       gsap.fromTo(workingHeadingRef.current,
@@ -657,6 +767,8 @@ function ServiceDetailPage() {
 
     return () => {
       ctx.revert()
+      // Cleanup border accent elements
+      document.querySelectorAll('.sdp-card-border-accent').forEach(el => el.remove())
     }
   }, [service, loading]) // Re-run animations when service data updates from API
 

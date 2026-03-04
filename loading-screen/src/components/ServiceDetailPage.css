@@ -239,26 +239,38 @@
   font-weight: 300;
   color: #0a0a0a;
   line-height: 1.6;
-  max-width: 900px;
-  margin: 0 auto 60px;
-  text-align: center;
+  max-width: 100%;
+  margin: 0 0 80px;
+  text-align: left;
+  border-left: 3px solid #6d28d9;
+  padding-left: 32px;
+}
+
+.sdp-vision-quote .sdp-word {
+  color: #999;
+  transition: color 0.4s ease, opacity 0.3s ease;
+  display: inline-block;
+  margin-right: 0.3em;
 }
 
 .sdp-vision-grid {
   display: grid;
-  grid-template-columns: 25% 37.5% 37.5%;
-  gap: 2.5vw;
+  grid-template-columns: 35% 32.5% 32.5%;
+  gap: 3vw;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 48px;
 }
 
 .sdp-vision-image-col {
   position: relative;
+  overflow: hidden;
 }
 
 .sdp-vision-image-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 3/4;
-  border-radius: 12px;
+  aspect-ratio: 4/5;
+  border-radius: 8px;
   overflow: hidden;
   will-change: transform;
 }
@@ -282,6 +294,7 @@
 .sdp-vision-para-col {
   display: flex;
   align-items: flex-start;
+  padding-top: 8px;
 }
 
 .sdp-vision-para {
@@ -419,7 +432,29 @@
 }
 
 .sdp-service-card {
-  padding: 32px 24px 32px 0;
+  padding: 32px 24px 32px 24px;
+  position: relative;
+  overflow: hidden;
+  cursor: none;
+  transition: background 0.3s ease, padding-left 0.3s ease;
+}
+
+.sdp-service-card:hover {
+  background: #fafafa;
+  padding-left: 32px;
+}
+
+.sdp-card-border-accent {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #6d28d9;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .sdp-service-card--empty {
@@ -431,6 +466,8 @@
   font-weight: 600;
   color: #0a0a0a;
   margin: 0 0 12px;
+  display: inline-block;
+  will-change: transform;
 }
 
 .sdp-service-card-desc {
@@ -645,7 +682,15 @@
   }
   
   .sdp-vision-image-col {
-    max-width: 300px;
+    max-width: 100%;
+  }
+
+  .sdp-vision-image-wrapper {
+    aspect-ratio: 16/9;
+  }
+
+  .sdp-vision-quote {
+    margin-bottom: 48px;
   }
   
   .sdp-approach {
@@ -714,7 +759,7 @@
   }
 
   .sdp-hero-heading {
-    font-size: clamp(2.5rem, 12vw, 5rem);
+    font-size: clamp(2.5rem, 10vw, 5rem);
     word-break: break-word;
   }
 
@@ -745,5 +790,22 @@
 
   .sdp-statement-text {
     font-size: clamp(1.1rem, 4vw, 1.5rem);
+  }
+
+  .sdp-vision-quote {
+    border-left: 2px solid #6d28d9;
+    padding-left: 20px;
+    font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+    margin-bottom: 40px;
+  }
+
+  .sdp-vision-grid {
+    padding-top: 32px;
+    gap: 24px;
+  }
+
+  .sdp-service-card:hover {
+    background: transparent;
+    padding-left: 24px;
   }
 }
