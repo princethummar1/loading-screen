@@ -103,7 +103,7 @@
   position: relative;
   width: 100%;
   height: 100vh;
-  background: #8a9ba8;
+  background: var(--cs-accent, #FF4D2E);
   overflow: hidden;
 }
 
@@ -258,8 +258,8 @@
 
 /* Card 5 — Center dark UI (main card) */
 .cs-card-5 {
-  width: 440px;
-  height: 280px;
+  width: 520px;
+  height: 340px;
   background: #111720;
   z-index: 10;
 }
@@ -364,16 +364,35 @@
   height: 100vh;
   background: var(--cs-accent, #FF4D2E);
   overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
 .cs-marquee-track {
-  position: absolute;
-  top: 50%;
-  left: 40px;
-  transform: translateY(-50%);
+  display: flex;
+  width: max-content;
+  animation: cs-marquee-scroll 30s linear infinite;
+  will-change: transform;
+}
+
+.cs-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.cs-marquee-set {
   display: flex;
   gap: 24px;
-  will-change: transform;
+  padding-right: 24px;
+  flex-shrink: 0;
+}
+
+@keyframes cs-marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .cs-marquee-card {
@@ -1309,15 +1328,6 @@
     gap: 24px;
   }
 
-  .cs-gallery-card {
-    transform: scale(0.7) !important;
-  }
-
-  .cs-marquee-card {
-    width: 240px;
-    height: 480px;
-  }
-
   .cs-cases {
     padding: 40px 20px 60px;
   }
@@ -1352,15 +1362,6 @@
 
   .cs-gallery {
     overflow: hidden;
-  }
-
-  .cs-gallery-card {
-    transform: scale(0.5) !important;
-  }
-
-  .cs-marquee-card {
-    width: 180px;
-    height: 360px;
   }
 
   .cs-cases {
@@ -1400,7 +1401,6 @@
 
   /* ── GENERAL: Prevent horizontal overflow ── */
   .cs-gallery,
-  .cs-marquee,
   .cs-cases,
   .cs-hero,
   .cs-top-video {
@@ -1489,184 +1489,144 @@
     display: none;
   }
 
-  /* ── 3. GALLERY SECTION ── */
+  /* ── 3. GALLERY SECTION — Mobile Grid Layout ── */
   .cs-gallery {
-    height: 520px;
-    min-height: 500px;
+    height: auto;
+    min-height: unset;
+    padding: 24px 16px;
+    overflow: visible;
   }
 
   .cs-gallery-container {
-    inset: 16px;
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    height: auto;
+    perspective: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
 
   .cs-gallery-card {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    transform: none !important;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
   }
 
-  .cs-card1-btn {
-    font-size: 0.75rem;
-    padding: 6px 14px;
-  }
-
-  .cs-card1-sub {
-    font-size: 0.65rem;
+  /* Card sizing within grid */
+  .cs-card-1 {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 120px;
+    aspect-ratio: auto;
   }
 
   .cs-card-2 {
-    padding: 8px;
-  }
-
-  .cs-dot-grid {
-    gap: 1px;
-  }
-
-  .cs-dot-grid span {
-    width: 4px;
-    height: 4px;
-  }
-
-  .cs-card3-quote {
-    font-size: 0.75rem;
-    line-height: 1.4;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 140px;
     padding: 12px;
   }
 
-  .cs-card3-author {
-    font-size: 0.6rem;
-    padding: 0 12px 12px;
+  .cs-card-3 {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 160px;
+    padding: 20px;
   }
 
   .cs-card-4 {
-    padding: 12px;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 120px;
+    padding: 16px;
   }
 
-  .cs-dot-logo span {
-    width: 8px;
-    height: 8px;
+  /* Card 5 (main dashboard) spans full width */
+  .cs-card-5 {
+    grid-column: 1 / -1;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 200px;
   }
 
-  .cs-card5-inner {
-    padding: 12px;
+  /* Hide cards 6 and 7 on mobile */
+  .cs-card-6,
+  .cs-card-7 {
+    display: none !important;
   }
 
-  .cs-card5-header {
-    font-size: 0.6rem;
-    gap: 4px;
+  .cs-card1-btn {
+    font-size: 0.8rem;
+    padding: 8px 18px;
   }
 
-  .cs-card5-dot {
+  .cs-card1-sub {
+    font-size: 0.7rem;
+  }
+
+  .cs-dot-grid {
+    gap: 2px;
+  }
+
+  .cs-dot-grid span {
     width: 5px;
     height: 5px;
   }
 
+  .cs-card3-quote {
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .cs-card3-author {
+    font-size: 0.65rem;
+  }
+
+  .cs-dot-logo span {
+    width: 10px;
+    height: 10px;
+  }
+
+  .cs-card5-inner {
+    padding: 16px;
+  }
+
+  .cs-card5-header {
+    font-size: 0.65rem;
+    gap: 6px;
+  }
+
+  .cs-card5-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .cs-card5-bars {
+    min-height: 100px;
+  }
+
   .cs-card5-bar {
-    border-radius: 3px 3px 0 0;
+    border-radius: 4px 4px 0 0;
   }
 
   .cs-card5-footer {
-    font-size: 0.5rem;
-    padding-top: 6px;
+    font-size: 0.55rem;
+    padding-top: 8px;
   }
 
   .cs-card6-overlay {
     font-size: 0.6rem;
     padding: 10px;
-  }
-
-  /* ── 4. MARQUEE SECTION ── */
-  .cs-marquee {
-    padding: 60px 20px;
-    overflow: visible;
-    height: auto;
-    background: var(--cs-accent, #FF4D2E);
-  }
-
-  .cs-marquee-track {
-    position: static;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    transform: none !important;
-    width: 100%;
-  }
-
-  .cs-marquee-card {
-    width: 100% !important;
-    height: 280px;
-    flex-shrink: 0;
-  }
-
-  .cs-mc-label {
-    font-size: 0.65rem;
-  }
-
-  .cs-mc-headline {
-    font-size: 1.4rem;
-  }
-
-  .cs-mc-desc {
-    font-size: 0.85rem;
-  }
-
-  .cs-mc-stat-val {
-    font-size: 1.8rem;
-  }
-
-  .cs-mc-stat-label {
-    font-size: 0.6rem;
-  }
-
-  .cs-mc-quote-wrap {
-    padding: 24px;
-  }
-
-  .cs-mc-quote-wrap blockquote {
-    font-size: 0.9rem;
-    line-height: 1.6;
-  }
-
-  .cs-mc-quote-wrap cite {
-    font-size: 0.7rem;
-  }
-
-  .cs-mc-cta {
-    font-size: 0.8rem;
-    padding: 10px 20px;
-  }
-
-  .cs-mc-sphere {
-    width: 80px;
-    height: 80px;
-  }
-
-  .cs-mc-sphere-label {
-    font-size: 0.8rem;
-  }
-
-  .cs-mc-lock {
-    width: 50px;
-    height: 50px;
-  }
-
-  .cs-mc-security-title {
-    font-size: 1.1rem;
-  }
-
-  .cs-mc-security-sub {
-    font-size: 0.7rem;
-  }
-
-  .cs-mc-ring-outer {
-    width: 80px;
-    height: 80px;
-  }
-
-  .cs-mc-ring-inner {
-    font-size: 1.4rem;
-  }
-
-  .cs-mc-product-label {
-    font-size: 0.75rem;
   }
 
   /* ── 5. CASE STUDIES SECTION ── */
@@ -1740,8 +1700,469 @@
     padding: 8px 16px;
   }
 
+  /* ── 4. MARQUEE SECTION — Auto-scroll marquee ── */
+  .cs-marquee {
+    height: auto;
+    min-height: unset;
+    padding: 40px 0;
+  }
+
+  .cs-marquee-track {
+    animation-duration: 20s;
+  }
+
+  .cs-marquee-set {
+    gap: 16px;
+    padding-right: 16px;
+  }
+
+  .cs-marquee-card {
+    width: 240px;
+    min-width: 240px;
+    height: 420px;
+  }
+
+  .cs-marquee-card:hover {
+    transform: none;
+  }
+
   /* ── 6. SKELETON LOADERS ── */
   .cs-skeleton {
     height: 60px !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION A — FULL BLEED IMAGES
+   ══════════════════════════════════════════════════════════════ */
+.cs-fullbleed-section {
+  width: 100%;
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.cs-fullbleed-wrapper {
+  width: 100%;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+}
+
+.cs-fullbleed-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  object-fit: cover;
+  display: block;
+  padding: 2rem 2.5rem;
+  will-change: transform;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION B — OUTCOME
+   ══════════════════════════════════════════════════════════════ */
+.cs-outcome-section {
+  width: 100%;
+  padding: 120px 60px;
+  color: #fff;
+}
+
+.cs-outcome-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  gap: 60px;
+  align-items: flex-start;
+}
+
+.cs-outcome-left {
+  flex: 0 0 55%;
+  display: flex;
+  flex-direction: column;
+}
+
+.cs-outcome-right {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+/* Top row */
+.cs-outcome-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.cs-outcome-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.cs-outcome-link {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.3s;
+}
+
+.cs-outcome-link:hover {
+  opacity: 0.7;
+}
+
+.cs-outcome-link-arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+/* Divider */
+.cs-outcome-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  margin-bottom: 32px;
+}
+
+/* Description */
+.cs-outcome-description {
+  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.cs-outcome-word {
+  display: inline-block;
+}
+
+/* Image */
+.cs-outcome-image-wrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.cs-outcome-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
+.cs-outcome-image-curtain {
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  transform-origin: top center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ── MOBILE RESPONSIVE — FULL BLEED + OUTCOME ── */
+@media (max-width: 768px) {
+  .cs-fullbleed-wrapper {
+    aspect-ratio: 4 / 3;
+  }
+
+  .cs-outcome-section {
+    padding: 60px 20px;
+  }
+
+  .cs-outcome-inner {
+    flex-direction: column-reverse;
+    gap: 40px;
+  }
+
+  .cs-outcome-left {
+    flex: none;
+    width: 100%;
+  }
+
+  .cs-outcome-right {
+    flex: none;
+    width: 100%;
+  }
+
+  .cs-outcome-top-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .cs-outcome-description {
+    font-size: 1.3rem;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CONTENT BLOCKS
+   ══════════════════════════════════════════════════════════════ */
+
+.cs-content-blocks {
+  width: 100%;
+}
+
+.cs-block {
+  width: 100%;
+  padding: 100px 60px;
+  overflow: hidden;
+}
+
+.cs-block-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ── Split layouts (text-image / image-text) ── */
+.cs-block-inner--split {
+  display: grid;
+  gap: 60px;
+  align-items: center;
+}
+
+.cs-block-text-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cs-block-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  font-weight: 500;
+}
+
+.cs-block-divider {
+  width: 60px;
+  height: 2px;
+  background: currentColor;
+  opacity: 0.3;
+}
+
+.cs-block-heading {
+  line-height: 1.1;
+  font-weight: 700;
+  overflow: hidden;
+}
+
+.cs-block-word {
+  display: inline-block;
+  margin-right: 0.3em;
+}
+
+.cs-block-body {
+  font-size: 1.1rem;
+  line-height: 1.75;
+  opacity: 0.8;
+  max-width: 600px;
+}
+
+/* ── Image column ── */
+.cs-block-image-col {
+  position: relative;
+  width: 100%;
+}
+
+.cs-block-image-wrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+}
+
+.cs-block-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cs-block-image--contain {
+  object-fit: contain;
+}
+
+.cs-block-image-curtain {
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  z-index: 2;
+  transform-origin: top center;
+}
+
+/* ── Full-width text ── */
+.cs-block--text-full .cs-block-inner {
+  max-width: 900px;
+  text-align: center;
+}
+
+.cs-block--text-full .cs-block-label {
+  display: block;
+}
+
+.cs-block--text-full .cs-block-divider {
+  margin: 0 auto;
+}
+
+.cs-block--text-full .cs-block-body {
+  max-width: none;
+  margin: 0 auto;
+}
+
+/* ── Full-width image ── */
+.cs-block--image-full {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.cs-block-fullimage-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
+}
+
+.cs-block-fullimage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cs-block-fullimage--contain {
+  object-fit: contain;
+}
+
+/* ── Quote ── */
+.cs-block--quote .cs-block-inner {
+  max-width: 900px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.cs-block-quote-mark {
+  font-size: 8rem;
+  line-height: 0.5;
+  opacity: 0.15;
+  font-family: Georgia, serif;
+  user-select: none;
+}
+
+.cs-block-quote-text {
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  line-height: 1.6;
+  font-style: italic;
+  font-weight: 300;
+}
+
+.cs-block-quote-author {
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  font-weight: 500;
+}
+
+/* ── Stats ── */
+.cs-block--stats .cs-block-inner {
+  max-width: 1200px;
+  text-align: center;
+}
+
+.cs-block-stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+
+.cs-block-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 150px;
+}
+
+.cs-block-stat-value {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.cs-block-stat-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  font-weight: 500;
+}
+
+/* ═══════════════ CONTENT BLOCKS — MOBILE ═══════════════ */
+@media (max-width: 768px) {
+  .cs-block {
+    padding: 60px 20px;
+  }
+
+  .cs-block-inner--split {
+    grid-template-columns: 1fr !important;
+    gap: 30px;
+  }
+
+  /* On mobile, image always comes first visually */
+  .cs-block--text-image-right .cs-block-image-col,
+  .cs-block--image-text-right .cs-block-image-col {
+    order: -1;
+  }
+
+  .cs-block-body {
+    font-size: 1rem;
+  }
+
+  .cs-block-image-wrapper {
+    aspect-ratio: 3 / 2;
+  }
+
+  .cs-block-fullimage-wrapper {
+    aspect-ratio: 16 / 9;
+  }
+
+  .cs-block-quote-mark {
+    font-size: 5rem;
+  }
+
+  .cs-block-quote-text {
+    font-size: 1.2rem;
+  }
+
+  .cs-block-stats-row {
+    gap: 30px;
+  }
+
+  .cs-block-stat {
+    min-width: 120px;
+  }
+
+  .cs-block-stat-value {
+    font-size: 2rem;
   }
 }

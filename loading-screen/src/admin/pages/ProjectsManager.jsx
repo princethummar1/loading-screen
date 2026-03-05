@@ -57,7 +57,7 @@ function SortableRow({ project, onEdit, onDelete, onToggleVisibility, onToggleFe
               color: project.type === 'case-study' ? '#FF4D2E' : '#a78bfa',
               whiteSpace: 'nowrap',
             }}>
-              {project.type === 'case-study' ? 'Case Study' : 'Project'}
+              {project.type === 'case-study' ? 'Selected Work' : 'Project'}
             </span>
           </div>
           <span style={{ fontSize: '0.75rem', color: '#666' }}>{project.industry}</span>

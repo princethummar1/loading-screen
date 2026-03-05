@@ -68,6 +68,20 @@ function CaseStudy() {
   const marqueeRef = useRef(null)
   const marqueeTrackRef = useRef(null)
 
+  // Full Bleed Images
+  const fullBleedSectionRef = useRef(null)
+  const fullBleedImagesRef = useRef([])
+
+  // Outcome
+  const outcomeSectionRef = useRef(null)
+  const outcomeLabelRef = useRef(null)
+  const outcomeDividerRef = useRef(null)
+  const outcomeTextRef = useRef(null)
+  const outcomeLinkRef = useRef(null)
+  const outcomeLinkArrowRef = useRef(null)
+  const outcomeImageRef = useRef(null)
+  const outcomeImageCurtainRef = useRef(null)
+
   // Video showcase
   const videoSectionRef = useRef(null)
   const videoInnerRef = useRef(null)
@@ -79,6 +93,9 @@ function CaseStudy() {
   // Cases
   const casesRef = useRef(null)
   const casesTitleRef = useRef(null)
+
+  // Content Blocks
+  const blockRefs = useRef([])
 
   // ──────────────────────────────────────────────
   // FETCH DATA FROM API
@@ -136,7 +153,7 @@ function CaseStudy() {
   // ──────────────────────────────────────────────
   useEffect(() => {
     if (data) {
-      document.title = data.metaTitle || `${data.name} — Case Study`
+      document.title = data.metaTitle || `${data.name} — Selected Work`
       // Set meta description
       let metaDesc = document.querySelector('meta[name="description"]')
       if (!metaDesc) {
@@ -268,144 +285,336 @@ function CaseStudy() {
           const isMobile = window.innerWidth < 768
 
           if (isMobile) {
-            // ── MOBILE: Simple 2-col grid, fade in ──
-            
-            // Show only first 5 cards on mobile (hide 5,6)
-            gsap.set(cards[5], { display: 'none' })
-            gsap.set(cards[6], { display: 'none' })
+            // ── MOBILE: CSS grid handles layout, no animation ──
+            // Cards 6 & 7 hidden via CSS, no GSAP needed
 
-            const mobileLayout = [
-              { top: '2%',  left: '1%',  width: '48%', height: '31%' }, // card 0
-              { top: '2%',  left: '51%', width: '48%', height: '31%' }, // card 1
-              { top: '35%', left: '1%',  width: '48%', height: '31%' }, // card 2
-              { top: '35%', left: '51%', width: '48%', height: '31%' }, // card 3
-              { top: '68%', left: '1%',  width: '98%', height: '30%' }, // card 4 — full width
+          } else {
+            // ── DESKTOP: Scroll-reveal gallery (CodePen "let's scroll" style) ──
+            // Center card starts covering the viewport like a fullscreen hero.
+            // Scrolling shrinks it to bento-grid size while surrounding cards
+            // scale up from 0 in two staggered layers.
+
+            const positions = [
+              // Top row
+              { top: '6%',   left: '4%' },                                            // card 0 — accent CTA
+              { top: '4%',   left: '28%' },                                           // card 1 — dot grid
+              { top: '4%',   right: '4%' },                                           // card 2 — white quote
+              // Middle
+              { top: '38%',  left: '3%' },                                            // card 3 — dot logo
+              { top: '50%',  left: '50%', xPercent: -50, yPercent: -50, zIndex: 10 }, // card 4 — center (scaler)
+              // Bottom row
+              { bottom: '8%', left: '4%' },                                           // card 5 — image
+              { bottom: '6%', right: '4%' },                                          // card 6 — stripes
             ]
 
-            mobileLayout.forEach((pos, i) => {
-              if (!cards[i]) return
-              gsap.set(cards[i], {
+            // Place outer cards at final bento positions, initially invisible
+            cards.forEach((card, i) => {
+              if (!card || i === 4) return
+              gsap.set(card, {
+                ...positions[i],
                 position: 'absolute',
-                ...pos,
-                borderRadius: '12px',
-                overflow: 'hidden',
-                right: 'auto',
-                bottom: 'auto',
-                rotateX: 0,
-                rotateY: 0,
-                scale: 1,
+                opacity: 0,
+                scale: 0,
               })
             })
 
-            // Simple fade + slide up on scroll
-            gsap.from(cards.slice(0, 5).filter(Boolean), {
-              opacity: 0,
-              y: 40,
-              stagger: 0.08,
-              duration: 0.7,
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: galleryRef.current,
-                start: 'top 75%',
-                once: true,
-              }
-            })
-
-          } else {
-            // ── DESKTOP: existing cinematic zoom animation ──
-            const positions = [
-              { top: '5%',  left: '25%', rotateX: 0, rotateY: 8,   scale: 0.85 },
-              { top: '5%',  right: '8%', rotateX: -5, rotateY: 0,  scale: 0.85 },
-              { top: '8%',  right: '-2%', rotateX: 0, rotateY: 8,  scale: 0.85 },
-              { top: '35%', left: '2%',  rotateX: -5, rotateY: 0,  scale: 0.85 },
-              { top: '22%', left: '28%', rotateX: 0, rotateY: 0,   scale: 1.15 },
-              { bottom: '5%', left: '28%', rotateX: 0, rotateY: -6, scale: 0.85 },
-              { bottom: '5%', left: '48%', rotateX: 0, rotateY: -6, scale: 0.85 },
-            ]
-
-            cards.forEach((card, i) => {
-              if (!card) return
-              gsap.set(card, { ...positions[i], position: 'absolute' })
-            })
+            // Center card starts covering the entire section
+            if (cards[4]) {
+              gsap.set(cards[4], {
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                xPercent: -50,
+                yPercent: -50,
+                width: window.innerWidth,
+                height: window.innerHeight,
+                borderRadius: 0,
+                zIndex: 100,
+                opacity: 1,
+              })
+            }
 
             const tl = gsap.timeline({
               scrollTrigger: {
                 trigger: galleryRef.current,
                 start: 'top top',
-                end: '+=300%',
+                end: '+=250%',
                 pin: true,
                 scrub: 1.5,
                 anticipatePin: 1,
               }
             })
 
-            const outerCards = cards.filter((_, i) => i !== 4)
-
-            outerCards.forEach(card => {
-              if (!card) return
-              tl.to(card, { rotateX: 0, rotateY: 0, scale: 1, duration: 0.4, ease: 'power2.inOut' }, 0)
-            })
-            if (cards[4]) tl.to(cards[4], { scale: 1.0, duration: 0.4 }, 0)
-
+            // ── SCALER: center card shrinks from fullscreen to card size ──
             if (cards[4]) {
-              tl.to(cards[4], { scale: 1.8, z: 200, boxShadow: '0 30px 100px rgba(0,0,0,0.5)', duration: 0.3, ease: 'power2.in' }, 0.4)
+              // Width & height animate at different rates (organic feel)
+              tl.to(cards[4], { width: 520, duration: 0.55, ease: 'power2.inOut' }, 0)
+              tl.to(cards[4], { height: 340, duration: 0.55, ease: 'power1.inOut' }, 0)
+              tl.to(cards[4], { borderRadius: 16, zIndex: 10, duration: 0.35, ease: 'power1.out' }, 0.08)
             }
-            outerCards.forEach(card => {
-              if (!card) return
-              tl.to(card, { scale: 0.6, opacity: 0.4, duration: 0.3 }, 0.4)
+
+            // ── LAYERS: Outer cards appear as center card shrinks ──
+            // Inner layer (closest to center) — cards 1, 3
+            const innerLayer = [cards[1], cards[3]].filter(Boolean)
+            innerLayer.forEach((card, idx) => {
+              tl.to(card, {
+                opacity: 1,
+                scale: 1,
+                duration: 0.3,
+                ease: 'power3.out',
+              }, 0.28 + idx * 0.04)
             })
 
-            if (cards[4]) {
-              tl.to(cards[4], { scale: 4, z: 400, opacity: 0, duration: 0.3, ease: 'power2.in' }, 0.7)
-            }
-            outerCards.forEach(card => {
-              if (!card) return
-              tl.to(card, { opacity: 0, scale: 0.3, duration: 0.3 }, 0.7)
+            // Outer layer — cards 0, 2, 5, 6
+            const outerLayer = [cards[0], cards[2], cards[5], cards[6]].filter(Boolean)
+            outerLayer.forEach((card, idx) => {
+              tl.to(card, {
+                opacity: 1,
+                scale: 1,
+                duration: 0.3,
+                ease: 'power1.out',
+              }, 0.42 + idx * 0.04)
             })
           }
         }
 
-        // ────────── HORIZONTAL MARQUEE ──────────
-        if (marqueeRef.current && marqueeTrackRef.current) {
-          const isMobileMarquee = window.innerWidth < 768
-          const marqueeCards = marqueeTrackRef.current.querySelectorAll('.cs-marquee-card')
+        // ────────── HORIZONTAL MARQUEE (auto-scroll via CSS) ──────────
+        // No GSAP scroll-driven animation — CSS keyframes handle the infinite marquee
 
-          if (isMobileMarquee) {
-            // No horizontal scroll on mobile
-            // Cards stack vertically, fade in on scroll
-            gsap.from(marqueeCards, {
+        // ────────── FULL BLEED IMAGES ──────────
+        if (fullBleedSectionRef.current) {
+          const isMobileFB = window.innerWidth < 768
+          const fbImages = fullBleedSectionRef.current.querySelectorAll('.cs-fullbleed-image')
+
+          fbImages.forEach(img => {
+            // Scale + fade entrance
+            gsap.from(img, {
+              scale: 1.08,
               opacity: 0,
-              y: 50,
-              stagger: 0.12,
-              duration: 0.8,
-              ease: 'power2.out',
+              duration: 1.2,
+              ease: 'power3.out',
               scrollTrigger: {
-                trigger: marqueeRef.current,
-                start: 'top 75%',
+                trigger: img,
+                start: 'top 80%',
                 once: true,
               }
             })
-          } else {
-            // Desktop: existing horizontal scroll animation
-            gsap.from(marqueeCards, {
-              x: 100, opacity: 0, stagger: 0.1, duration: 1, ease: 'power3.out',
-              scrollTrigger: { trigger: marqueeRef.current, start: 'top 80%' }
-            })
 
-            gsap.to(marqueeTrackRef.current, {
-              x: () => -(marqueeTrackRef.current.scrollWidth - window.innerWidth + 80),
-              ease: 'none',
+            // Subtle parallax on desktop only
+            if (!isMobileFB) {
+              gsap.to(img, {
+                y: -60,
+                ease: 'none',
+                scrollTrigger: {
+                  trigger: img.closest('.cs-fullbleed-wrapper'),
+                  start: 'top bottom',
+                  end: 'bottom top',
+                  scrub: 1.5,
+                }
+              })
+            }
+          })
+        }
+
+        // ────────── OUTCOME SECTION ──────────
+        if (outcomeSectionRef.current) {
+          // Label row fade in
+          if (outcomeLabelRef.current) {
+            gsap.from(outcomeLabelRef.current, {
+              opacity: 0,
+              x: -20,
+              duration: 0.6,
+              ease: 'power2.out',
               scrollTrigger: {
-                trigger: marqueeRef.current,
-                start: 'top top',
-                end: '+=200%',
-                pin: true,
-                scrub: 1,
-                anticipatePin: 1,
-                invalidateOnRefresh: true,
+                trigger: outcomeSectionRef.current,
+                start: 'top 80%',
+                once: true,
               }
             })
           }
+
+          // Divider line draw
+          if (outcomeDividerRef.current) {
+            gsap.from(outcomeDividerRef.current, {
+              scaleX: 0,
+              transformOrigin: 'left center',
+              duration: 0.8,
+              ease: 'power3.inOut',
+              scrollTrigger: {
+                trigger: outcomeSectionRef.current,
+                start: 'top 80%',
+                once: true,
+              },
+              delay: 0.2,
+            })
+          }
+
+          // Word-by-word reveal
+          if (outcomeTextRef.current) {
+            const words = outcomeTextRef.current.querySelectorAll('.cs-outcome-word')
+            if (words.length > 0) {
+              gsap.from(words, {
+                opacity: 0,
+                y: 12,
+                stagger: 0.04,
+                duration: 0.5,
+                ease: 'power2.out',
+                scrollTrigger: {
+                  trigger: outcomeTextRef.current,
+                  start: 'top 70%',
+                  once: true,
+                }
+              })
+            }
+          }
+
+          // Live website link
+          if (outcomeLinkRef.current) {
+            gsap.from(outcomeLinkRef.current, {
+              opacity: 0,
+              y: 10,
+              duration: 0.5,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: outcomeSectionRef.current,
+                start: 'top 70%',
+                once: true,
+              },
+              delay: 0.4,
+            })
+
+            // Arrow hover (desktop only)
+            if (window.innerWidth >= 768 && outcomeLinkArrowRef.current) {
+              const arrow = outcomeLinkArrowRef.current
+              const link = outcomeLinkRef.current
+              const onEnter = () => gsap.to(arrow, { x: 5, duration: 0.3, ease: 'power2.out' })
+              const onLeave = () => gsap.to(arrow, { x: 0, duration: 0.3, ease: 'power2.out' })
+              link.addEventListener('mouseenter', onEnter)
+              link.addEventListener('mouseleave', onLeave)
+            }
+          }
+
+          // Image curtain reveal
+          if (outcomeImageCurtainRef.current) {
+            gsap.to(outcomeImageCurtainRef.current, {
+              scaleY: 0,
+              transformOrigin: 'top center',
+              duration: 1.2,
+              ease: 'power4.inOut',
+              scrollTrigger: {
+                trigger: outcomeImageRef.current || outcomeSectionRef.current,
+                start: 'top 70%',
+                once: true,
+              }
+            })
+          }
+        }
+
+        // ────────── CONTENT BLOCKS ANIMATIONS ──────────
+        if (blockRefs.current && blockRefs.current.length > 0) {
+          blockRefs.current.forEach((blockEl, i) => {
+            if (!blockEl) return
+
+            // Block entrance
+            gsap.from(blockEl, {
+              opacity: 0,
+              y: 30,
+              duration: 0.8,
+              ease: 'power3.out',
+              scrollTrigger: { trigger: blockEl, start: 'top 80%', once: true },
+            })
+
+            // Label
+            const label = blockEl.querySelector('.cs-block-label')
+            if (label) {
+              gsap.from(label, {
+                opacity: 0, x: -20, duration: 0.6, ease: 'power2.out',
+                scrollTrigger: { trigger: blockEl, start: 'top 80%', once: true },
+                delay: 0.1,
+              })
+            }
+
+            // Divider
+            const divider = blockEl.querySelector('.cs-block-divider')
+            if (divider) {
+              gsap.from(divider, {
+                scaleX: 0, transformOrigin: 'left center', duration: 0.8, ease: 'power3.inOut',
+                scrollTrigger: { trigger: blockEl, start: 'top 80%', once: true },
+                delay: 0.15,
+              })
+            }
+
+            // Heading words
+            const words = blockEl.querySelectorAll('.cs-block-word')
+            if (words.length > 0) {
+              gsap.from(words, {
+                y: 80, opacity: 0, stagger: 0.08, duration: 0.8, ease: 'power4.out',
+                scrollTrigger: { trigger: blockEl, start: 'top 80%', once: true },
+                delay: 0.2,
+              })
+            }
+
+            // Body text
+            const body = blockEl.querySelector('.cs-block-body')
+            if (body) {
+              gsap.from(body, {
+                opacity: 0, y: 20, duration: 0.7, ease: 'power2.out',
+                scrollTrigger: { trigger: blockEl, start: 'top 80%', once: true },
+                delay: 0.4,
+              })
+            }
+
+            // Image curtain reveal
+            const curtain = blockEl.querySelector('.cs-block-image-curtain')
+            if (curtain) {
+              gsap.to(curtain, {
+                scaleY: 0, transformOrigin: 'top center', duration: 1.2, ease: 'power4.inOut',
+                scrollTrigger: { trigger: blockEl, start: 'top 70%', once: true },
+              })
+            }
+
+            // Quote mark
+            const quoteMark = blockEl.querySelector('.cs-block-quote-mark')
+            if (quoteMark) {
+              gsap.from(quoteMark, {
+                opacity: 0, duration: 1.2, ease: 'power2.out',
+                scrollTrigger: { trigger: blockEl, start: 'top 80%', once: true },
+                delay: 0.1,
+              })
+            }
+
+            // Quote author
+            const author = blockEl.querySelector('.cs-block-quote-author')
+            if (author) {
+              gsap.from(author, {
+                opacity: 0, y: 10, duration: 0.6, ease: 'power2.out',
+                scrollTrigger: { trigger: blockEl, start: 'top 80%', once: true },
+                delay: 0.5,
+              })
+            }
+
+            // Stats count up
+            const statValues = blockEl.querySelectorAll('.cs-block-stat-value')
+            statValues.forEach(statEl => {
+              const rawVal = statEl.getAttribute('data-value') || statEl.textContent
+              const numMatch = rawVal.match(/[\d.]+/)
+              if (numMatch) {
+                const finalNum = parseFloat(numMatch[0])
+                const prefix = rawVal.slice(0, rawVal.indexOf(numMatch[0]))
+                const suffix = rawVal.slice(rawVal.indexOf(numMatch[0]) + numMatch[0].length)
+                const counter = { val: 0 }
+                gsap.to(counter, {
+                  val: finalNum,
+                  duration: 1.5,
+                  ease: 'power2.out',
+                  scrollTrigger: { trigger: blockEl, start: 'top 80%', once: true },
+                  onUpdate: () => {
+                    statEl.textContent = prefix + (Number.isInteger(finalNum) ? Math.round(counter.val) : counter.val.toFixed(1)) + suffix
+                  },
+                })
+              }
+            })
+          })
         }
 
         // ────────── CASE STUDIES ENTRANCE ──────────
@@ -656,37 +865,68 @@ function CaseStudy() {
           )}
 
           {/* ═══════════════ SECTION 2 — 3D BENTO GALLERY ═══════════════ */}
+          {(() => {
+            // Helper: check if a gallery card slot is set to use a custom image
+            const getGalleryCard = (slot) => (data.galleryCards || []).find(c => c.slot === slot && c.useImage && c.imageUrl);
+
+            // Render card content: custom image if set, otherwise default widget
+            const renderCardContent = (slot, defaultContent) => {
+              const gc = getGalleryCard(slot);
+              if (gc) {
+                return (
+                  <img
+                    src={gc.imageUrl}
+                    alt={gc.imageAlt || `${data.name} gallery ${slot}`}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  />
+                );
+              }
+              return defaultContent;
+            };
+
+            return (
           <section className="cs-gallery" ref={galleryRef}>
             <div className="cs-gallery-container" ref={galleryContainerRef}>
 
               {/* Card 0 — Accent CTA card */}
               <div className="cs-gallery-card cs-card-1" ref={el => cardsRef.current[0] = el}>
+                {renderCardContent(0, (
                 <div className="cs-card1-inner">
                   <div className="cs-card1-btn">{data.heroHeadline ? 'Explore' : 'Download Report'}</div>
                   <p className="cs-card1-sub">{data.name} {data.year ? `— ${data.year}` : ''}</p>
                 </div>
+                ))}
               </div>
 
               {/* Card 1 — Dark dot grid */}
               <div className="cs-gallery-card cs-card-2" ref={el => cardsRef.current[1] = el}>
+                {renderCardContent(1, (
                 <div className="cs-dot-grid">{dots}</div>
+                ))}
               </div>
 
               {/* Card 2 — White tall quote */}
               <div className="cs-gallery-card cs-card-3" ref={el => cardsRef.current[2] = el}>
+                {renderCardContent(2, (
+                <>
                 <div className="cs-card3-quote">
                   {quoteSection?.quote || `"Their vision transformed how we monitor power lines — delivering the intelligence utilities need to keep the grid resilient."`}
                 </div>
                 <div className="cs-card3-author">— {quoteSection?.author || `CEO, ${data.name}`}</div>
+                </>
+                ))}
               </div>
 
               {/* Card 3 — Dot logo */}
               <div className="cs-gallery-card cs-card-4" ref={el => cardsRef.current[3] = el}>
+                {renderCardContent(3, (
                 <div className="cs-dot-logo">{logoDots}</div>
+                ))}
               </div>
 
               {/* Card 4 — Center dark UI (MAIN CARD) */}
               <div className="cs-gallery-card cs-card-5" ref={el => cardsRef.current[4] = el}>
+                {renderCardContent(4, (
                 <div className="cs-card5-inner">
                   <div className="cs-card5-header">
                     <span className="cs-card5-dot" />
@@ -706,60 +946,145 @@ function CaseStudy() {
                     <span>Apr</span><span>May</span><span>Jun</span><span>Jul</span>
                   </div>
                 </div>
+                ))}
               </div>
 
               {/* Card 5 — Image from project images */}
               <div className="cs-gallery-card cs-card-6" ref={el => cardsRef.current[5] = el}>
+                {renderCardContent(5, (
+                <>
                 {data.images?.[0] ? (
                   <img src={data.images[0]} alt={data.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : null}
                 <div className="cs-card6-overlay">{data.industry || data.name} — {data.location || 'Field'}</div>
+                </>
+                ))}
               </div>
 
               {/* Card 6 — Striped pattern */}
-              <div className="cs-gallery-card cs-card-7" ref={el => cardsRef.current[6] = el} />
+              <div className="cs-gallery-card cs-card-7" ref={el => cardsRef.current[6] = el}>
+                {renderCardContent(6, null)}
+              </div>
             </div>
           </section>
+            );
+          })()}
 
           {/* ═══════════════ SECTION 3 — HORIZONTAL MARQUEE ═══════════════ */}
-          <section className="cs-marquee" ref={marqueeRef} data-cursor-theme="light">
-            <div className="cs-marquee-track" ref={marqueeTrackRef}>
+          {(() => {
+            const marqueeCardsData = data.marqueeCards && data.marqueeCards.length > 0 ? data.marqueeCards : [
+              { cardType: 'product', label: '• Product', heading: '', body: data.heroSubtext || data.description?.slice(0, 60) || 'Next-gen product experience', ctaText: 'Learn More →', ctaLink: data.liveUrl || '#' },
+              { cardType: 'standard', label: '• Hero', heading: displayName.split(' ').slice(0, 2).join(' ') + '\n' + (displayName.split(' ').slice(2).join(' ') || ''), body: data.heroSubtext || data.description?.slice(0, 100), ctaText: 'Get Started →', ctaLink: data.liveUrl || '#' },
+              { cardType: 'security', label: '• Security', heading: 'Enterprise-grade\nSecurity', body: 'SOC 2 Type II Certified', ctaText: '', ctaLink: '' },
+              { cardType: 'testimonial', label: '• Testimonial', heading: '', body: quoteSection?.quote || `"Their attention to detail and creative vision transformed our brand presence entirely. Outstanding partnership."`, author: quoteSection?.author || `${data.industry} Director`, ctaText: '', ctaLink: '' },
+              { cardType: 'stats', label: '• Impact', heading: '', body: '', ctaText: '', ctaLink: '' },
+              { cardType: 'dashboard', label: `• ${data.industry || 'Dashboard'}`, heading: 'Platform', body: '', ctaText: 'View Demo →', ctaLink: '' },
+            ]
 
-              {/* Dynamic Marquee Cards */}
-              {(data.marqueeCards && data.marqueeCards.length > 0 ? data.marqueeCards : [
-                { cardType: 'product', label: '• Product', heading: '', body: data.heroSubtext || data.description?.slice(0, 60) || 'Next-gen product experience', ctaText: 'Learn More →', ctaLink: data.liveUrl || '#' },
-                { cardType: 'standard', label: '• Hero', heading: displayName.split(' ').slice(0, 2).join(' ') + '\n' + (displayName.split(' ').slice(2).join(' ') || ''), body: data.heroSubtext || data.description?.slice(0, 100), ctaText: 'Get Started →', ctaLink: data.liveUrl || '#' },
-                { cardType: 'security', label: '• Security', heading: 'Enterprise-grade\nSecurity', body: 'SOC 2 Type II Certified', ctaText: '', ctaLink: '' },
-                { cardType: 'testimonial', label: '• Testimonial', heading: '', body: quoteSection?.quote || `"Their attention to detail and creative vision transformed our brand presence entirely. Outstanding partnership."`, author: quoteSection?.author || `${data.industry} Director`, ctaText: '', ctaLink: '' },
-                { cardType: 'stats', label: '• Impact', heading: '', body: '', ctaText: '', ctaLink: '' },
-                { cardType: 'dashboard', label: `• ${data.industry || 'Dashboard'}`, heading: 'Platform', body: '', ctaText: 'View Demo →', ctaLink: '' },
-              ]).map((card, i) => {
-                
-                // Helper to render CTA
-                const renderCTA = () => {
-                  if (!card.ctaText) return null
-                  if (card.ctaLink && card.ctaLink !== '#') {
-                    return <a href={card.ctaLink} className="cs-mc-cta" data-cursor-hover target="_blank" rel="noopener noreferrer">{card.ctaText}</a>
-                  }
-                  return <button className="cs-mc-cta" data-cursor-hover>{card.ctaText}</button>
+            const renderMarqueeCard = (card, i) => {
+              const renderCTA = () => {
+                if (!card.ctaText) return null
+                if (card.ctaLink && card.ctaLink !== '#') {
+                  return <a href={card.ctaLink} className="cs-mc-cta" data-cursor-hover target="_blank" rel="noopener noreferrer">{card.ctaText}</a>
                 }
+                return <button className="cs-mc-cta" data-cursor-hover>{card.ctaText}</button>
+              }
 
-                if (card.cardType === 'product') {
-                  return (
-                    <div className="cs-marquee-card" key={i}>
-                      <div className="cs-mc-label">{card.label || `• ${data.name}`}</div>
-                      <div className="cs-mc-body">
-                        <div className="cs-mc-sphere" />
-                        <p className="cs-mc-sphere-label">{card.body}</p>
-                      </div>
+              if (card.cardType === 'product') {
+                return (
+                  <div className="cs-marquee-card" key={i}>
+                    <div className="cs-mc-label">{card.label || `• ${data.name}`}</div>
+                    <div className="cs-mc-body">
+                      <div className="cs-mc-sphere" />
+                      <p className="cs-mc-sphere-label">{card.body}</p>
+                    </div>
+                    {renderCTA()}
+                  </div>
+                )
+              }
+
+              if (card.cardType === 'standard') {
+                return (
+                  <div className="cs-marquee-card" key={i}>
+                    <div className="cs-mc-label">{card.label}</div>
+                    <div className="cs-mc-body" style={{ justifyContent: 'flex-start', paddingTop: 20 }}>
+                      {card.heading && <div className="cs-mc-headline" style={{ whiteSpace: 'pre-line' }}>{card.heading}</div>}
+                      <p className="cs-mc-desc">{card.body}</p>
                       {renderCTA()}
                     </div>
-                  )
-                }
+                  </div>
+                )
+              }
 
-                if (card.cardType === 'standard') {
-                  return (
-                    <div className="cs-marquee-card" key={i}>
+              if (card.cardType === 'security') {
+                return (
+                  <div className="cs-marquee-card" key={i}>
+                    <div className="cs-mc-label">{card.label}</div>
+                    <div className="cs-mc-body">
+                      <div className="cs-mc-lock" />
+                      <p className="cs-mc-security-title" style={{ whiteSpace: 'pre-line' }}>{card.heading}</p>
+                      <p className="cs-mc-security-sub">{card.body}</p>
+                    </div>
+                  </div>
+                )
+              }
+
+              if (card.cardType === 'testimonial') {
+                const quote = card.body || quoteSection?.quote || `"Their attention to detail..."`
+                const author = card.heading || card.author || quoteSection?.author || 'Client'
+                return (
+                  <div className="cs-marquee-card" style={{ padding: 0 }} key={i}>
+                    <div className="cs-mc-quote-wrap">
+                      <div className="cs-mc-label">{card.label}</div>
+                      <blockquote>{quote}</blockquote>
+                      <cite>— {author}</cite>
+                    </div>
+                  </div>
+                )
+              }
+
+              if (card.cardType === 'stats') {
+                const displayStats = (card.stats && card.stats.length > 0) ? card.stats : (statsSection?.stats || data.results || []).slice(0, 4)
+                return (
+                  <div className="cs-marquee-card" key={i}>
+                    <div className="cs-mc-label">{card.label}</div>
+                    <div className="cs-mc-body">
+                      <div className="cs-mc-stats">
+                        {displayStats.map((stat, idx) => (
+                          <div className="cs-mc-stat" key={idx}>
+                            <div className="cs-mc-stat-val">{stat.value}</div>
+                            <div className="cs-mc-stat-label">{stat.label || stat.metric}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )
+              }
+
+              if (card.cardType === 'dashboard') {
+                return (
+                  <div className="cs-marquee-card" key={i}>
+                    <div className="cs-mc-label">{card.label}</div>
+                    <div className="cs-mc-body">
+                      <div className="cs-mc-product">
+                        <div className="cs-mc-ring-outer">
+                          <div className="cs-mc-ring-inner">{data.name?.[0] || 'K'}</div>
+                        </div>
+                        <p className="cs-mc-product-label">{data.name}<br />{card.heading}</p>
+                      </div>
+                    </div>
+                    {renderCTA()}
+                  </div>
+                )
+              }
+
+              if (card.cardType === 'image' || card.cardType === 'video') {
+                return (
+                  <div className="cs-marquee-card" style={{ padding: 0, position: 'relative', overflow: 'hidden' }} key={i}>
+                    {card.cardType === 'image' && <img src={card.mediaUrl} alt="" style={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'cover', opacity: 0.6 }} />}
+                    {card.cardType === 'video' && <video src={card.mediaUrl} autoPlay muted loop playsInline style={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'cover', opacity: 0.6 }} />}
+                    <div style={{ position: 'relative', zIndex: 2, padding: '40px', height: '100%', display: 'flex', flexDirection: 'column' }}>
                       <div className="cs-mc-label">{card.label}</div>
                       <div className="cs-mc-body" style={{ justifyContent: 'flex-start', paddingTop: 20 }}>
                         {card.heading && <div className="cs-mc-headline" style={{ whiteSpace: 'pre-line' }}>{card.heading}</div>}
@@ -767,95 +1092,232 @@ function CaseStudy() {
                         {renderCTA()}
                       </div>
                     </div>
-                  )
-                }
+                  </div>
+                )
+              }
 
-                if (card.cardType === 'security') {
+              return null
+            }
+
+            return (
+              <section className="cs-marquee" ref={marqueeRef} data-cursor-theme="light">
+                <div className="cs-marquee-track" ref={marqueeTrackRef}>
+                  {/* First set of cards */}
+                  <div className="cs-marquee-set" aria-hidden="false">
+                    {marqueeCardsData.map((card, i) => renderMarqueeCard(card, i))}
+                  </div>
+                  {/* Duplicate set for seamless loop */}
+                  <div className="cs-marquee-set" aria-hidden="true">
+                    {marqueeCardsData.map((card, i) => renderMarqueeCard(card, `dup-${i}`))}
+                  </div>
+                </div>
+              </section>
+            )
+          })()}
+
+          {/* ═══════════════ CONTENT BLOCKS ═══════════════ */}
+          {(() => {
+            const sortedBlocks = [...(data.contentBlocks || [])].sort((a, b) => (a.order || 0) - (b.order || 0))
+            if (sortedBlocks.length === 0) return null
+
+            const splitMap = { '50-50': ['1fr', '1fr'], '60-40': ['3fr', '2fr'], '40-60': ['2fr', '3fr'] }
+            const headingSizeMap = {
+              large: 'clamp(2.5rem, 5vw, 4.5rem)',
+              medium: 'clamp(1.8rem, 3.5vw, 3rem)',
+              small: 'clamp(1.2rem, 2vw, 1.8rem)',
+            }
+
+            const renderHeading = (block) => {
+              if (!block.heading) return null
+              return (
+                <h2 className="cs-block-heading" style={{ fontSize: headingSizeMap[block.headingSize] || headingSizeMap.large }}>
+                  {block.heading.split(' ').map((word, wi) => (
+                    <span className="cs-block-word-wrap" key={wi}>
+                      <span className="cs-block-word">{word} </span>
+                    </span>
+                  ))}
+                </h2>
+              )
+            }
+
+            const renderTextCol = (block) => (
+              <div className="cs-block-text-col">
+                {block.label && <div className="cs-block-label" style={{ color: block.textColor || '#ffffff' }}>{block.label}</div>}
+                {block.heading && <div className="cs-block-divider" />}
+                {renderHeading(block)}
+                {block.body && <p className="cs-block-body">{block.body}</p>}
+              </div>
+            )
+
+            const renderImageCol = (block) => {
+              if (!block.imageUrl) return null
+              return (
+                <div className="cs-block-image-col">
+                  <div className="cs-block-image-wrapper">
+                    <img src={block.imageUrl} alt={block.imageAlt || ''} className="cs-block-image" style={{ objectFit: block.imageFit || 'cover' }} loading="lazy" />
+                    <div className="cs-block-image-curtain" style={{ background: block.bgColor || '#0a0a0a' }} />
+                  </div>
+                </div>
+              )
+            }
+
+            return (
+              <div className="cs-content-blocks">
+                {sortedBlocks.map((block, index) => {
+                  const cols = splitMap[block.splitRatio] || splitMap['50-50']
+                  const gridTemplate = block.type === 'image-text-right' ? `${cols[1]} ${cols[0]}` : `${cols[0]} ${cols[1]}`
+
                   return (
-                    <div className="cs-marquee-card" key={i}>
-                      <div className="cs-mc-label">{card.label}</div>
-                      <div className="cs-mc-body">
-                        <div className="cs-mc-lock" />
-                        <p className="cs-mc-security-title" style={{ whiteSpace: 'pre-line' }}>{card.heading}</p>
-                        <p className="cs-mc-security-sub">{card.body}</p>
-                      </div>
-                    </div>
-                  )
-                }
-
-                if (card.cardType === 'testimonial') {
-                   // Fallback to section quote if card body is empty for backward compatibility
-                   const quote = card.body || quoteSection?.quote || `"Their attention to detail..."`
-                   const author = card.heading || card.author || quoteSection?.author || 'Client'
-                   return (
-                    <div className="cs-marquee-card" style={{ padding: 0 }} key={i}>
-                      <div className="cs-mc-quote-wrap">
-                        <div className="cs-mc-label">{card.label}</div>
-                        <blockquote>{quote}</blockquote>
-                        <cite>— {author}</cite>
-                      </div>
-                    </div>
-                  )
-                }
-
-                if (card.cardType === 'stats') {
-                  const displayStats = (card.stats && card.stats.length > 0) ? card.stats : (statsSection?.stats || data.results || []).slice(0, 4)
-                  return (
-                    <div className="cs-marquee-card" key={i}>
-                      <div className="cs-mc-label">{card.label}</div>
-                      <div className="cs-mc-body">
-                        <div className="cs-mc-stats">
-                          {displayStats.map((stat, idx) => (
-                            <div className="cs-mc-stat" key={idx}>
-                              <div className="cs-mc-stat-val">{stat.value}</div>
-                              <div className="cs-mc-stat-label">{stat.label || stat.metric}</div>
-                            </div>
-                          ))}
+                    <section
+                      key={block._id || index}
+                      className={`cs-block cs-block--${block.type}`}
+                      style={{ backgroundColor: block.bgColor || '#0a0a0a', color: block.textColor || '#ffffff' }}
+                      ref={el => blockRefs.current[index] = el}
+                      data-cursor-theme={block.textColor === '#0a0a0a' ? 'dark' : 'light'}
+                    >
+                      {/* text-image-right */}
+                      {block.type === 'text-image-right' && (
+                        <div className="cs-block-inner cs-block-inner--split" style={{ gridTemplateColumns: block.imageUrl ? gridTemplate : '1fr' }}>
+                          {renderTextCol(block)}
+                          {renderImageCol(block)}
                         </div>
-                      </div>
-                    </div>
-                  )
-                }
+                      )}
 
-                if (card.cardType === 'dashboard') {
-                  return (
-                    <div className="cs-marquee-card" key={i}>
-                      <div className="cs-mc-label">{card.label}</div>
-                      <div className="cs-mc-body">
-                        <div className="cs-mc-product">
-                          <div className="cs-mc-ring-outer">
-                            <div className="cs-mc-ring-inner">{data.name?.[0] || 'K'}</div>
+                      {/* image-text-right */}
+                      {block.type === 'image-text-right' && (
+                        <div className="cs-block-inner cs-block-inner--split" style={{ gridTemplateColumns: block.imageUrl ? gridTemplate : '1fr' }}>
+                          {renderImageCol(block)}
+                          {renderTextCol(block)}
+                        </div>
+                      )}
+
+                      {/* text-full */}
+                      {block.type === 'text-full' && (
+                        <div className="cs-block-inner cs-block-inner--text-full">
+                          {block.label && <div className="cs-block-label">{block.label}</div>}
+                          {block.heading && <div className="cs-block-divider" />}
+                          {renderHeading(block)}
+                          {block.body && <p className="cs-block-body">{block.body}</p>}
+                        </div>
+                      )}
+
+                      {/* image-full */}
+                      {block.type === 'image-full' && block.imageUrl && (
+                        <div className="cs-block-inner cs-block-inner--image-full">
+                          <div className="cs-block-fullimage-wrapper">
+                            <img src={block.imageUrl} alt={block.imageAlt || ''} className="cs-block-fullimage" style={{ objectFit: block.imageFit || 'cover' }} loading="lazy" />
+                            <div className="cs-block-image-curtain" style={{ background: block.bgColor || '#0a0a0a' }} />
                           </div>
-                          <p className="cs-mc-product-label">{data.name}<br />{card.heading}</p>
                         </div>
-                      </div>
-                      {renderCTA()}
-                    </div>
-                  )
-                }
+                      )}
 
-                if (card.cardType === 'image' || card.cardType === 'video') {
-                  return (
-                    <div className="cs-marquee-card" style={{ padding: 0, position: 'relative', overflow: 'hidden' }} key={i}>
-                      {card.cardType === 'image' && <img src={card.mediaUrl} alt="" style={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'cover', opacity: 0.6 }} />}
-                      {card.cardType === 'video' && <video src={card.mediaUrl} autoPlay muted loop playsInline style={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'cover', opacity: 0.6 }} />}
-                      
-                      <div style={{ position: 'relative', zIndex: 2, padding: '40px', height: '100%', display: 'flex', flexDirection: 'column' }}>
-                        <div className="cs-mc-label">{card.label}</div>
-                        <div className="cs-mc-body" style={{ justifyContent: 'flex-start', paddingTop: 20 }}>
-                          {card.heading && <div className="cs-mc-headline" style={{ whiteSpace: 'pre-line' }}>{card.heading}</div>}
-                          <p className="cs-mc-desc">{card.body}</p>
-                          {renderCTA()}
+                      {/* quote */}
+                      {block.type === 'quote' && (
+                        <div className="cs-block-inner cs-block-inner--quote">
+                          <span className="cs-block-quote-mark">&ldquo;</span>
+                          {block.quote && (
+                            <blockquote className="cs-block-quote-text">
+                              {block.quote.split(' ').map((word, wi) => (
+                                <span className="cs-block-word-wrap" key={wi}>
+                                  <span className="cs-block-word">{word} </span>
+                                </span>
+                              ))}
+                            </blockquote>
+                          )}
+                          {block.quoteAuthor && <cite className="cs-block-quote-author">— {block.quoteAuthor}</cite>}
                         </div>
-                      </div>
-                    </div>
-                  )
-                }
+                      )}
 
-                return null
-              })}
-            </div>
-          </section>
+                      {/* stats */}
+                      {block.type === 'stats' && (
+                        <div className="cs-block-inner cs-block-inner--stats">
+                          <div className="cs-block-stats-row">
+                            {(block.stats || []).map((stat, si) => (
+                              <div className="cs-block-stat" key={si}>
+                                <div className="cs-block-stat-value" data-value={stat.value}>{stat.value}</div>
+                                <div className="cs-block-stat-label">{stat.label}</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </section>
+                  )
+                })}
+              </div>
+            )
+          })()}
+
+          {/* ═══════════════ SECTION A — FULL BLEED IMAGES ═══════════════ */}
+          {data.fullBleedImages && data.fullBleedImages.length > 0 && (
+            <section className="cs-fullbleed-section" ref={fullBleedSectionRef} data-cursor-theme="light">
+              {data.fullBleedImages.map((img, i) => (
+                <div className="cs-fullbleed-wrapper" key={i}>
+                  <img
+                    src={img}
+                    alt={`${data.title || 'Project'} full bleed ${i + 1}`}
+                    className="cs-fullbleed-image"
+                    ref={el => { if (fullBleedImagesRef.current) fullBleedImagesRef.current[i] = el }}
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </section>
+          )}
+
+          {/* ═══════════════ SECTION B — OUTCOME ═══════════════ */}
+          {(data.outcomeDescription || data.outcomeImage) && (
+            <section
+              className="cs-outcome-section"
+              ref={outcomeSectionRef}
+              data-cursor-theme="light"
+              style={{ backgroundColor: data.outcomeBgColor || '#0a0a0a' }}
+            >
+              <div className="cs-outcome-inner">
+                <div className="cs-outcome-left">
+                  {/* Top row: label + live website link */}
+                  <div className="cs-outcome-top-row">
+                    <span className="cs-outcome-label" ref={outcomeLabelRef}>
+                      {data.outcomeLabel || 'OUTCOME'}
+                    </span>
+                    {data.outcomeLiveUrl && (
+                      <a
+                        href={data.outcomeLiveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="cs-outcome-link"
+                        ref={outcomeLinkRef}
+                      >
+                        LIVE WEBSITE
+                        <span className="cs-outcome-link-arrow" ref={outcomeLinkArrowRef}>→</span>
+                      </a>
+                    )}
+                  </div>
+                  <div className="cs-outcome-divider" ref={outcomeDividerRef} />
+                  {data.outcomeDescription && (
+                    <div className="cs-outcome-description" ref={outcomeTextRef}>
+                      {data.outcomeDescription.split(' ').map((word, i) => (
+                        <span className="cs-outcome-word" key={i}>{word}&nbsp;</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <div className="cs-outcome-right">
+                  {data.outcomeImage && (
+                    <div className="cs-outcome-image-wrapper" ref={outcomeImageRef}>
+                      <img
+                        src={data.outcomeImage}
+                        alt={data.outcomeImageAlt || 'Project outcome'}
+                        className="cs-outcome-image"
+                        loading="lazy"
+                      />
+                      <div className="cs-outcome-image-curtain" ref={outcomeImageCurtainRef} />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </section>
+          )}
 
           {/* ═══════════════ SECTION 4 — OTHER CASE STUDIES ═══════════════ */}
           <section className="cs-cases" ref={casesRef} data-cursor-theme="light">

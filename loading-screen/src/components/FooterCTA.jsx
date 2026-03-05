@@ -282,7 +282,7 @@ function FooterCTA() {
               PORTFOLIO →
             </span>
             <h2 className="panel-heading animate-in">
-              Selected Work<br />& Case Studies
+              Selected Work<br />& Projects
             </h2>
           </div>
           <div className="left-bottom" ref={leftBottomRef}>

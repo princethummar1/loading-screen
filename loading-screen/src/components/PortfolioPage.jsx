@@ -224,7 +224,7 @@ function ProjectRow({ project, isVisible }) {
                 }
               }}
             >
-              {dynamicSlug ? 'View Case Study' : 'View Project'} <span className="arrow">→</span>
+              {dynamicSlug ? 'View Selected Work' : 'View Project'} <span className="arrow">→</span>
             </a>
           </div>
 

@@ -149,8 +149,8 @@ export default function MediaPicker({ isOpen, onClose, onSelect, multiple = fals
   };
 
   const filteredMedia = media.filter(item => 
-    item.originalname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.filename.toLowerCase().includes(searchTerm.toLowerCase())
+    (item.originalName || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (item.filename || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (!isOpen) return null;
@@ -223,7 +223,7 @@ export default function MediaPicker({ isOpen, onClose, onSelect, multiple = fals
                 >
                   <img
                     src={`${API_BASE}/uploads/${item.filename}`}
-                    alt={item.originalname}
+                    alt={item.originalName || item.filename}
                   />
                   <div className="media-picker-item-overlay">
                     {isSelected(item) && (
@@ -239,7 +239,7 @@ export default function MediaPicker({ isOpen, onClose, onSelect, multiple = fals
                     </button>
                   </div>
                   <div className="media-picker-item-name">
-                    {item.originalname}
+                    {item.originalName || item.filename}
                   </div>
                 </div>
               ))}

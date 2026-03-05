@@ -16,19 +16,37 @@ function Navbar({ onMenuClick, isContactPage, isHomePage = false }) {
       return
     }
 
+    // All selectors that have light/white backgrounds
+    const lightSelectors = [
+      '.services-section',
+      '.partnership-section',
+      '.adp-header',
+      '.adp-not-found',
+      '.adp-body',
+      '.sdp-vision',
+      '.sdp-approach',
+      '.sdp-services-grid',
+    ]
+
     const handleScroll = () => {
-      const servicesSection = document.querySelector('.services-section')
-      if (servicesSection) {
-        const rect = servicesSection.getBoundingClientRect()
-        // Switch to light theme when services section is at the top
-        setIsLight(rect.top <= 80 && rect.bottom > 80)
+      let overLight = false
+      for (const selector of lightSelectors) {
+        const el = document.querySelector(selector)
+        if (el) {
+          const rect = el.getBoundingClientRect()
+          if (rect.top <= 80 && rect.bottom > 80) {
+            overLight = true
+            break
+          }
+        }
       }
+      setIsLight(overLight)
     }
 
     window.addEventListener('scroll', handleScroll)
     handleScroll() // Check initial state
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [isOnContactPage])
+  }, [isOnContactPage, location.pathname])
 
   return (
     <nav className={`navbar ${isLight ? 'navbar-light' : ''}`}>

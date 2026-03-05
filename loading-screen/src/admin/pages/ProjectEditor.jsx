@@ -79,13 +79,23 @@ export default function ProjectEditor() {
     metaTitle: '',
     metaDescription: '',
     topVideoUrl: '',
+    galleryCards: [],
+    contentBlocks: [],
     marqueeCards: getDefaultMarqueeCards(),
+    fullBleedImages: [],
+    outcomeLabel: 'OUTCOME',
+    outcomeDescription: '',
+    outcomeLiveUrl: '',
+    outcomeBgColor: '#0a0a0a',
+    outcomeImage: '',
+    outcomeImageAlt: 'Project outcome',
   });
 
   const [newTag, setNewTag] = useState('');
   const [newService, setNewService] = useState('');
   const [newImage, setNewImage] = useState('');
   const [mediaPickerTarget, setMediaPickerTarget] = useState(null);
+  const [fullBleedUrl, setFullBleedUrl] = useState('');
   const [collapsedSections, setCollapsedSections] = useState({});
 
   useEffect(() => {
@@ -108,7 +118,16 @@ export default function ProjectEditor() {
           sections: data.sections || [],
           results: data.results || [],
           topVideoUrl: data.topVideoUrl || '',
+          galleryCards: data.galleryCards || [],
+          contentBlocks: data.contentBlocks || [],
           marqueeCards: (data.marqueeCards && data.marqueeCards.length > 0) ? data.marqueeCards : getDefaultMarqueeCards(),
+          fullBleedImages: data.fullBleedImages || [],
+          outcomeLabel: data.outcomeLabel || 'OUTCOME',
+          outcomeDescription: data.outcomeDescription || '',
+          outcomeLiveUrl: data.outcomeLiveUrl || '',
+          outcomeBgColor: data.outcomeBgColor || '#0a0a0a',
+          outcomeImage: data.outcomeImage || '',
+          outcomeImageAlt: data.outcomeImageAlt || 'Project outcome',
         });
       }
     } catch (error) {
@@ -190,8 +209,19 @@ export default function ProjectEditor() {
       }));
     } else if (mediaPickerTarget === 'topVideoUrl') {
       handleChange('topVideoUrl', firstUrl);
+    } else if (mediaPickerTarget === 'fullBleedImages') {
+      setProject(prev => ({
+        ...prev,
+        fullBleedImages: [...(prev.fullBleedImages || []), ...urlArray]
+      }));
+    } else if (mediaPickerTarget === 'outcomeImage') {
+      handleChange('outcomeImage', firstUrl);
     } else if (typeof mediaPickerTarget === 'object' && mediaPickerTarget.type === 'marquee') {
       updateMarqueeCard(mediaPickerTarget.index, 'mediaUrl', firstUrl);
+    } else if (typeof mediaPickerTarget === 'object' && mediaPickerTarget.type === 'galleryCard') {
+      updateGalleryCard(mediaPickerTarget.slot, 'imageUrl', firstUrl);
+    } else if (typeof mediaPickerTarget === 'object' && mediaPickerTarget.type === 'contentBlock') {
+      updateContentBlock(mediaPickerTarget.index, 'imageUrl', firstUrl);
     }
     
     setMediaPickerTarget(null);
@@ -310,6 +340,146 @@ export default function ProjectEditor() {
     setProject(prev => ({
       ...prev,
       results: prev.results.filter((_, i) => i !== index)
+    }));
+  };
+
+  // ─── Gallery Cards ───
+  const GALLERY_CARD_LABELS = [
+    'Card 0 — Accent CTA (top-left)',
+    'Card 1 — Dot Grid (top-center)',
+    'Card 2 — Quote (top-right)',
+    'Card 3 — Dot Logo (mid-left)',
+    'Card 4 — Center Dashboard (main)',
+    'Card 5 — Image (bottom-left)',
+    'Card 6 — Stripes (bottom-right)',
+  ];
+
+  const getGalleryCardForSlot = (slot) => {
+    return (project.galleryCards || []).find(c => c.slot === slot);
+  };
+
+  const updateGalleryCard = (slot, field, value) => {
+    setProject(prev => {
+      const cards = [...(prev.galleryCards || [])];
+      const existingIdx = cards.findIndex(c => c.slot === slot);
+      if (existingIdx >= 0) {
+        cards[existingIdx] = { ...cards[existingIdx], [field]: value };
+      } else {
+        cards.push({ slot, useImage: false, imageUrl: '', imageAlt: '', [field]: value });
+      }
+      return { ...prev, galleryCards: cards };
+    });
+  };
+
+  const toggleGalleryCardImage = (slot, enabled) => {
+    setProject(prev => {
+      const cards = [...(prev.galleryCards || [])];
+      const existingIdx = cards.findIndex(c => c.slot === slot);
+      if (existingIdx >= 0) {
+        cards[existingIdx] = { ...cards[existingIdx], useImage: enabled };
+      } else {
+        cards.push({ slot, useImage: enabled, imageUrl: '', imageAlt: '' });
+      }
+      return { ...prev, galleryCards: cards };
+    });
+  };
+
+  const clearGalleryCardImage = (slot) => {
+    setProject(prev => ({
+      ...prev,
+      galleryCards: (prev.galleryCards || []).filter(c => c.slot !== slot),
+    }));
+  };
+
+  // ─── Content Blocks ───
+  const CONTENT_BLOCK_TYPES = [
+    { value: 'text-image-right', label: 'Text + Image Right' },
+    { value: 'image-text-right', label: 'Image + Text Right' },
+    { value: 'text-full', label: 'Full Width Text' },
+    { value: 'image-full', label: 'Full Width Image' },
+    { value: 'quote', label: 'Quote Block' },
+    { value: 'stats', label: 'Stats Row' },
+  ];
+
+  const addContentBlock = (blockType) => {
+    setProject(prev => {
+      const blocks = [...(prev.contentBlocks || [])];
+      const newIndex = blocks.length;
+      blocks.push({
+        type: blockType,
+        order: newIndex,
+        bgColor: '#0a0a0a',
+        textColor: '#ffffff',
+        label: '',
+        heading: '',
+        headingSize: 'large',
+        body: '',
+        imageUrl: '',
+        imageAlt: '',
+        imageFit: 'cover',
+        quote: '',
+        quoteAuthor: '',
+        stats: [],
+        splitRatio: '50-50',
+      });
+      setCollapsedSections(c => ({ ...c, [`block-${newIndex}`]: false }));
+      return { ...prev, contentBlocks: blocks };
+    });
+  };
+
+  const updateContentBlock = (index, field, value) => {
+    setProject(prev => ({
+      ...prev,
+      contentBlocks: (prev.contentBlocks || []).map((b, i) =>
+        i === index ? { ...b, [field]: value } : b
+      ),
+    }));
+  };
+
+  const removeContentBlock = (index) => {
+    setProject(prev => ({
+      ...prev,
+      contentBlocks: (prev.contentBlocks || []).filter((_, i) => i !== index)
+        .map((b, i) => ({ ...b, order: i })),
+    }));
+  };
+
+  const moveContentBlock = (index, direction) => {
+    const newIndex = index + direction;
+    setProject(prev => {
+      const blocks = [...(prev.contentBlocks || [])];
+      if (newIndex < 0 || newIndex >= blocks.length) return prev;
+      [blocks[index], blocks[newIndex]] = [blocks[newIndex], blocks[index]];
+      return { ...prev, contentBlocks: blocks.map((b, i) => ({ ...b, order: i })) };
+    });
+  };
+
+  const addContentBlockStat = (blockIndex) => {
+    setProject(prev => ({
+      ...prev,
+      contentBlocks: (prev.contentBlocks || []).map((b, i) =>
+        i === blockIndex ? { ...b, stats: [...(b.stats || []), { value: '', label: '' }] } : b
+      ),
+    }));
+  };
+
+  const updateContentBlockStat = (blockIndex, statIndex, field, value) => {
+    setProject(prev => ({
+      ...prev,
+      contentBlocks: (prev.contentBlocks || []).map((b, i) =>
+        i === blockIndex
+          ? { ...b, stats: (b.stats || []).map((s, si) => si === statIndex ? { ...s, [field]: value } : s) }
+          : b
+      ),
+    }));
+  };
+
+  const removeContentBlockStat = (blockIndex, statIndex) => {
+    setProject(prev => ({
+      ...prev,
+      contentBlocks: (prev.contentBlocks || []).map((b, i) =>
+        i === blockIndex ? { ...b, stats: (b.stats || []).filter((_, si) => si !== statIndex) } : b
+      ),
     }));
   };
 
@@ -449,7 +619,7 @@ export default function ProjectEditor() {
             color: isCaseStudy ? '#FF4D2E' : '#a78bfa',
             border: `1px solid ${isCaseStudy ? 'rgba(255, 77, 46, 0.3)' : 'rgba(109, 40, 217, 0.3)'}`,
           }}>
-            {isCaseStudy ? '📋 Case Study' : '📁 Project'}
+            {isCaseStudy ? '📋 Selected Work' : '📁 Project'}
           </span>
         </div>
         <div className="admin-page-actions">
@@ -469,7 +639,7 @@ export default function ProjectEditor() {
           <div className="admin-card">
             <h3 className="admin-card-title" style={{ marginBottom: '4px' }}>Basic Information</h3>
             <p style={{ fontSize: '0.7rem', color: '#666', marginBottom: '16px', lineHeight: 1.4 }}>
-              📍 Appears in → <span style={{ color: '#a78bfa' }}>Portfolio listing cards</span> on Home + Portfolio pages, and the <span style={{ color: '#a78bfa' }}>Hero section header</span> of the case study detail page.
+              📍 Appears in → <span style={{ color: '#a78bfa' }}>Portfolio listing cards</span> on Home + Portfolio pages, and the <span style={{ color: '#a78bfa' }}>Hero section header</span> of the selected work detail page.
             </p>
             <div className="admin-form-group">
               <label>Project Name</label>
@@ -521,7 +691,7 @@ export default function ProjectEditor() {
                   onChange={(e) => handleChange('type', e.target.value)}
                 >
                   <option value="project">📁 Project</option>
-                  <option value="case-study">📋 Case Study</option>
+                  <option value="case-study">📋 Selected Work</option>
                 </select>
               </div>
               <div className="admin-form-group">
@@ -596,7 +766,7 @@ export default function ProjectEditor() {
           <div className="admin-card">
             <h3 className="admin-card-title" style={{ marginBottom: '4px' }}>Project Images</h3>
             <p style={{ fontSize: '0.7rem', color: '#666', marginBottom: '16px', lineHeight: 1.4 }}>
-              📍 Appears in → <span style={{ color: '#a78bfa' }}>Portfolio listing hover panel</span> (3 images) and <span style={{ color: '#a78bfa' }}>3D Gallery cards</span> on the case study page.
+              📍 Appears in → <span style={{ color: '#a78bfa' }}>Portfolio listing hover panel</span> (3 images) and <span style={{ color: '#a78bfa' }}>3D Gallery cards</span> on the selected work page.
             </p>
             
             {project.images.length > 0 && (
@@ -663,13 +833,13 @@ export default function ProjectEditor() {
             </div>
           </div>
 
-          {/* ═══ Case Study Detail Fields ═══ */}
+          {/* ═══ Selected Work Detail Fields ═══ */}
           {isCaseStudy && (
             <>
               {/* Hero */}
               <div className="admin-card">
                 <h3 className="admin-card-title" style={{ marginBottom: '4px' }}>
-                  🎯 Case Study — Hero Section
+                  🎯 Selected Work — Hero Section
                 </h3>
                 <p style={{ fontSize: '0.7rem', color: '#666', marginBottom: '16px', lineHeight: 1.4 }}>
                   📍 Appears in → <span style={{ color: '#10b981' }}>Full-width hero</span> at the very top of <code style={{ fontSize: '0.65rem', background: '#222', padding: '1px 4px', borderRadius: '3px', color: '#f59e0b' }}>/case-study/{project.name ? project.name.toLowerCase().replace(/\s+/g, '-') : 'slug'}</code>. The headline is the big heading, subtext appears in the marquee section, and the URL adds a "Live Website →" link.
@@ -801,7 +971,7 @@ export default function ProjectEditor() {
 
                 {project.sections.length === 0 && (
                   <p style={{ color: '#666', fontSize: '0.875rem', textAlign: 'center', padding: '20px 0' }}>
-                    No sections yet. Click "Add Section" to build your case study content.
+                    No sections yet. Click "Add Section" to build your selected work content.
                   </p>
                 )}
 
@@ -1029,6 +1199,137 @@ export default function ProjectEditor() {
                 ))}
               </div>
 
+              {/* Gallery Cards (Bento Grid) */}
+              <div className="admin-card">
+                <h3 className="admin-card-title" style={{ marginBottom: '4px' }}>
+                  🎨 Gallery Cards (Bento Grid)
+                </h3>
+                <p style={{ fontSize: '0.7rem', color: '#666', marginBottom: '16px', lineHeight: 1.4 }}>
+                  📍 The 7-card bento grid on the selected work page. Each card has a <b>default widget</b> (CTA, dot grid, quote, etc.).
+                  Toggle "Use Custom Image" to replace any card with your own image.
+                </p>
+
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                  gap: '12px',
+                }}>
+                  {GALLERY_CARD_LABELS.map((label, slot) => {
+                    const gc = getGalleryCardForSlot(slot);
+                    const isCustom = gc?.useImage === true;
+
+                    return (
+                      <div
+                        key={slot}
+                        style={{
+                          background: isCustom ? '#0f1a14' : '#111',
+                          border: `1px solid ${isCustom ? '#10b981' : '#2a2a2a'}`,
+                          borderRadius: '8px',
+                          padding: '14px',
+                          transition: 'border-color 0.2s',
+                        }}
+                      >
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                          <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#ccc' }}>{label}</span>
+                          <span style={{
+                            fontSize: '0.6rem',
+                            fontWeight: 700,
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.5px',
+                            padding: '2px 6px',
+                            borderRadius: '4px',
+                            background: isCustom ? 'rgba(16,185,129,0.15)' : 'rgba(109,40,217,0.15)',
+                            color: isCustom ? '#10b981' : '#a78bfa',
+                          }}>
+                            {isCustom ? 'Custom Image' : 'Default'}
+                          </span>
+                        </div>
+
+                        {/* Toggle */}
+                        <label style={{
+                          display: 'flex', alignItems: 'center', gap: '8px',
+                          fontSize: '0.75rem', color: '#999', cursor: 'pointer', marginBottom: '10px',
+                        }}>
+                          <input
+                            type="checkbox"
+                            checked={isCustom}
+                            onChange={(e) => toggleGalleryCardImage(slot, e.target.checked)}
+                            style={{ accentColor: '#10b981' }}
+                          />
+                          Use custom image
+                        </label>
+
+                        {/* Image controls (only when custom) */}
+                        {isCustom && (
+                          <div>
+                            {gc?.imageUrl ? (
+                              <div style={{ position: 'relative', marginBottom: '8px' }}>
+                                <img
+                                  src={gc.imageUrl}
+                                  alt={gc.imageAlt || ''}
+                                  style={{
+                                    width: '100%', height: '100px', objectFit: 'cover',
+                                    borderRadius: '6px', background: '#1a1a1a',
+                                  }}
+                                />
+                                <button
+                                  className="admin-btn admin-btn-danger admin-btn-icon admin-btn-sm"
+                                  onClick={() => updateGalleryCard(slot, 'imageUrl', '')}
+                                  style={{
+                                    position: 'absolute', top: '4px', right: '4px',
+                                    width: '22px', height: '22px',
+                                  }}
+                                  title="Remove image"
+                                >
+                                  <FiTrash2 size={10} />
+                                </button>
+                              </div>
+                            ) : (
+                              <div style={{
+                                width: '100%', height: '80px', borderRadius: '6px',
+                                border: '2px dashed #333', display: 'flex',
+                                alignItems: 'center', justifyContent: 'center',
+                                marginBottom: '8px', color: '#555', fontSize: '0.75rem',
+                              }}>
+                                No image set
+                              </div>
+                            )}
+                            <div style={{ display: 'flex', gap: '6px' }}>
+                              <button
+                                className="admin-btn admin-btn-secondary admin-btn-sm"
+                                onClick={() => setMediaPickerTarget({ type: 'galleryCard', slot })}
+                                type="button"
+                                style={{ flex: 1, fontSize: '0.7rem' }}
+                              >
+                                <FiImage size={12} /> Browse
+                              </button>
+                              <button
+                                className="admin-btn admin-btn-danger admin-btn-sm"
+                                onClick={() => clearGalleryCardImage(slot)}
+                                type="button"
+                                style={{ fontSize: '0.7rem' }}
+                                title="Reset to default"
+                              >
+                                Reset
+                              </button>
+                            </div>
+                            <div className="admin-form-group" style={{ marginTop: '8px', marginBottom: 0 }}>
+                              <input
+                                type="text"
+                                value={gc?.imageAlt || ''}
+                                onChange={(e) => updateGalleryCard(slot, 'imageAlt', e.target.value)}
+                                placeholder="Alt text (optional)"
+                                style={{ fontSize: '0.75rem' }}
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
               {/* Marquee Builder */}
               <div className="admin-card">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
@@ -1223,6 +1524,391 @@ export default function ProjectEditor() {
                 ))}
               </div>
 
+              {/* Full Bleed Images & Outcome Section */}
+              <div className="admin-card">
+                <h3 className="admin-card-title" style={{ marginBottom: '4px' }}>
+                  🖼️ Full Bleed Images & Outcome Section
+                </h3>
+                <p style={{ fontSize: '0.7rem', color: '#666', marginBottom: '16px', lineHeight: 1.4 }}>
+                  📍 Appears in → <span style={{ color: '#a78bfa' }}>Full-width image strip</span> after the marquee cards, and the <span style={{ color: '#a78bfa' }}>Outcome section</span> with brand color background. Both sections are optional.
+                </p>
+
+                {/* Full Bleed Images */}
+                <div className="admin-form-group">
+                  <label>Full Bleed Images</label>
+                  <small style={{ color: '#888', display: 'block', marginBottom: '8px' }}>
+                    Multiple 16:9 images shown in a grid before the outcome section. Leave empty to hide.
+                  </small>
+                  {(project.fullBleedImages || []).length > 0 && (
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '12px' }}>
+                      {project.fullBleedImages.map((img, idx) => (
+                        <div key={idx} style={{ position: 'relative', width: '140px', height: '80px', borderRadius: '8px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
+                          <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          <button
+                            onClick={() => setProject(prev => ({ ...prev, fullBleedImages: prev.fullBleedImages.filter((_, i) => i !== idx) }))}
+                            style={{ position: 'absolute', top: '4px', right: '4px', background: 'rgba(0,0,0,0.7)', border: 'none', color: '#fff', borderRadius: '50%', width: '20px', height: '20px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}
+                          >
+                            <FiX size={12} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <input
+                      type="text"
+                      value={fullBleedUrl}
+                      onChange={(e) => setFullBleedUrl(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && fullBleedUrl.trim()) {
+                          e.preventDefault();
+                          setProject(prev => ({ ...prev, fullBleedImages: [...(prev.fullBleedImages || []), fullBleedUrl.trim()] }));
+                          setFullBleedUrl('');
+                        }
+                      }}
+                      placeholder="Paste image URL and press Enter..."
+                      style={{ flex: 1 }}
+                    />
+                    <button
+                      className="admin-btn admin-btn-secondary"
+                      onClick={() => {
+                        if (fullBleedUrl.trim()) {
+                          setProject(prev => ({ ...prev, fullBleedImages: [...(prev.fullBleedImages || []), fullBleedUrl.trim()] }));
+                          setFullBleedUrl('');
+                        }
+                      }}
+                      type="button"
+                    >
+                      <FiPlus /> Add
+                    </button>
+                    <button
+                      className="admin-btn admin-btn-secondary"
+                      onClick={() => setMediaPickerTarget('fullBleedImages')}
+                      type="button"
+                    >
+                      <FiImage /> Media
+                    </button>
+                  </div>
+                </div>
+
+                <div style={{ height: '1px', background: 'rgba(255,255,255,0.08)', margin: '20px 0' }} />
+
+                {/* Outcome Background Color */}
+                <div className="admin-form-group">
+                  <label>Outcome Background Color</label>
+                  <div className="admin-color-picker">
+                    <input
+                      type="color"
+                      value={project.outcomeBgColor || '#0a0a0a'}
+                      onChange={(e) => handleChange('outcomeBgColor', e.target.value)}
+                      className="admin-color-swatch"
+                      style={{ width: '50px', height: '40px', cursor: 'pointer' }}
+                    />
+                    <input
+                      type="text"
+                      value={project.outcomeBgColor || '#0a0a0a'}
+                      onChange={(e) => handleChange('outcomeBgColor', e.target.value)}
+                      placeholder="#0a0a0a"
+                      className="admin-color-input"
+                    />
+                    <div style={{
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '8px',
+                      background: project.outcomeBgColor || '#0a0a0a',
+                      border: '1px solid rgba(255,255,255,0.15)',
+                      flexShrink: 0,
+                    }} />
+                  </div>
+                </div>
+
+                {/* Outcome Label */}
+                <div className="admin-form-group">
+                  <label>Outcome Label</label>
+                  <input
+                    type="text"
+                    value={project.outcomeLabel || ''}
+                    onChange={(e) => handleChange('outcomeLabel', e.target.value)}
+                    placeholder="OUTCOME"
+                  />
+                </div>
+
+                {/* Outcome Description */}
+                <div className="admin-form-group">
+                  <label>Outcome Description</label>
+                  <textarea
+                    value={project.outcomeDescription || ''}
+                    onChange={(e) => handleChange('outcomeDescription', e.target.value)}
+                    placeholder="Describe the project outcome..."
+                    rows={4}
+                  />
+                </div>
+
+                {/* Live Website URL */}
+                <div className="admin-form-group">
+                  <label>Live Website URL</label>
+                  <input
+                    type="text"
+                    value={project.outcomeLiveUrl || ''}
+                    onChange={(e) => handleChange('outcomeLiveUrl', e.target.value)}
+                    placeholder="https://..."
+                  />
+                </div>
+
+                {/* Outcome Side Image */}
+                <div className="admin-form-group">
+                  <label>Outcome Side Image</label>
+                  <small style={{ color: '#888', display: 'block', marginBottom: '8px' }}>
+                    Image shown on right side beside the outcome text
+                  </small>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <input
+                      type="text"
+                      value={project.outcomeImage || ''}
+                      onChange={(e) => handleChange('outcomeImage', e.target.value)}
+                      placeholder="Image URL..."
+                      style={{ flex: 1 }}
+                    />
+                    <button
+                      className="admin-btn admin-btn-secondary"
+                      onClick={() => setMediaPickerTarget('outcomeImage')}
+                      type="button"
+                    >
+                      <FiImage /> Media
+                    </button>
+                  </div>
+                  {project.outcomeImage && (
+                    <div style={{ marginTop: '8px', width: '120px', height: '160px', borderRadius: '8px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
+                      <img src={project.outcomeImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
+                  )}
+                </div>
+
+                {/* Image Alt Text */}
+                <div className="admin-form-group" style={{ marginBottom: 0 }}>
+                  <label>Image Alt Text</label>
+                  <input
+                    type="text"
+                    value={project.outcomeImageAlt || ''}
+                    onChange={(e) => handleChange('outcomeImageAlt', e.target.value)}
+                    placeholder="Project outcome"
+                  />
+                </div>
+              </div>
+
+              {/* ═══ Content Blocks ═══ */}
+              <div className="admin-card">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                  <h3 className="admin-card-title" style={{ margin: 0 }}>
+                    🧱 Content Blocks
+                  </h3>
+                </div>
+                <p style={{ fontSize: '0.7rem', color: '#666', marginBottom: '16px', lineHeight: 1.4 }}>
+                  📍 Appears in → <span style={{ color: '#10b981' }}>Between marquee and full-bleed sections</span>. Build custom page layouts by adding blocks in any order.
+                </p>
+
+                {/* Add Block Dropdown */}
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+                  <select
+                    id="block-type-select"
+                    defaultValue=""
+                    style={{ flex: 1, background: '#1a1a1a', border: '1px solid #333', borderRadius: '6px', padding: '8px 12px', color: '#ccc', fontSize: '0.85rem' }}
+                  >
+                    <option value="" disabled>Select block type...</option>
+                    {CONTENT_BLOCK_TYPES.map(t => (
+                      <option key={t.value} value={t.value}>{t.label}</option>
+                    ))}
+                  </select>
+                  <button
+                    className="admin-btn admin-btn-primary admin-btn-sm"
+                    type="button"
+                    onClick={() => {
+                      const sel = document.getElementById('block-type-select');
+                      if (sel.value) { addContentBlock(sel.value); sel.value = ''; }
+                    }}
+                  >
+                    <FiPlus /> Add
+                  </button>
+                </div>
+
+                {/* Block list */}
+                {(!project.contentBlocks || project.contentBlocks.length === 0) ? (
+                  <div style={{
+                    border: '2px dashed #333', borderRadius: '10px', padding: '32px 20px',
+                    textAlign: 'center', color: '#555', fontSize: '0.85rem',
+                  }}>
+                    No content blocks yet. Add your first block using the dropdown above.
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    {project.contentBlocks.map((block, idx) => {
+                      const blockKey = `block-${idx}`;
+                      const isCollapsed = collapsedSections[blockKey] !== false;
+                      const typeName = CONTENT_BLOCK_TYPES.find(t => t.value === block.type)?.label || block.type;
+                      const isTextType = ['text-image-right', 'image-text-right', 'text-full'].includes(block.type);
+                      const hasImage = ['text-image-right', 'image-text-right', 'image-full'].includes(block.type);
+
+                      return (
+                        <div key={idx} style={{
+                          background: '#111', border: '1px solid #222', borderRadius: '8px',
+                          overflow: 'hidden',
+                        }}>
+                          {/* Header */}
+                          <div
+                            style={{
+                              padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px',
+                              cursor: 'pointer', borderBottom: isCollapsed ? 'none' : '1px solid #222',
+                            }}
+                            onClick={() => setCollapsedSections(c => ({ ...c, [blockKey]: !isCollapsed }))}
+                          >
+                            <span style={{ fontSize: '0.7rem', color: '#888' }}>#{idx + 1}</span>
+                            <div style={{
+                              width: '16px', height: '16px', borderRadius: '3px',
+                              background: block.bgColor || '#0a0a0a', border: '1px solid #444', flexShrink: 0,
+                            }} />
+                            <span style={{ flex: 1, fontSize: '0.8rem', fontWeight: 600, color: '#ddd' }}>{typeName}</span>
+                            {block.heading && <span style={{ fontSize: '0.7rem', color: '#666', maxWidth: '120px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{block.heading}</span>}
+                            <button className="admin-btn admin-btn-ghost admin-btn-icon admin-btn-sm" onClick={(e) => { e.stopPropagation(); moveContentBlock(idx, -1); }} disabled={idx === 0} type="button" title="Move up" style={{ fontSize: '0.75rem' }}>▲</button>
+                            <button className="admin-btn admin-btn-ghost admin-btn-icon admin-btn-sm" onClick={(e) => { e.stopPropagation(); moveContentBlock(idx, 1); }} disabled={idx === project.contentBlocks.length - 1} type="button" title="Move down" style={{ fontSize: '0.75rem' }}>▼</button>
+                            <button className="admin-btn admin-btn-danger admin-btn-icon admin-btn-sm" onClick={(e) => { e.stopPropagation(); removeContentBlock(idx); }} type="button" title="Delete"><FiTrash2 size={12} /></button>
+                            <span style={{ fontSize: '0.75rem', color: '#666' }}>{isCollapsed ? '▶' : '▼'}</span>
+                          </div>
+
+                          {/* Expanded content */}
+                          {!isCollapsed && (
+                            <div style={{ padding: '14px' }}>
+                              {/* Background & Text Color */}
+                              <div style={{ display: 'flex', gap: '12px', marginBottom: '14px', flexWrap: 'wrap' }}>
+                                <div style={{ flex: 1, minWidth: '160px' }}>
+                                  <label style={{ fontSize: '0.7rem', color: '#888', display: 'block', marginBottom: '4px' }}>Background Color</label>
+                                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                                    <input type="color" value={block.bgColor || '#0a0a0a'} onChange={(e) => updateContentBlock(idx, 'bgColor', e.target.value)} style={{ width: '36px', height: '30px', cursor: 'pointer', border: 'none', borderRadius: '4px' }} />
+                                    <input type="text" value={block.bgColor || '#0a0a0a'} onChange={(e) => updateContentBlock(idx, 'bgColor', e.target.value)} style={{ flex: 1, fontSize: '0.75rem', padding: '4px 8px', background: '#1a1a1a', border: '1px solid #333', borderRadius: '4px', color: '#ccc' }} />
+                                  </div>
+                                </div>
+                                <div style={{ minWidth: '120px' }}>
+                                  <label style={{ fontSize: '0.7rem', color: '#888', display: 'block', marginBottom: '4px' }}>Text Color</label>
+                                  <div style={{ display: 'flex', gap: '4px' }}>
+                                    <button type="button" onClick={() => updateContentBlock(idx, 'textColor', '#ffffff')} style={{
+                                      flex: 1, padding: '5px 10px', fontSize: '0.7rem', fontWeight: 600, borderRadius: '4px', cursor: 'pointer', border: '1px solid #444',
+                                      background: block.textColor === '#ffffff' ? '#fff' : '#1a1a1a', color: block.textColor === '#ffffff' ? '#000' : '#888',
+                                    }}>White</button>
+                                    <button type="button" onClick={() => updateContentBlock(idx, 'textColor', '#0a0a0a')} style={{
+                                      flex: 1, padding: '5px 10px', fontSize: '0.7rem', fontWeight: 600, borderRadius: '4px', cursor: 'pointer', border: '1px solid #444',
+                                      background: block.textColor === '#0a0a0a' ? '#333' : '#1a1a1a', color: block.textColor === '#0a0a0a' ? '#fff' : '#888',
+                                    }}>Dark</button>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Text fields — shown for text blocks + quote + image types with heading */}
+                              {isTextType && (
+                                <>
+                                  <div className="admin-form-group" style={{ marginBottom: '10px' }}>
+                                    <label style={{ fontSize: '0.7rem' }}>Label</label>
+                                    <input type="text" value={block.label || ''} onChange={(e) => updateContentBlock(idx, 'label', e.target.value)} placeholder="• SECTION /" style={{ fontSize: '0.8rem' }} />
+                                  </div>
+                                  <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+                                    <div className="admin-form-group" style={{ flex: 1, marginBottom: 0 }}>
+                                      <label style={{ fontSize: '0.7rem' }}>Heading</label>
+                                      <input type="text" value={block.heading || ''} onChange={(e) => updateContentBlock(idx, 'heading', e.target.value)} placeholder="Section heading..." style={{ fontSize: '0.8rem' }} />
+                                    </div>
+                                    <div className="admin-form-group" style={{ width: '100px', marginBottom: 0 }}>
+                                      <label style={{ fontSize: '0.7rem' }}>Size</label>
+                                      <select value={block.headingSize || 'large'} onChange={(e) => updateContentBlock(idx, 'headingSize', e.target.value)} style={{ fontSize: '0.75rem' }}>
+                                        <option value="large">Large</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="small">Small</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div className="admin-form-group" style={{ marginBottom: '10px' }}>
+                                    <label style={{ fontSize: '0.7rem' }}>Body</label>
+                                    <textarea value={block.body || ''} onChange={(e) => updateContentBlock(idx, 'body', e.target.value)} placeholder="Body text..." rows={4} style={{ fontSize: '0.8rem' }} />
+                                  </div>
+                                </>
+                              )}
+
+                              {/* Image fields — shown for image-containing blocks */}
+                              {hasImage && (
+                                <>
+                                  <div className="admin-form-group" style={{ marginBottom: '10px' }}>
+                                    <label style={{ fontSize: '0.7rem' }}>Image</label>
+                                    <div style={{ display: 'flex', gap: '6px' }}>
+                                      <input type="text" value={block.imageUrl || ''} onChange={(e) => updateContentBlock(idx, 'imageUrl', e.target.value)} placeholder="Image URL..." style={{ flex: 1, fontSize: '0.8rem' }} />
+                                      <button className="admin-btn admin-btn-secondary admin-btn-sm" onClick={() => setMediaPickerTarget({ type: 'contentBlock', index: idx })} type="button"><FiImage size={12} /> Browse</button>
+                                    </div>
+                                    {block.imageUrl && (
+                                      <div style={{ marginTop: '8px', width: '100%', height: '120px', borderRadius: '6px', overflow: 'hidden', border: '1px solid #222' }}>
+                                        <img src={block.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                      </div>
+                                    )}
+                                  </div>
+                                  <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+                                    <div className="admin-form-group" style={{ flex: 1, marginBottom: 0 }}>
+                                      <label style={{ fontSize: '0.7rem' }}>Alt Text</label>
+                                      <input type="text" value={block.imageAlt || ''} onChange={(e) => updateContentBlock(idx, 'imageAlt', e.target.value)} placeholder="Image alt text..." style={{ fontSize: '0.8rem' }} />
+                                    </div>
+                                    {block.type === 'image-full' && (
+                                      <div className="admin-form-group" style={{ width: '100px', marginBottom: 0 }}>
+                                        <label style={{ fontSize: '0.7rem' }}>Fit</label>
+                                        <select value={block.imageFit || 'cover'} onChange={(e) => updateContentBlock(idx, 'imageFit', e.target.value)} style={{ fontSize: '0.75rem' }}>
+                                          <option value="cover">Cover</option>
+                                          <option value="contain">Contain</option>
+                                        </select>
+                                      </div>
+                                    )}
+                                  </div>
+                                  {block.type !== 'image-full' && (
+                                    <div className="admin-form-group" style={{ marginBottom: '10px' }}>
+                                      <label style={{ fontSize: '0.7rem' }}>Split Ratio</label>
+                                      <select value={block.splitRatio || '50-50'} onChange={(e) => updateContentBlock(idx, 'splitRatio', e.target.value)} style={{ fontSize: '0.75rem' }}>
+                                        <option value="50-50">50 / 50</option>
+                                        <option value="60-40">60 / 40 (text bigger)</option>
+                                        <option value="40-60">40 / 60 (image bigger)</option>
+                                      </select>
+                                    </div>
+                                  )}
+                                </>
+                              )}
+
+                              {/* Quote fields */}
+                              {block.type === 'quote' && (
+                                <>
+                                  <div className="admin-form-group" style={{ marginBottom: '10px' }}>
+                                    <label style={{ fontSize: '0.7rem' }}>Quote Text</label>
+                                    <textarea value={block.quote || ''} onChange={(e) => updateContentBlock(idx, 'quote', e.target.value)} placeholder="Quote text..." rows={3} style={{ fontSize: '0.8rem' }} />
+                                  </div>
+                                  <div className="admin-form-group" style={{ marginBottom: '10px' }}>
+                                    <label style={{ fontSize: '0.7rem' }}>Author</label>
+                                    <input type="text" value={block.quoteAuthor || ''} onChange={(e) => updateContentBlock(idx, 'quoteAuthor', e.target.value)} placeholder="— Author name" style={{ fontSize: '0.8rem' }} />
+                                  </div>
+                                </>
+                              )}
+
+                              {/* Stats fields */}
+                              {block.type === 'stats' && (
+                                <div style={{ marginBottom: '10px' }}>
+                                  <label style={{ fontSize: '0.7rem', color: '#888', display: 'block', marginBottom: '8px' }}>Stats</label>
+                                  {(block.stats || []).map((stat, si) => (
+                                    <div key={si} style={{ display: 'flex', gap: '6px', marginBottom: '6px', alignItems: 'center' }}>
+                                      <input type="text" value={stat.value || ''} onChange={(e) => updateContentBlockStat(idx, si, 'value', e.target.value)} placeholder="98%" style={{ width: '80px', fontSize: '0.8rem' }} />
+                                      <input type="text" value={stat.label || ''} onChange={(e) => updateContentBlockStat(idx, si, 'label', e.target.value)} placeholder="Client Retention" style={{ flex: 1, fontSize: '0.8rem' }} />
+                                      <button className="admin-btn admin-btn-danger admin-btn-icon admin-btn-sm" onClick={() => removeContentBlockStat(idx, si)} type="button"><FiTrash2 size={10} /></button>
+                                    </div>
+                                  ))}
+                                  <button className="admin-btn admin-btn-secondary admin-btn-sm" onClick={() => addContentBlockStat(idx)} type="button" style={{ fontSize: '0.7rem' }}><FiPlus size={10} /> Add Stat</button>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
               {/* SEO */}
               <div className="admin-card">
                 <h3 className="admin-card-title" style={{ marginBottom: '4px' }}>
@@ -1259,7 +1945,7 @@ export default function ProjectEditor() {
           <div className="admin-card">
             <h3 className="admin-card-title" style={{ marginBottom: '4px' }}>Settings</h3>
             <p style={{ fontSize: '0.7rem', color: '#666', marginBottom: '16px', lineHeight: 1.4 }}>
-              📍 <span style={{ color: '#f59e0b' }}>Accent Color</span> = entire case study page theme. <span style={{ color: '#f59e0b' }}>Featured</span> = shows on home page portfolio section.
+              📍 <span style={{ color: '#f59e0b' }}>Accent Color</span> = entire selected work page theme. <span style={{ color: '#f59e0b' }}>Featured</span> = shows on home page portfolio section.
             </p>
             
             <div className="admin-form-group">
@@ -1339,7 +2025,7 @@ export default function ProjectEditor() {
                 textTransform: 'uppercase',
                 letterSpacing: '0.5px',
               }}>
-                {isCaseStudy ? 'Case Study' : 'Project'}
+                {isCaseStudy ? 'Selected Work' : 'Project'}
               </span>
               {project.featured && (
                 <span style={{
@@ -1383,7 +2069,7 @@ export default function ProjectEditor() {
         isOpen={!!mediaPickerTarget}
         onClose={() => setMediaPickerTarget(null)}
         onSelect={handleMediaSelect}
-        multiple={mediaPickerTarget === 'gallery'}
+        multiple={mediaPickerTarget === 'gallery' || mediaPickerTarget === 'fullBleedImages'}
       />
     </div>
   );
