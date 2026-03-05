@@ -214,7 +214,9 @@ router.put('/:id', protect, async (req, res) => {
       'tags', 'images', 'accent', 'visible', 'featured',
       'heroHeadline', 'heroSubtext', 'services', 'sections',
       'results', 'liveUrl', 'metaTitle', 'metaDescription', 'year', 'order',
-      'topVideoUrl', 'marqueeCards'
+      'topVideoUrl', 'galleryCards', 'contentBlocks', 'marqueeCards',
+      'fullBleedImages', 'outcomeLabel', 'outcomeDescription',
+      'outcomeLiveUrl', 'outcomeBgColor', 'outcomeImage', 'outcomeImageAlt'
     ];
 
     // Build the $set payload from only allowed fields

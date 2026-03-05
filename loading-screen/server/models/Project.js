@@ -102,11 +102,78 @@ const ProjectSchema = new mongoose.Schema({
     }
   ],
 
+  // ─── Gallery Cards (Bento Section) ───
+  // Each entry can optionally replace the default card widget with a custom image
+  galleryCards: [
+    {
+      slot: {
+        type: Number, // 0–6 maps to card positions
+        min: 0,
+        max: 6,
+      },
+      useImage: {
+        type: Boolean,
+        default: false,
+      },
+      imageUrl: {
+        type: String,
+        default: '',
+      },
+      imageAlt: {
+        type: String,
+        default: '',
+      },
+    }
+  ],
+
   // ─── Dynamic Case Study Enhancements ───
   topVideoUrl: {
     type: String,
     default: ''
   },
+
+  // ─── Content Blocks (Flexible page sections after marquee) ───
+  contentBlocks: [
+    {
+      type: {
+        type: String,
+        enum: ['text-image-right', 'image-text-right', 'text-full', 'image-full', 'quote', 'stats'],
+        required: true,
+      },
+      order: { type: Number, default: 0 },
+      bgColor: { type: String, default: '#0a0a0a' },
+      textColor: { type: String, default: '#ffffff' },
+      label: { type: String, default: '' },
+      heading: { type: String, default: '' },
+      headingSize: {
+        type: String,
+        enum: ['large', 'medium', 'small'],
+        default: 'large',
+      },
+      body: { type: String, default: '' },
+      imageUrl: { type: String, default: '' },
+      imageAlt: { type: String, default: '' },
+      imageFit: {
+        type: String,
+        enum: ['cover', 'contain'],
+        default: 'cover',
+      },
+      quote: { type: String, default: '' },
+      quoteAuthor: { type: String, default: '' },
+      stats: [
+        {
+          value: { type: String },
+          label: { type: String },
+        }
+      ],
+      splitRatio: {
+        type: String,
+        enum: ['50-50', '60-40', '40-60'],
+        default: '50-50',
+      },
+    }
+  ],
+
   marqueeCards: [
     {
       cardType: {
@@ -129,6 +196,36 @@ const ProjectSchema = new mongoose.Schema({
       ]
     }
   ],
+
+  // ─── Full Bleed & Outcome Section ───
+  fullBleedImages: [{
+    type: String
+  }],
+
+  outcomeLabel: {
+    type: String,
+    default: 'OUTCOME'
+  },
+  outcomeDescription: {
+    type: String,
+    default: ''
+  },
+  outcomeLiveUrl: {
+    type: String,
+    default: ''
+  },
+  outcomeBgColor: {
+    type: String,
+    default: '#0a0a0a'
+  },
+  outcomeImage: {
+    type: String,
+    default: ''
+  },
+  outcomeImageAlt: {
+    type: String,
+    default: 'Project outcome'
+  },
 
   // External link
   liveUrl: {

@@ -243,7 +243,87 @@ const projectsData = [
       { metric: 'Lead Conversion', value: '+165%' }
     ],
     liveUrl: 'https://heimdallpower.com',
-    metaTitle: 'Heimdall Power Case Study — Kyurex',
+    fullBleedImages: [
+      'https://picsum.photos/seed/heimdall_fb1/1920/1080',
+      'https://picsum.photos/seed/heimdall_fb2/1920/1080'
+    ],
+    outcomeLabel: 'OUTCOME',
+    outcomeDescription: 'The redesigned digital platform elevated Heimdall Power\'s brand perception across the energy sector, translating complex grid intelligence into a visually compelling narrative that resonated with utility executives and investors alike.',
+    outcomeLiveUrl: 'https://heimdallpower.com',
+    outcomeBgColor: '#FF4D2E',
+    outcomeImage: 'https://picsum.photos/seed/heimdall_outcome/800/1000',
+    outcomeImageAlt: 'Heimdall Power final website showcase',
+    contentBlocks: [
+      {
+        type: 'text-image-right',
+        order: 0,
+        bgColor: '#0a0a0a',
+        textColor: '#ffffff',
+        label: 'THE CHALLENGE',
+        heading: 'Transforming Grid Intelligence',
+        headingSize: 'large',
+        body: 'Heimdall Power\'s existing digital presence failed to convey the scale of their Neuron sensor technology. We needed to create an experience that translated highly technical data into compelling visual storytelling — one that resonated equally with utility engineers and C-suite executives.',
+        imageUrl: 'https://picsum.photos/seed/heimdall_block1/900/700',
+        imageAlt: 'Heimdall Power grid monitoring dashboard',
+        imageFit: 'cover',
+        splitRatio: '60-40',
+      },
+      {
+        type: 'image-full',
+        order: 1,
+        bgColor: '#111111',
+        imageUrl: 'https://picsum.photos/seed/heimdall_block2/1920/800',
+        imageAlt: 'Full-width hero of Heimdall Power website',
+        imageFit: 'cover',
+      },
+      {
+        type: 'quote',
+        order: 2,
+        bgColor: '#0d0d0d',
+        textColor: '#ffffff',
+        quote: 'Their team understood the nuance between enterprise credibility and creative storytelling. The result exceeded every benchmark we set.',
+        quoteAuthor: 'Jørgen Festervoll, CEO — Heimdall Power',
+      },
+      {
+        type: 'stats',
+        order: 3,
+        bgColor: '#FF4D2E',
+        textColor: '#ffffff',
+        heading: 'Impact at a Glance',
+        headingSize: 'medium',
+        stats: [
+          { value: '40%', label: 'Grid capacity increase' },
+          { value: '98%', label: 'Uptime reliability' },
+          { value: '15K+', label: 'Sensors deployed globally' },
+          { value: '$2.1B', label: 'Grid value protected' },
+        ],
+      },
+      {
+        type: 'image-text-right',
+        order: 4,
+        bgColor: '#0a0a0a',
+        textColor: '#ffffff',
+        label: 'OUR APPROACH',
+        heading: 'Cinematic 3D Storytelling',
+        headingSize: 'large',
+        body: 'We built a cinematic web experience using Three.js for 3D product visualization, GSAP for scroll-driven storytelling, and a custom CMS for the engineering team to publish real-time grid data. Every interaction was designed to communicate precision, scale, and trust.',
+        imageUrl: 'https://picsum.photos/seed/heimdall_block3/900/700',
+        imageAlt: 'Heimdall Power 3D visualization process',
+        imageFit: 'cover',
+        splitRatio: '50-50',
+      },
+      {
+        type: 'text-full',
+        order: 5,
+        bgColor: '#111111',
+        textColor: '#ffffff',
+        label: 'TECHNOLOGY',
+        heading: 'Built for Scale',
+        headingSize: 'medium',
+        body: 'The platform was engineered with a headless architecture, leveraging Next.js for server-side rendering, Sanity as the content layer, and a custom WebGL pipeline that delivers real-time 3D with sub-second load times. The result: a Lighthouse score of 98 on a page with full 3D interactivity.',
+      },
+    ],
+    metaTitle: 'Heimdall Power — Selected Work — Kyurex',
     metaDescription: 'How we crafted a 3D-driven web experience for Norway\'s leading power grid intelligence company.',
     year: 2024,
     order: 0
@@ -295,7 +375,78 @@ const projectsData = [
       { metric: 'Feature Adoption', value: '+200%' }
     ],
     liveUrl: 'https://starred.com',
-    metaTitle: 'Starred Case Study — Kyurex',
+    fullBleedImages: [
+      'https://picsum.photos/seed/starred_fb1/1920/1080'
+    ],
+    outcomeLabel: 'THE RESULT',
+    outcomeDescription: 'A complete platform transformation that turned a confusing data tool into an intuitive hiring companion, dramatically reducing onboarding friction and boosting recruiter confidence.',
+    outcomeLiveUrl: 'https://starred.com',
+    outcomeBgColor: '#00D4AA',
+    outcomeImage: 'https://picsum.photos/seed/starred_outcome/800/1000',
+    outcomeImageAlt: 'Starred platform redesign showcase',
+    contentBlocks: [
+      {
+        type: 'text-full',
+        order: 0,
+        bgColor: '#0a0a0a',
+        textColor: '#ffffff',
+        label: 'CONTEXT',
+        heading: 'Data Should Feel Effortless',
+        headingSize: 'large',
+        body: 'Starred had built an incredibly powerful recruitment analytics engine — but the interface made recruiters feel like they needed a PhD to use it. Our mission was to strip away the complexity without sacrificing the depth, creating a platform that felt intuitive from the first click.',
+      },
+      {
+        type: 'image-text-right',
+        order: 1,
+        bgColor: '#0d0d0d',
+        textColor: '#ffffff',
+        label: 'DESIGN PROCESS',
+        heading: 'Clarity Through Iteration',
+        headingSize: 'large',
+        body: 'We ran 30+ user testing sessions, rebuilding the core dashboard three times until every chart, filter, and action was where recruiters instinctively expected it. The new information hierarchy reduced average task completion time by 60%.',
+        imageUrl: 'https://picsum.photos/seed/starred_block1/900/700',
+        imageAlt: 'Starred dashboard wireframe iterations',
+        imageFit: 'cover',
+        splitRatio: '50-50',
+      },
+      {
+        type: 'stats',
+        order: 2,
+        bgColor: '#00D4AA',
+        textColor: '#ffffff',
+        heading: 'Key Metrics',
+        headingSize: 'medium',
+        stats: [
+          { value: '-60%', label: 'Onboarding time' },
+          { value: '+180%', label: 'Portal engagement' },
+          { value: '+45', label: 'NPS score improvement' },
+          { value: '70%', label: 'Fewer support tickets' },
+        ],
+      },
+      {
+        type: 'quote',
+        order: 3,
+        bgColor: '#0a0a0a',
+        textColor: '#ffffff',
+        quote: 'The redesign completely transformed how our clients interact with hiring data. It went from confusing to delightful overnight.',
+        quoteAuthor: 'Head of Product, Starred',
+      },
+      {
+        type: 'text-image-right',
+        order: 4,
+        bgColor: '#111111',
+        textColor: '#ffffff',
+        label: 'OUTCOME',
+        heading: 'A Platform People Love Using',
+        headingSize: 'large',
+        body: 'Post-launch, Starred saw feature adoption rates double as recruiters discovered tools they never knew existed. The refreshed design system now scales cleanly across 12 product modules with zero inconsistencies.',
+        imageUrl: 'https://picsum.photos/seed/starred_block2/900/700',
+        imageAlt: 'Starred final platform screens',
+        imageFit: 'cover',
+        splitRatio: '60-40',
+      },
+    ],
+    metaTitle: 'Starred — Selected Work — Kyurex',
     metaDescription: 'How we redesigned a recruitment analytics platform to improve user onboarding by 60%.',
     year: 2023,
     order: 1
@@ -346,10 +497,477 @@ const projectsData = [
       { metric: 'Investor Interest', value: '3x' }
     ],
     liveUrl: 'https://cula.app',
-    metaTitle: 'Cula Case Study — Kyurex',
+    fullBleedImages: [
+      'https://picsum.photos/seed/cula_fb1/1920/1080',
+      'https://picsum.photos/seed/cula_fb2/1920/1080',
+      'https://picsum.photos/seed/cula_fb3/1920/1080'
+    ],
+    outcomeLabel: 'OUTCOME',
+    outcomeDescription: 'The new digital experience transformed how enterprises perceive carbon tracking — making sustainability data feel approachable and actionable rather than overwhelming, and driving a threefold increase in investor interest.',
+    outcomeLiveUrl: 'https://cula.app',
+    outcomeBgColor: '#6366f1',
+    outcomeImage: 'https://picsum.photos/seed/cula_outcome/800/1000',
+    outcomeImageAlt: 'Cula carbon tracking platform outcome',
+    contentBlocks: [
+      {
+        type: 'text-image-right',
+        order: 0,
+        bgColor: '#0a0a0a',
+        textColor: '#ffffff',
+        label: 'THE VISION',
+        heading: 'Making Carbon Data Compelling',
+        headingSize: 'large',
+        body: 'Climate data is inherently complex — carbon metrics, regulatory frameworks, and reduction pathways don\'t naturally lend themselves to beautiful storytelling. Our challenge was to distill this complexity into a narrative that resonates with C-suite executives and sustainability officers alike.',
+        imageUrl: 'https://picsum.photos/seed/cula_block1/900/700',
+        imageAlt: 'Cula carbon tracking interface concept',
+        imageFit: 'cover',
+        splitRatio: '50-50',
+      },
+      {
+        type: 'image-full',
+        order: 1,
+        bgColor: '#0d0d0d',
+        imageUrl: 'https://picsum.photos/seed/cula_block2/1920/800',
+        imageAlt: 'Cula website full-width showcase',
+        imageFit: 'cover',
+      },
+      {
+        type: 'text-full',
+        order: 2,
+        bgColor: '#111111',
+        textColor: '#ffffff',
+        label: 'DESIGN PHILOSOPHY',
+        heading: 'Clarity Creates Action',
+        headingSize: 'medium',
+        body: 'We designed every data visualization to tell a story: where your emissions come from, how they compare to benchmarks, and exactly what you can do to reduce them. Complex regulatory requirements are surfaced as actionable checklists rather than impenetrable documents.',
+      },
+      {
+        type: 'quote',
+        order: 3,
+        bgColor: '#6366f1',
+        textColor: '#ffffff',
+        quote: 'Kyurex understood our mission from day one. The website doesn\'t just look beautiful — it tells the story of why carbon tracking matters.',
+        quoteAuthor: 'Co-founder, Cula',
+      },
+      {
+        type: 'stats',
+        order: 4,
+        bgColor: '#0a0a0a',
+        textColor: '#ffffff',
+        heading: 'Results That Matter',
+        headingSize: 'medium',
+        stats: [
+          { value: '+300%', label: 'Demo requests' },
+          { value: '4m 20s', label: 'Avg. session duration' },
+          { value: '2500+', label: 'Investor deck views' },
+          { value: '3x', label: 'Investor interest' },
+        ],
+      },
+      {
+        type: 'image-text-right',
+        order: 5,
+        bgColor: '#0d0d0d',
+        textColor: '#ffffff',
+        label: 'TECHNOLOGY',
+        heading: '3D That Performs',
+        headingSize: 'large',
+        body: 'The 3D globe visualization renders real-time emission data across 40+ countries with smooth 60fps performance. Built with Three.js and optimized with instanced rendering, it loads in under 2 seconds even on mid-range devices.',
+        imageUrl: 'https://picsum.photos/seed/cula_block3/900/700',
+        imageAlt: 'Cula 3D globe visualization',
+        imageFit: 'cover',
+        splitRatio: '40-60',
+      },
+    ],
+    metaTitle: 'Cula — Selected Work — Kyurex',
     metaDescription: 'How we created a 3D-driven web experience for a climate-tech startup that increased demo requests by 300%.',
     year: 2024,
     order: 2
+  },
+  {
+    name: 'Meridian Health',
+    slug: 'meridian-health',
+    type: 'case-study',
+    description: 'Meridian Health is a digital-first healthcare platform connecting patients with specialists through AI-powered triage and telemedicine. We designed the brand, patient portal, and a marketing site that builds trust.',
+    tags: ['Web Design', 'Branding', 'UX Research'],
+    industry: 'Healthcare',
+    location: 'Boston, US',
+    accent: '#0ea5e9',
+    images: [
+      'https://picsum.photos/seed/meridian1/800/600',
+      'https://picsum.photos/seed/meridian2/800/600',
+      'https://picsum.photos/seed/meridian3/800/600'
+    ],
+    visible: true,
+    featured: true,
+    heroHeadline: 'Healthcare, Reimagined',
+    heroSubtext: 'Building trust through intuitive design — where patients and technology meet seamlessly.',
+    services: ['Web Design', 'Branding', 'UX Research', 'Creative Development', 'Strategy'],
+    sections: [
+      {
+        type: 'text',
+        heading: 'The Challenge',
+        body: 'Meridian needed a digital experience that felt warm and trustworthy in an industry plagued by cold, clinical interfaces. Patients needed to feel safe before they ever spoke to a doctor.'
+      },
+      {
+        type: 'stats',
+        heading: 'Key Outcomes',
+        stats: [
+          { label: 'Patient onboarding', value: '+240%' },
+          { label: 'Avg. wait time', value: '-75%' },
+          { label: 'Patient satisfaction', value: '96%' },
+          { label: 'Specialist bookings', value: '+180%' }
+        ]
+      },
+      {
+        type: 'quote',
+        quote: 'They understood that in healthcare, trust isn\'t earned through flashy design — it\'s earned through clarity, empathy, and reliability.',
+        author: 'Chief Medical Officer, Meridian Health'
+      }
+    ],
+    results: [
+      { metric: 'Patient Onboarding', value: '+240%' },
+      { metric: 'Wait Time Reduction', value: '75%' },
+      { metric: 'Patient NPS', value: '96' }
+    ],
+    liveUrl: 'https://meridianhealth.io',
+    fullBleedImages: [
+      'https://picsum.photos/seed/meridian_fb1/1920/1080',
+      'https://picsum.photos/seed/meridian_fb2/1920/1080'
+    ],
+    outcomeLabel: 'THE RESULT',
+    outcomeDescription: 'A patient-first digital platform that transformed how Meridian Health acquires, onboards, and retains patients — reducing friction at every touchpoint while maintaining the warmth and trust essential to healthcare.',
+    outcomeLiveUrl: 'https://meridianhealth.io',
+    outcomeBgColor: '#0ea5e9',
+    outcomeImage: 'https://picsum.photos/seed/meridian_outcome/800/1000',
+    outcomeImageAlt: 'Meridian Health patient portal showcase',
+    contentBlocks: [
+      {
+        type: 'text-image-right',
+        order: 0,
+        bgColor: '#0a0a0a',
+        textColor: '#ffffff',
+        label: 'THE CHALLENGE',
+        heading: 'Trust Before Technology',
+        headingSize: 'large',
+        body: 'Healthcare interfaces often feel cold and intimidating. Meridian needed a digital presence that communicated expertise while feeling approachable — a platform where patients felt safe before they ever spoke to a doctor. Every design decision prioritized empathy over efficiency.',
+        imageUrl: 'https://picsum.photos/seed/meridian_block1/900/700',
+        imageAlt: 'Meridian Health patient experience wireframes',
+        imageFit: 'cover',
+        splitRatio: '60-40',
+      },
+      {
+        type: 'stats',
+        order: 1,
+        bgColor: '#0ea5e9',
+        textColor: '#ffffff',
+        heading: 'Patient Outcomes',
+        headingSize: 'medium',
+        stats: [
+          { value: '+240%', label: 'Patient onboarding' },
+          { value: '-75%', label: 'Avg. wait time' },
+          { value: '96%', label: 'Patient satisfaction' },
+          { value: '+180%', label: 'Specialist bookings' },
+        ],
+      },
+      {
+        type: 'image-full',
+        order: 2,
+        bgColor: '#111111',
+        imageUrl: 'https://picsum.photos/seed/meridian_block2/1920/800',
+        imageAlt: 'Meridian Health full platform overview',
+        imageFit: 'cover',
+      },
+      {
+        type: 'quote',
+        order: 3,
+        bgColor: '#0d0d0d',
+        textColor: '#ffffff',
+        quote: 'They understood that in healthcare, trust isn\'t earned through flashy design — it\'s earned through clarity, empathy, and reliability.',
+        quoteAuthor: 'Chief Medical Officer, Meridian Health',
+      },
+      {
+        type: 'image-text-right',
+        order: 4,
+        bgColor: '#0a0a0a',
+        textColor: '#ffffff',
+        label: 'DESIGN SYSTEM',
+        heading: 'Warm, Accessible, Scalable',
+        headingSize: 'large',
+        body: 'We built a comprehensive design system with WCAG AAA accessibility compliance, soft color palettes inspired by natural environments, and a component library that scales across patient portal, provider dashboard, and marketing site — all sharing one cohesive visual language.',
+        imageUrl: 'https://picsum.photos/seed/meridian_block3/900/700',
+        imageAlt: 'Meridian Health design system components',
+        imageFit: 'cover',
+        splitRatio: '50-50',
+      },
+    ],
+    metaTitle: 'Meridian Health — Selected Work — Kyurex',
+    metaDescription: 'How we designed a patient-first healthcare platform that increased onboarding by 240%.',
+    year: 2024,
+    order: 3
+  },
+  {
+    name: 'Vaultic',
+    slug: 'vaultic',
+    type: 'case-study',
+    description: 'Vaultic is a next-gen cybersecurity platform for enterprise threat detection. We built their brand from zero and created a dark, immersive web experience that conveys protection without paranoia.',
+    tags: ['Branding', 'Web Design', 'Creative Development'],
+    industry: 'Cybersecurity',
+    location: 'London, UK',
+    accent: '#22d3ee',
+    images: [
+      'https://picsum.photos/seed/vaultic1/800/600',
+      'https://picsum.photos/seed/vaultic2/800/600',
+      'https://picsum.photos/seed/vaultic3/800/600'
+    ],
+    visible: true,
+    featured: false,
+    heroHeadline: 'Defend What Matters',
+    heroSubtext: 'A dark, immersive brand experience for enterprise-grade cybersecurity that conveys protection without paranoia.',
+    services: ['Branding', 'Web Design', 'Creative Development', '3D Animations', 'Strategy'],
+    sections: [
+      {
+        type: 'text',
+        heading: 'The Brief',
+        body: 'Vaultic needed a brand that communicated strength and sophistication in a market saturated with fear-based messaging. We repositioned them as the calm, confident guardian of enterprise data.'
+      },
+      {
+        type: 'stats',
+        heading: 'Performance',
+        stats: [
+          { label: 'Enterprise leads', value: '+320%' },
+          { label: 'Brand recall', value: '87%' },
+          { label: 'Demo conversions', value: '+200%' }
+        ]
+      },
+      {
+        type: 'quote',
+        quote: 'Kyurex gave us a brand that commands respect in the boardroom and captivates on every screen. We\'ve never felt more confident in our market positioning.',
+        author: 'CTO, Vaultic'
+      }
+    ],
+    results: [
+      { metric: 'Enterprise Leads', value: '+320%' },
+      { metric: 'Brand Recall', value: '87%' },
+      { metric: 'Demo Conversions', value: '+200%' }
+    ],
+    liveUrl: 'https://vaultic.io',
+    fullBleedImages: [
+      'https://picsum.photos/seed/vaultic_fb1/1920/1080',
+      'https://picsum.photos/seed/vaultic_fb2/1920/1080'
+    ],
+    outcomeLabel: 'OUTCOME',
+    outcomeDescription: 'A brand identity and web platform that repositioned Vaultic from "another security vendor" to a premium, trusted name in enterprise cybersecurity — driving a 320% increase in qualified enterprise leads.',
+    outcomeLiveUrl: 'https://vaultic.io',
+    outcomeBgColor: '#22d3ee',
+    outcomeImage: 'https://picsum.photos/seed/vaultic_outcome/800/1000',
+    outcomeImageAlt: 'Vaultic cybersecurity platform showcase',
+    contentBlocks: [
+      {
+        type: 'text-full',
+        order: 0,
+        bgColor: '#050505',
+        textColor: '#ffffff',
+        label: 'THE BRIEF',
+        heading: 'Security Without the Scare Tactics',
+        headingSize: 'large',
+        body: 'The cybersecurity market is dominated by fear-based messaging — skull icons, red alerts, and doomsday language. Vaultic wanted the opposite: a brand that communicates calm confidence and quiet strength. We repositioned them as the composed guardian of enterprise data, not another vendor selling panic.',
+      },
+      {
+        type: 'image-full',
+        order: 1,
+        bgColor: '#0a0a0a',
+        imageUrl: 'https://picsum.photos/seed/vaultic_block1/1920/800',
+        imageAlt: 'Vaultic dark immersive website hero',
+        imageFit: 'cover',
+      },
+      {
+        type: 'text-image-right',
+        order: 2,
+        bgColor: '#0d0d0d',
+        textColor: '#ffffff',
+        label: 'BRAND IDENTITY',
+        heading: 'Dark Elegance, Built to Protect',
+        headingSize: 'large',
+        body: 'The visual system draws from deep navy and obsidian tones with cyan accents that evoke digital precision. The logomark — an abstracted shield — uses negative space to suggest both protection and openness. Typography pairs a sharp geometric sans-serif for headlines with a humanist body font for approachability.',
+        imageUrl: 'https://picsum.photos/seed/vaultic_block2/900/700',
+        imageAlt: 'Vaultic brand identity system',
+        imageFit: 'cover',
+        splitRatio: '50-50',
+      },
+      {
+        type: 'quote',
+        order: 3,
+        bgColor: '#22d3ee',
+        textColor: '#0a0a0a',
+        quote: 'Kyurex gave us a brand that commands respect in the boardroom and captivates on every screen. We\'ve never felt more confident in our market positioning.',
+        quoteAuthor: 'CTO, Vaultic',
+      },
+      {
+        type: 'stats',
+        order: 4,
+        bgColor: '#0a0a0a',
+        textColor: '#ffffff',
+        heading: 'Market Impact',
+        headingSize: 'medium',
+        stats: [
+          { value: '+320%', label: 'Enterprise leads' },
+          { value: '87%', label: 'Brand recall rate' },
+          { value: '+200%', label: 'Demo conversions' },
+          { value: '4.2s', label: 'Avg. time on hero' },
+        ],
+      },
+      {
+        type: 'image-text-right',
+        order: 5,
+        bgColor: '#111111',
+        textColor: '#ffffff',
+        label: 'MOTION & INTERACTION',
+        heading: 'Every Pixel Reassures',
+        headingSize: 'large',
+        body: 'We crafted micro-interactions that reinforce the feeling of security — smooth transitions, subtle particle systems, and a WebGL shield animation that responds to cursor movement. Nothing moves aggressively; every animation says "you\'re protected."',
+        imageUrl: 'https://picsum.photos/seed/vaultic_block3/900/700',
+        imageAlt: 'Vaultic interaction design showcase',
+        imageFit: 'cover',
+        splitRatio: '40-60',
+      },
+    ],
+    metaTitle: 'Vaultic — Selected Work — Kyurex',
+    metaDescription: 'How we built a premium cybersecurity brand from zero that drove a 320% increase in enterprise leads.',
+    year: 2025,
+    order: 4
+  },
+  {
+    name: 'Forma Studio',
+    slug: 'forma-studio',
+    type: 'case-study',
+    description: 'Forma Studio is an architecture firm pushing the boundaries of sustainable design. We created a portfolio-driven website with immersive project showcases and a custom 3D model viewer for their landmark buildings.',
+    tags: ['Web Design', '3D', 'Portfolio'],
+    industry: 'Architecture',
+    location: 'Copenhagen, Denmark',
+    accent: '#f59e0b',
+    images: [
+      'https://picsum.photos/seed/forma1/800/600',
+      'https://picsum.photos/seed/forma2/800/600',
+      'https://picsum.photos/seed/forma3/800/600'
+    ],
+    visible: true,
+    featured: true,
+    heroHeadline: 'Structure Meets Story',
+    heroSubtext: 'An immersive digital portfolio for architecture that lets buildings speak through interactive 3D and cinematic photography.',
+    services: ['Web Design', '3D Animations', 'Creative Development', 'Photography Direction', 'Webflow Development'],
+    sections: [
+      {
+        type: 'text',
+        heading: 'The Vision',
+        body: 'Forma Studio\'s buildings were winning awards, but their website looked like every other architecture firm. They wanted a digital experience as thoughtfully crafted as their structures — one that made visitors feel like they were walking through the buildings themselves.'
+      },
+      {
+        type: 'stats',
+        heading: 'Results',
+        stats: [
+          { label: 'Inquiry rate', value: '+190%' },
+          { label: 'Avg. project page time', value: '3m 45s' },
+          { label: 'Portfolio shares', value: '+400%' },
+          { label: 'Awwwards recognition', value: 'SOTD' }
+        ]
+      },
+      {
+        type: 'quote',
+        quote: 'Finally, a website that feels like architecture — spatial, intentional, and utterly immersive. Our clients now explore projects before they even visit the site.',
+        author: 'Founding Partner, Forma Studio'
+      }
+    ],
+    results: [
+      { metric: 'Client Inquiries', value: '+190%' },
+      { metric: 'Page Engagement', value: '3m 45s' },
+      { metric: 'Portfolio Shares', value: '+400%' }
+    ],
+    liveUrl: 'https://formastudio.dk',
+    fullBleedImages: [
+      'https://picsum.photos/seed/forma_fb1/1920/1080',
+      'https://picsum.photos/seed/forma_fb2/1920/1080',
+      'https://picsum.photos/seed/forma_fb3/1920/1080'
+    ],
+    outcomeLabel: 'OUTCOME',
+    outcomeDescription: 'A portfolio experience that elevated Forma Studio from a respected firm to a globally recognized design practice, winning Awwwards Site of the Day and driving a 190% increase in high-value client inquiries.',
+    outcomeLiveUrl: 'https://formastudio.dk',
+    outcomeBgColor: '#f59e0b',
+    outcomeImage: 'https://picsum.photos/seed/forma_outcome/800/1000',
+    outcomeImageAlt: 'Forma Studio architectural portfolio showcase',
+    contentBlocks: [
+      {
+        type: 'text-image-right',
+        order: 0,
+        bgColor: '#0a0a0a',
+        textColor: '#ffffff',
+        label: 'THE VISION',
+        heading: 'Buildings Should Be Experienced',
+        headingSize: 'large',
+        body: 'Forma Studio\'s award-winning structures deserved more than a flat photo gallery. We set out to create a digital experience that mirrors the spatial quality of architecture itself — using parallax depth, 3D model viewers, and cinematic transitions to make visitors feel like they\'re walking through each project.',
+        imageUrl: 'https://picsum.photos/seed/forma_block1/900/700',
+        imageAlt: 'Forma Studio project showcase concept',
+        imageFit: 'cover',
+        splitRatio: '50-50',
+      },
+      {
+        type: 'image-full',
+        order: 1,
+        bgColor: '#111111',
+        imageUrl: 'https://picsum.photos/seed/forma_block2/1920/800',
+        imageAlt: 'Forma Studio website immersive project view',
+        imageFit: 'cover',
+      },
+      {
+        type: 'image-text-right',
+        order: 2,
+        bgColor: '#0d0d0d',
+        textColor: '#ffffff',
+        label: '3D VIEWER',
+        heading: 'Explore Before You Visit',
+        headingSize: 'large',
+        body: 'We built a custom Three.js-powered model viewer that lets clients orbit, zoom, and explore buildings in real-time 3D. Material properties, lighting conditions, and even time-of-day can be adjusted — giving clients a genuine spatial understanding before groundbreaking begins.',
+        imageUrl: 'https://picsum.photos/seed/forma_block3/900/700',
+        imageAlt: 'Forma Studio 3D model viewer interface',
+        imageFit: 'cover',
+        splitRatio: '40-60',
+      },
+      {
+        type: 'quote',
+        order: 3,
+        bgColor: '#f59e0b',
+        textColor: '#0a0a0a',
+        quote: 'Finally, a website that feels like architecture — spatial, intentional, and utterly immersive. Our clients now explore projects before they even visit the site.',
+        quoteAuthor: 'Founding Partner, Forma Studio',
+      },
+      {
+        type: 'stats',
+        order: 4,
+        bgColor: '#0a0a0a',
+        textColor: '#ffffff',
+        heading: 'Design Impact',
+        headingSize: 'medium',
+        stats: [
+          { value: '+190%', label: 'Client inquiries' },
+          { value: '3m 45s', label: 'Avg. project page time' },
+          { value: '+400%', label: 'Portfolio social shares' },
+          { value: 'SOTD', label: 'Awwwards recognition' },
+        ],
+      },
+      {
+        type: 'text-full',
+        order: 5,
+        bgColor: '#111111',
+        textColor: '#ffffff',
+        label: 'PHOTOGRAPHY',
+        heading: 'Cinematic Direction',
+        headingSize: 'medium',
+        body: 'We art-directed all architectural photography to tell a consistent visual story — shooting at golden hour, emphasizing material texture and human scale. The resulting imagery works as standalone art while serving the larger narrative of each building\'s relationship with its environment.',
+      },
+    ],
+    metaTitle: 'Forma Studio — Selected Work — Kyurex',
+    metaDescription: 'How we created an immersive 3D portfolio for a Copenhagen architecture firm that won Awwwards SOTD.',
+    year: 2025,
+    order: 5
   },
   // ─── REGULAR PROJECTS ───
   {
@@ -368,7 +986,7 @@ const projectsData = [
     ],
     visible: true,
     featured: true,
-    order: 3
+    order: 6
   },
   {
     name: 'Artisan Coffee Co.',
@@ -385,7 +1003,7 @@ const projectsData = [
       'https://picsum.photos/seed/artisan3/800/600'
     ],
     visible: true,
-    order: 4
+    order: 7
   },
   {
     name: 'Nova AI Assistant',
@@ -402,7 +1020,59 @@ const projectsData = [
       'https://picsum.photos/seed/nova3/800/600'
     ],
     visible: true,
-    order: 5
+    order: 7
+  },
+  {
+    name: 'Wanderlust Travel',
+    slug: 'wanderlust-travel',
+    type: 'project',
+    description: 'Luxury travel booking platform with personalized itinerary builder and immersive destination previews.',
+    tags: ['Web App', 'E-commerce', 'UX Design'],
+    industry: 'Travel & Hospitality',
+    location: 'Dubai, UAE',
+    accent: '#14b8a6',
+    images: [
+      'https://picsum.photos/seed/wanderlust1/800/600',
+      'https://picsum.photos/seed/wanderlust2/800/600',
+      'https://picsum.photos/seed/wanderlust3/800/600'
+    ],
+    visible: true,
+    featured: true,
+    order: 8
+  },
+  {
+    name: 'Pulse Fitness',
+    slug: 'pulse-fitness',
+    type: 'project',
+    description: 'Connected fitness platform with real-time workout tracking, community challenges, and AI-powered coaching.',
+    tags: ['Mobile App', 'Dashboard', 'IoT'],
+    industry: 'Health & Fitness',
+    location: 'Los Angeles, US',
+    accent: '#ef4444',
+    images: [
+      'https://picsum.photos/seed/pulse1/800/600',
+      'https://picsum.photos/seed/pulse2/800/600',
+      'https://picsum.photos/seed/pulse3/800/600'
+    ],
+    visible: true,
+    order: 9
+  },
+  {
+    name: 'Synapse Education',
+    slug: 'synapse-education',
+    type: 'project',
+    description: 'Adaptive learning platform using AI to personalize curriculum paths for K-12 students and educators.',
+    tags: ['EdTech', 'AI', 'Web App'],
+    industry: 'Education',
+    location: 'Toronto, Canada',
+    accent: '#8b5cf6',
+    images: [
+      'https://picsum.photos/seed/synapse1/800/600',
+      'https://picsum.photos/seed/synapse2/800/600',
+      'https://picsum.photos/seed/synapse3/800/600'
+    ],
+    visible: true,
+    order: 10
   }
 ];
 
